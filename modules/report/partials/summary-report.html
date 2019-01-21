@@ -1,0 +1,166 @@
+<section class="content-header">
+  <h1>
+    Summary Report
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Summary Report</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <div class="box-title">
+                <div class="col-lg-12">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label>From Date</label>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="user-datepicker-from-list" placeholder="From Date" readonly="readonly">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label>To Date</label>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="user-datepicker-to-list" placeholder="To Date" readonly="readonly">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group pull-left">
+                      <button  class="btn btn-info" type="button" id="filter-user-btn" ng-click="filterList()"><i class="fa fa-filter"></i> Filter</button>
+                      <button  class="btn btn-primary" type="button" ng-click="printDetails()"><i class="fa fa-print"></i> Print</button>
+                      <button  class="btn btn-warning" type="button" data-toggle="modal" data-target="#view-details"> Payment</button>
+                    </div>
+                  </div> 
+                  <div class="col-lg-3">
+                    <label>Total Amount = {{totalvalue | number : 3}}</label>
+                  </div>
+                </div>
+                <div class="input-group input-group-sm" style="width: 100%">
+                  <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Employee. . . "/>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Nozzle</th>
+                            <th>Product</th>
+                            <th>Rate</th>
+                            <th>Opening Meter</th>
+                            <th>Closing Meter</th>
+                            <th>Total Sale</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="summary in filteredTodos | filter : summary">
+                            <td>{{summary.emp_search}}</td>
+                            <td>{{summary.nm_name}}</td>
+                            <td>{{summary.pm_name}}</td>
+                            <td style="text-align: right;">{{summary.rate}}</td>
+                            <td style="text-align: right;">{{summary.opening_bal}}</td>
+                            <td style="text-align: right;">{{summary.closing_bal}}</td>
+                            <td style="text-align: right;">{{summary.total_consumption}}</td>
+                            <td style="text-align: right;">{{summary.totalamount | number : 3}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{summaryListcount}} Summary's</span>
+                <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+                      style="float: right;margin-top: -27px;">
+                  <pagination
+                          ng-model="currentPage"
+                          total-items="summaryListcount"
+                          max-size="maxSize"
+                          boundary-links="true" data-num-pages="noOfPages"
+                          items-per-page="numPerPage">
+                  </pagination>
+                </span>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="view-details">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Payment Details</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>Payment Mode</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="contentPayment">
+                <tr ng-repeat="saleDetails in allPaymentList">
+                    <td>{{saleDetails.pmm_name}}</td>
+                    <td>{{saleDetails.acpmm_amount | number : 3}}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<table class="table table-hover" id="alldata">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Nozzle</th>
+            <th>Product</th>
+            <th>Rate</th>
+            <th>Opening Bal.</th>
+            <th>Closing Bal.</th>
+            <th>Total Consumption</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody id="content">
+        <tr ng-repeat="data in allList | filter : data">
+            <td>{{data.emp_search}}</td>
+            <td>{{data.nm_name}}</td>
+            <td>{{data.pm_name}}</td>
+            <td style="text-align: right;">{{data.rate}}</td>
+            <td style="text-align: right;">{{data.opening_bal}}</td>
+            <td style="text-align: right;">{{data.closing_bal}}</td>
+            <td style="text-align: right;">{{data.total_consumption}}</td>
+            <td style="text-align: right;">{{data.totalamount | number : 3}}</td>
+        </tr>
+    </tbody>
+</table>

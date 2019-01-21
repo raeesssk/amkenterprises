@@ -1,0 +1,202 @@
+<section class="content-header" ng-init="getAll();">
+  <h1>
+    Credit
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">New Credit</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <div class="box-title">
+                <div class="input-group input-group-sm" style="width: 100%">
+                  <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Credit No., Customer, Amount. . ."/>
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-info" onclick="window.location = '#/credit/add'"><i class="fa fa-plus"></i> Add new record</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+						<tr>
+							<th>Credit No.</th>
+							<th>Date</th>
+							<th>Customer</th>
+              <!-- <th>Cash / Credit</th> -->
+              <!-- <th>Payment Date</th> -->
+              <th>Amount</th>
+              <th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="credit in filteredTodos | filter : credit">
+							<td>{{credit.crm_invoice_no}}</td>
+							<td>{{credit.crm_date | date : mediumDate}}</td>
+							<td>{{credit.cm_name}} - ( {{credit.cm_address}} )</td>
+              <!-- <td>{{credit.im_credit}}</td> -->
+              <!-- <td>{{credit.im_payment_date | date : mediumDate}}</td> -->
+              <td>{{credit.crm_total_amount | number : 3}}</td>
+							<td ng-if="credit.crm_status==0">
+								<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewQuatationDetails($index)"></i>
+								<a href="#/credit/edit/{{credit.crm_id}}"><i class="fa fa-pencil"></i></a>
+								<i class="fa fa-ban" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteSale(credit)"></i>
+							</td>
+							<td ng-if="credit.crm_status==1">
+								<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewQuatationDetails($index)"></i>
+                  <i class="fa fa-external-link" ng-click="reopenInvoice(credit)"></i>
+							</td>
+						</tr>
+					</tbody>
+                </table>
+                <br>
+                <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{creditListcount}} Credit's</span>
+			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+			          style="float: right;margin-top: -27px;">
+			      <pagination
+			              ng-model="currentPage"
+			              total-items="airlineListcount"
+			              max-size="maxSize"
+			              boundary-links="true" data-num-pages="noOfPages"
+			              items-per-page="numPerPage">
+			      </pagination>
+		    	</span>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="confirm-delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Cancel</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Cancel</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div class="modal fade" id="view-details">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Credit Details</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>Credit No: <strong>{{credits.im_invoice_no}}</strong></td>
+            <td>Date : <strong>{{credits.crm_date | date : mediumDate}}</strong></td>
+            <td>Customer : <strong>{{credits.cm_name}} ({{credits.cm_address}})</strong></td>
+            <td>Amount : <strong>{{credits.crm_total_amount | number : 3}}</strong></td>
+            <td>Vehicle & Vehicle no. : <strong>{{credits.crm_vehicle}} & {{credits.crm_vehicle_no}}</strong></td>
+            <td ng-if="credits.crm_status == 0" class="text-success">Status : <strong>OPEN</strong></td>
+            <td ng-if="credits.crm_status == 1" class="text-danger">Status : <strong>CLOSED</strong></td>
+          </tr>
+        </table>
+        <table class="table" border="1">
+          <thead>
+            <tr> 
+                <th rowspan="2">Sr.No.</th>
+                <th rowspan="2">Product</th>
+                <th rowspan="2">HSN No.</th>
+                <th rowspan="2">Qty</th>
+                <th rowspan="2">Unit</th>
+                <th rowspan="2">Rate</th>
+                <th rowspan="2">Amount</th>
+                <th colspan="2">CGST</th>
+                <th colspan="2">SGST</th>
+                <th colspan="2">IGST</th>
+                <th rowspan="2">Total</th>
+            </tr>
+            <tr> 
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="content">
+            <tr ng-repeat="data in saleProductList">
+                <td style="padding: 4px; font-size:10pt;">{{data.srno}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_hsn}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.crpm_quantity}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_unit}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.crpm_rate | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.crpm_quantity * data.crpm_rate | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.crpm_cgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.crpm_cgst/100) * (parseFloat(data.crpm_quantity)*parseFloat(data.crcrm_rate)) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.crpm_sgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.crpm_sgst/100) * (parseFloat(data.crpm_quantity)*parseFloat(data.crpm_rate)) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.crpm_igst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.crpm_igst/100) * (parseFloat(data.crpm_quantity)*parseFloat(data.crpm_rate)) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(parseFloat(data.crpm_quantity * data.crpm_rate) + (parseFloat(data.crpm_quantity * data.crpm_rate) * parseFloat(data.crpm_cgst/100)) + (parseFloat(data.crpm_quantity * data.crpm_rate) * parseFloat(data.crpm_sgst/100)) + (parseFloat(data.crpm_quantity * data.crpm_rate) * parseFloat(data.crpm_igst/100))) | number:3}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-warning" id="sendemails" ng-click="letterHead();">Letterhead</button>
+        <button type="button" class="btn btn-info" id="sendemails" ng-click="sendEmail();">E-Mail</button> -->
+        <button type="button" class="btn btn-primary" ng-click="printDetails();">Print</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Modal -->
+
+<div class="modal fade" id="repoen-confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Reopen Cancel Credit</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to reopen the cancel credit ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-ok" id="reopen" ng-click="reopenConfirm()">Reopen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.modal -->

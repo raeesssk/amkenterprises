@@ -1,0 +1,109 @@
+<style>
+ .printshow{display:none;}
+</style>
+<section class="content-header">
+  <h1>
+    Invoice
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Invoice</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Update Invoice</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-lg-12">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <div class="input-group date">
+                      <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" id="pDate" ng-model="invoice.im_date" readonly="readonly">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <input type="text"
+                            id="im_cm_id"
+                            ng-model="invoice.im_cm"
+                            typeahead="obj as obj.cm_search for obj in getSearchCust($viewValue)"
+                            typeahead-loading="loadingCustList"
+                            typeahead-no-results="noCustListResults"
+                              typeahead-on-select="getSerialNo()"
+                            class="form-control">
+                        <i ng-show="loadingCustList" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noCustListResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label>Invoice No.</label>
+                        <input type="text" id="im_invoice_no" class="form-control" ng-model="invoice.im_invoice_no" readonly="readonly"/>
+                    </div>
+                </div>
+                  </div>
+                <div class="col-lg-12 table-responsive">
+	                <table class="table table-bordered">
+	                    <thead>
+              <tr> 
+                  <th class="action">Select</th>
+                  <!-- <th>Sr.No.</th> -->
+                  <th>Date</th>
+                  <th>Req. No.</th>
+                  <th>Vehicle No.</th>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Rate</th>
+                  <th>GST</th>
+                  <th>Amount</th>
+              </tr>
+						</thead>
+						<tbody id="content">
+							<tr ng-repeat="data in selectedProductList track by $index">
+                <td style="padding:4px 8px 4px 8px;" class="action"><input type="checkbox" class="custom-control-input" ng-model="data.rcm_check" ng-change="checkBox($index)"/></td>
+                <!-- <td style="padding: 4px; font-size:10pt;">{{data.srno}}</td> -->
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_date | date : mediumDate}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_bill_no}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.cvm_vehicle_no}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_qty}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_price}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(parseFloat(data.pm_cgst+data.pm_sgst+data.pm_igst)/100) * (parseFloat(data.rcm_qty)*parseFloat(data.rcm_price)) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{parseFloat(data.rcm_amount + (parseFloat(data.pm_cgst+data.pm_sgst+data.pm_igst)/100) * (parseFloat(data.rcm_qty)*parseFloat(data.rcm_price))) | number : 3}}</td>
+              </tr>
+						</tbody>
+	                </table>
+	            </div>
+              <div class="col-lg-12">
+          <div class="col-sm-2 col-sm-offset-8"><label>Total Amount </label></div>
+          <div class="col-sm-2"><label class="form-control">{{invoice.totalamount | number:3}}</label></div>
+
+          
+        </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/invoice'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="saveData()">Update</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

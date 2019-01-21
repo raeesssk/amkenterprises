@@ -1,0 +1,103 @@
+<section class="content-header" ng-init="getBank();">
+  <h1>
+    Payment mode
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Payment mode</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Edit Payment mode</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+                <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" id="bkm_name" class="form-control" ng-model="bank.bkm_name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Account No.</label>
+                            <input type="text" id="bkm_account_no" class="form-control" ng-model="bank.bkm_account_no" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea id="bkm_address" class="form-control" ng-model="bank.bkm_address" rows="1"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" id="bkm_state" class="form-control" ng-model="bank.bkm_state" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="bkm_city" class="form-control" ng-model="bank.bkm_city" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Pin Code</label>
+                            <input type="text" id="bkm_pin" class="form-control" ng-model="bank.bkm_pin" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Contact number</label>
+                            <input type="text" id="bkm_contact" class="form-control" ng-model="bank.bkm_contact" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>E-Mail Id</label>
+                            <input type="text" id="bkm_email" class="form-control" ng-model="bank.bkm_email" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Bank Branch</label>
+                            <input type="text" id="bkm_branch" class="form-control" ng-model="bank.bkm_branch" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>IFSC Code</label>
+                            <input type="text" id="bkm_ifsc" class="form-control" ng-model="bank.bkm_ifsc" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Opening Balance</label>
+                            <input type="text" id="bkm_opening_balance" class="form-control" ng-model="bank.bkm_opening_balance" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Set As Default</label>
+                            <input type="checkbox" id="bkm_default" ng-model="bank.bkm_default">
+                        </div>
+                    </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/bank'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="updateBank()">Update</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

@@ -1,0 +1,183 @@
+<!-- /.row -->
+<section class="content-header" ng-init="getAll();">
+  <h1>
+    Vendor
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Vendor</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+	<div class="row">
+		<div class="col-xs-12">
+		  <div class="box box-primary">
+		    <div class="box-header">
+	          <div class="box-title">
+	            <div class="input-group input-group-sm" style="width: 100%">
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Name, Address, Mobile Number, GSTIN. . . "/>
+	              <div class="input-group-btn">
+	                <button type="button" class="btn btn-info" onclick="window.location = '#/vendor/add'"><i class="fa fa-plus"></i> Add new record</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+		    <!-- /.box-header -->
+		    <div class="box-body table-responsive no-padding">
+		      <table class="table table-hover">
+		        <thead>
+	                <tr>
+	                    <th>Code</th>
+						<th>Name</th>
+						<th>Mobile Number</th>
+						<th>E-Mail Id</th>
+						<th>Address</th>
+						<th>GSTIN</th>
+						<th>Debit</th>
+						<th>Credit</th>
+						<th>Action</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="vendor in filteredTodos | filter : vendor">
+	                    <td>{{vendor.vm_code}}</td>
+						<td>{{vendor.vm_firm_name}}</td>
+						<td>{{vendor.vm_mobile}}</td>
+						<td>{{vendor.vm_email_id}}</td>
+						<td>{{vendor.vm_address}}</td>
+						<td>{{vendor.vm_gst_no}}</td>
+						<td>{{vendor.vm_debit | number : '3'}}</td>
+						<td>{{vendor.vm_balance | number : '3'}}</td>
+						<td>
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewVendorDetails1($index)"></i>
+							<a href="#/vendor/edit/{{vendor.vm_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteVendor(vendor.vm_id)"></i>
+						</td>
+	                </tr>
+	            </tbody>
+		      </table>
+		      <br>
+		      <div class="box-footer">
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{vendorListcount}} Vendor's</span>
+			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+			          style="float: right;margin-top: -27px;">
+			      <pagination
+			              ng-model="currentPage"
+			              total-items="vendorListcount"
+			              max-size="maxSize"
+			              boundary-links="true" data-num-pages="noOfPages"
+			              items-per-page="numPerPage">
+			      </pagination>
+		    	</span>
+		    </div>
+		    </div>
+		    <!-- /.box-body -->
+		  </div>
+		  <!-- /.box -->
+		</div>
+	</div>
+</section>
+<div class="modal fade" id="confirm-delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="view-details">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Vendor Details</h4>
+      </div>
+      <div class="modal-body">
+      	<table class="table">
+			<tr>
+	          <td>
+	          	<div class="input-group date">
+	                <div class="input-group-addon">
+	                    <i class="fa fa-calendar"></i>
+	                </div>
+	                <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date">
+                </div>
+              </td>
+              <td>
+	          	<div class="input-group date">
+	                <div class="input-group-addon">
+	                    <i class="fa fa-calendar"></i>
+	                </div>
+	                <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date">
+                </div>
+              </td>
+	          <td><button type="button" class="btn btn-info" id="filter-user-btn" ng-click="filter()">Filter</button></td>
+	          <td><button type="button" class="btn btn-default" id="reset-user-btn" ng-click="reset()">Reset</button></td>
+              
+	      	</tr>
+	    </table>
+        <table class="table">
+    		<tr>
+    			<td>Name: <strong>{{vend.vm_firm_name}}</strong></td>
+    			<td>Number: <strong>{{vend.vm_mobile}}</strong></td>
+    			<td>Address: <strong>{{vend.vm_address}}</strong></td>
+    			<td>Credit: <strong>{{vend.vm_balance|number:3}}</strong></td>
+    			<td>Debit: <strong>{{vend.vm_debit|number:3}}</strong></td>
+    		</tr>
+    	</table>
+    	<table class="table" border="1">
+			<thead>
+			<tr>
+				<th>Type</th>
+				<th>Invoice</th>
+				<th>Date</th>
+				<th>Debit</th>
+				<th>Credit</th>
+				<th>DR/CR</th>
+				<th>Balance</th>
+			</tr>
+			</thead>
+			<tbody id="content">
+			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;" ng-if="purchaseDetails.ctype == 'Cash'">{{purchaseDetails.type}} ({{purchaseDetails.ctype}})</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;" ng-if="purchaseDetails.ctype != 'Cash'">{{purchaseDetails.type}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'mediumDate'}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; text-align: right;">{{purchaseDetails.debit|number:3}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; text-align: right;">{{purchaseDetails.credit|number:3}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.drcr}}</td>
+				<td style="padding:6px; border-style: none none solid none; border-width:1px; text-align: right;">{{purchaseDetails.bal|number:3}}</td>
+			</tr>
+			</tbody>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

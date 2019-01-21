@@ -1,0 +1,115 @@
+<section class="content-header">
+  <h1>
+    Customer
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Customer</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">New Customer</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Account Code</label>
+                    <input type="text" id="cm_code" class="form-control" ng-model="customer.cm_code" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Customer Division</label>
+                    <input type="text" id="cm_division" class="form-control" ng-model="customer.cm_division" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>E-Mail Id</label>
+                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>GSTIN</label>
+                    <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Opening Credit</label>
+                    <input type="text" id="cm_opening_credit" class="form-control" ng-model="customer.cm_opening_credit" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Opening Debit</label>
+                    <input type="text" id="cm_opening_debit" class="form-control" ng-model="customer.cm_opening_debit" />
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Vehicle No.</label>
+                        <input type="text" id="cvm_vehicle_no" class="form-control" ng-model="productObj.cvm_vehicle_no" />
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <div class="form-group"><br>
+                        <button  class="btn btn-success" type="submit" id="btnAddCart" ng-click="addToCart();"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                      </div>
+                </div>
+            </div>
+            <div class="col-lg-12 table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th rowspan="2">Vehicle No.</th>
+                    <th rowspan="2" class="action">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in customerlist track by $index">
+                    <td>{{data.cvm_vehicle_no}}</td>
+                    <td style="padding:4px 8px 4px 8px;" class="action"><button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeItem($index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomer()">Save</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

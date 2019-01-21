@@ -1,0 +1,75 @@
+<section class="content-header" ng-init="getPaymentmode();">
+  <h1>
+    Amount Token
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Amount Token</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Edit Amount Token</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Token No.</label>
+                      <input type="text" id="atm_token" class="form-control" ng-model="amounttoken.atm_token" readonly="readonly" />
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Employee</label>
+                      <input type="text"
+                          id="emp_id"
+                          ng-model="amounttoken.atm_emp"
+                          typeahead="obj as obj.emp_search for obj in getSearchEmp($viewValue)"
+                          typeahead-loading="loadingEmpList"
+                          typeahead-no-results="noEmpListResults"
+                          class="form-control">
+                      <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
+                      <div ng-show="noEmpListResults">
+                          <i class="glyphicon glyphicon-remove"></i> No Results Found
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Assign</label>
+                      <input type="text"
+                          id="am_id"
+                          ng-model="amounttoken.atm_am"
+                          typeahead="obj as obj.am_invoice_no for obj in getSearchAssg($viewValue)"
+                          typeahead-loading="loadingAssgList"
+                          typeahead-no-results="noAssgListResults"
+                          class="form-control">
+                      <i ng-show="loadingAssgList" class="glyphicon glyphicon-refresh"></i>
+                      <div ng-show="noAssgListResults">
+                          <i class="glyphicon glyphicon-remove"></i> No Results Found
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Amount</label>
+                      <input type="text" id="atm_amount" class="form-control" ng-model="amounttoken.atm_amount"/>
+                  </div>
+              </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/amounttoken'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="editAmounttoken()">Update</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

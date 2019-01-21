@@ -1,0 +1,80 @@
+<section class="content-header">
+  <h1>
+    Vendor
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Vendor</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">New Vendor</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Account Code</label>
+                    <input type="text" id="vm_code" class="form-control" ng-model="vendor.vm_code" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Vendor Name</label>
+                    <input type="text" id="vm_firm_name" class="form-control" ng-model="vendor.vm_firm_name" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" id="vm_mobile" class="form-control" ng-model="vendor.vm_mobile" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>E-Mail Id</label>
+                    <input type="text" id="vm_email_id" class="form-control" ng-model="vendor.vm_email_id" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="vm_address" class="form-control" ng-model="vendor.vm_address" rows="1"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>GSTIN</label>
+                    <input type="text" id="vm_gst_no" class="form-control" ng-model="vendor.vm_gst_no" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Opening Credit</label>
+                    <input type="text" id="vm_opening_credit" class="form-control" ng-model="vendor.vm_opening_credit" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Opening Debit</label>
+                    <input type="text" id="vm_opening_debit" class="form-control" ng-model="vendor.vm_opening_debit" />
+                </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/vendor'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addVendor()">Save</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

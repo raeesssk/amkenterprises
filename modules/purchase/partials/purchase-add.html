@@ -1,0 +1,423 @@
+<style>
+ .printshow{display:none;}
+</style>
+<section class="content-header">
+  <h1>
+    Purchase
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Purchase</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Add Purchase</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+                <div class="col-lg-2">
+                  <div class="form-group">
+                      <label>Purchase No.</label>
+                      <input type="text" id="prm_invoice_no" class="form-control" ng-model="purchase.prm_invoice_no" readonly="readonly"/>
+                  </div>
+                </div>
+			          <div class="col-lg-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <div class="input-group date">
+			                <div class="input-group-addon">
+			                    <i class="fa fa-calendar"></i>
+			                </div>
+			                <input type="text" class="form-control pull-right" id="prm_date" ng-model="purchase.prm_date" readonly="readonly">
+		                </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Vendor Name</label>
+                        <input type="text"
+                            id="prm_vm_id"
+                            ng-model="purchase.prm_vm_id"
+                            typeahead="obj as obj.vm_search for obj in getSearchVen($viewValue)"
+                            typeahead-loading="loadingVenList"
+                            typeahead-no-results="noVenListResults"
+                            class="form-control">
+                        <i ng-show="loadingVenList" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noVenListResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <div class="form-group">
+                        <label>Cash / Credit</label>
+                        <select class="form-control" id="invoiceType" ng-model="purchase.prm_credit">
+                            <option value="">- - - Select - - -</option>
+                            <option>Credit</option>
+                            <option>Cash</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <div class="form-group">
+                        <label>Inward No.</label>
+                        <input type="text" id="prm_inward_no" class="form-control" ng-model="purchase.prm_inward_no"/>
+                    </div>
+                  </div>
+                  <div class="col-lg-1">
+                      <div class="form-group">
+                        <button  class="btn btn-info" type="submit" id="btnAddItem" ng-click="openVendorForm()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Vend</button>
+                        <button  class="btn btn-primary" type="submit" id="btnAddItem" ng-click="openProductForm()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Prod</button>
+                      </div>
+                  </div>
+                  </div>
+                
+                
+          				<div class="col-lg-12">
+                    <div class="col-lg-2">
+                      <div class="form-group">
+                          <label>Product</label>
+                          <input type="text"
+                              id="pm_id"
+                              ng-model="productObj"
+                              typeahead="obj as obj.pm_search for obj in getSearchProd($viewValue)"
+                              typeahead-loading="loadingProdList"
+                              typeahead-no-results="noProdListResults"
+                              typeahead-on-select="setProductData()"
+                              class="form-control">
+                          <i ng-show="loadingProdList" class="glyphicon glyphicon-refresh"></i>
+                          <div ng-show="noProdListResults">
+                              <i class="glyphicon glyphicon-remove"></i> No Results Found
+                          </div>
+                      </div>
+                    </div>
+          
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>HSN No.</label>
+                            <label class="form-control">{{productObj.pm_hsn}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>QTY (in Thousand)</label>
+                            <input type="number" id="pm_qty" ng-model="productObj.pm_qty" class="form-control"/>
+                        </div>
+                    </div>
+					          <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <label class="form-control">{{productObj.pm_unit}}</label>
+                        </div>
+                    </div>
+					          <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Rate</label>
+                            <input type="number" id="price" class="form-control" ng-model="productObj.price"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>CGST</label>
+                            <label class="form-control">{{productObj.pm_cgst}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>SGST</label>
+                            <label class="form-control">{{productObj.pm_sgst}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>IGST</label>
+                            <label class="form-control">{{productObj.pm_igst}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Total</label>
+                            <label class="form-control" ng-hide="productObj.pm_qty==undefined">
+
+                              {{(parseFloat(productObj.pm_qty * productObj.price) + (parseFloat(productObj.pm_qty * productObj.price) * parseFloat(productObj.pm_cgst/100)) + (parseFloat(productObj.pm_qty * productObj.price) * parseFloat(productObj.pm_sgst/100)) + (parseFloat(productObj.pm_qty * productObj.price) * parseFloat(productObj.pm_igst/100)))*1000 | number:3}}</label>
+                            <label class="form-control" ng-hide="productObj.pm_qty!=undefined">0</label>
+                        </div>
+                    </div>
+                    <!-- <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Selling Price</label>
+                            <input type="number" id="sellprice" class="form-control" ng-model="productObj.sellprice"/>
+                        </div>
+                    </div> -->
+					          <div class="col-lg-1">
+                        <div class="form-group"><br>
+                            <button  class="btn btn-success" type="submit" id="btnAddCart" ng-click="addToCart();"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                          </div>
+					          </div>
+
+          
+      <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered">
+            <thead>
+              <tr> 
+                  <th rowspan="2">Sr.No.</th>
+                  <th rowspan="2">Product</th>
+                  <th rowspan="2">HSN No.</th>
+                  <th rowspan="2">Qty (in Thousand)</th>
+                  <th rowspan="2">Unit</th>
+                  <th rowspan="2">Rate</th>
+                  <th rowspan="2">Amount</th>
+                  <th colspan="2">CGST</th>
+                  <th colspan="2">SGST</th>
+                  <th colspan="2">IGST</th>
+                  <th rowspan="2">Total</th>
+                  <!-- <th rowspan="2" class="action">SellingPrice</th> -->
+                  <th rowspan="2" class="action">Action</th>
+              </tr>
+              <tr> 
+                  <th>Rate</th>
+                  <th>Amount</th>
+                  <th>Rate</th>
+                  <th>Amount</th>
+                  <th>Rate</th>
+                  <th>Amount</th>
+              </tr>
+						</thead>
+						<tbody id="content">
+							<tr ng-repeat="data in selectedProductList track by $index">
+								<td style="padding: 4px; font-size:10pt;">{{data.srno}}</td>
+								<td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>
+								<td style="padding: 4px; font-size:10pt;">{{data.pm_hsn}}</td>
+                <td style="padding: 4px; font-size:10pt;">
+                    <span class="printshow">
+                      {{data.pm_qty}}
+                    </span>
+                    <span class="print-hide">
+                      <input type="number" class="form-control" ng-model="data.pm_qty"  ng-change="calculateTotal()"/>
+                    </span>
+                </td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_unit}}</td>
+                <td style="padding: 4px; font-size:10pt;">
+                    <span class="printshow">
+                      {{data.price}}
+                    </span>
+                    <span class="print-hide">
+                      <input type="number" class="form-control" ng-model="data.price"  ng-change="calculateTotal()"/>
+                    </span>
+                </td>
+                <td style="padding: 4px; font-size:10pt;">{{(parseFloat(data.pm_qty) * parseFloat(data.price)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_cgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.pm_cgst/100) * (parseFloat(data.pm_qty)*parseFloat(data.price)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_sgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.pm_sgst/100) * (parseFloat(data.pm_qty)*parseFloat(data.price)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_igst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.pm_igst/100) * (parseFloat(data.pm_qty)*parseFloat(data.price)*1000) | number : 3}}</td>
+								<td style="padding: 4px; font-size:10pt;">{{(parseFloat(data.pm_qty * data.price) + (parseFloat(data.pm_qty * data.price) * parseFloat(data.pm_cgst/100)) + (parseFloat(data.pm_qty * data.price) * parseFloat(data.pm_sgst/100)) + (parseFloat(data.pm_qty * data.price) * parseFloat(data.pm_igst/100)))*1000 | number:3}}</td>
+                <!-- <td style="padding: 4px; font-size:10pt;" class="action">
+                    <span class="printshow">
+                      {{data.sellprice}}
+                    </span>
+                    <span class="print-hide">
+                      <input type="number" class="form-control" ng-model="data.sellprice"/>
+                    </span>
+                </td> -->
+								<td style="padding:4px 8px 4px 8px;" class="action"><button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeItem($index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button></td>
+							</tr>
+						</tbody>
+	                </table>
+	            </div>
+	            <div class="col-lg-12">
+          <!-- <div class="col-sm-3 col-sm-7 pull-left">
+            <label>Comment </label>
+            <textarea type="text" id="prm_comment" class="form-control" ng-model="purchase.prm_comment"></textarea>
+          </div> -->
+					<div class="col-sm-3 col-sm-offset-7"><label>Net Amount (Without Tax) </label></div>
+					<div class="col-sm-2"><label class="form-control">{{purchase.amount | number : 3}}</label></div>
+					 <div class="col-sm-1 col-sm-offset-8"><label>CGST</label></div>
+					<div class="col-sm-2 col-sm-offset-1"><label class="form-control">{{purchase.cgst | number : 3}}</label></div>
+          <div class="col-sm-1 col-sm-offset-8"><label>SGST</label></div>
+          <div class="col-sm-2 col-sm-offset-1"><label class="form-control">{{purchase.sgst | number : 3}}</label></div>
+					<div class="col-sm-1 col-sm-offset-8"><label>IGST</label></div>
+					<div class="col-sm-2 col-sm-offset-1"><label class="form-control">{{purchase.igst | number : 3}}</label></div>
+
+					<div class="col-sm-2 col-sm-offset-8"><label>Total GST </label></div>
+					<div class="col-sm-2"><label class="form-control">{{purchase.totaltax | number:3}}</label></div>
+          <div class="col-sm-2 col-sm-offset-8"><label>Total Amount </label></div>
+          <div class="col-sm-2"><label class="form-control">{{purchase.totalamount | number:3}}</label></div>
+
+					
+				</div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/purchase'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="savePurchase()">Save</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="addVendor">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Vendor</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+		        <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Account Code</label>
+                    <input type="text" id="vm_code" class="form-control" ng-model="vendor.vm_code" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Vendor Name</label>
+                    <input type="text" id="vm_firm_name" class="form-control" ng-model="vendor.vm_firm_name" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" id="vm_mobile" class="form-control" ng-model="vendor.vm_mobile" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>E-Mail Id</label>
+                    <input type="text" id="vm_email_id" class="form-control" ng-model="vendor.vm_email_id" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="vm_address" class="form-control" ng-model="vendor.vm_address" rows="1"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>GSTIN</label>
+                    <input type="text" id="vm_gst_no" class="form-control" ng-model="vendor.vm_gst_no" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Opening Credit</label>
+                    <input type="text" id="vm_opening_credit" class="form-control" ng-model="vendor.vm_opening_credit" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Opening Debit</label>
+                    <input type="text" id="vm_opening_debit" class="form-control" ng-model="vendor.vm_opening_debit" />
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="addVend" class="btn btn-primary" ng-click="saveVendor()">Save</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="addProduct">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Product</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="pm_name" class="form-control" ng-model="product.pm_name" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Unit</label>
+                    <input type="text" id="pm_unit" class="form-control" ng-model="product.pm_unit" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>HSN no.</label>
+                    <input type="number" id="pm_hsn" class="form-control" ng-model="product.pm_hsn" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="pm_price" class="form-control" ng-model="product.pm_price" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>CGST</label>
+                    <input type="number" id="pm_cgst" class="form-control" ng-model="product.pm_cgst" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>SGST</label>
+                    <input type="number" id="pm_sgst" class="form-control" ng-model="product.pm_sgst" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>IGST</label>
+                    <input type="number" id="pm_igst" class="form-control" ng-model="product.pm_igst" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>total Purchase Price</label>
+                    <label class="form-control">{{parseFloat(product.pm_price + parseFloat(parseFloat(product.pm_price * (product.pm_cgst/100)) + parseFloat(product.pm_price * (product.pm_sgst/100)) + parseFloat(product.pm_price * (product.pm_igst/100)))) | number : '3'}}</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Selling Price</label>
+                    <input type="number" id="pm_sell_price" class="form-control" ng-model="product.pm_sell_price" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Opening Quantity</label>
+                    <input type="number" id="pm_opening_quantity" class="form-control" ng-model="product.pm_opening_quantity" />
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="addProd" class="btn btn-primary" ng-click="addProduct()">Save</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

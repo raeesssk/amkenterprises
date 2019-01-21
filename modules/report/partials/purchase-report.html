@@ -1,0 +1,183 @@
+<section class="content-header">
+  <h1>
+    Purchase Report
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Purchase Report</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <div class="box-title">
+            		<div class="col-lg-12">
+    				      <div class="col-lg-3">
+                    <div class="form-group">
+                      <label>From Date</label>
+					    	      <div class="input-group date">
+				                <div class="input-group-addon">
+				                    <i class="fa fa-calendar"></i>
+				                </div>
+				                <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date" readonly="readonly">
+			                </div>
+                    </div>
+                  </div>
+				          <div class="col-lg-3">
+                    <div class="form-group">
+                      <label>To Date</label>
+				    	        <div class="input-group date">
+				                <div class="input-group-addon">
+				                    <i class="fa fa-calendar"></i>
+				                </div>
+			                  <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date" readonly="readonly">
+		                  </div>
+                    </div>
+	                </div>
+                  <div class="col-lg-3">
+                    <div class="form-group pull-left">
+							        <button  class="btn btn-info" type="button" id="filter-user-btn" ng-click="filter()"><i class="fa fa-filter"></i> Filter</button>
+							        <!-- <button  class="btn btn-primary" type="button" id="reset-user-btn" ng-click="reset()"><i class="fa fa-times"></i> Reset</button> -->
+						        </div>
+        					</div>
+        					<div class="col-lg-3">
+        						<label>Total Purchase Amount = {{totalvalue | number : 3}}</label>
+        					</div>
+                </div>
+                <div class="input-group input-group-sm" style="width: 100%">
+                  <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Purchase No., Vendor Name, Amount. . ."/>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+						<tr>
+              <th>Purchase No.</th>
+              <th>Date</th>
+              <th>Vendor Name</th>
+              <th>Cash / Credit</th>
+              <th>Inward no</th>
+              <th>Amount</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="purchase in filteredTodos | filter : purchase">
+              <td>{{purchase.prm_invoice_no}}</td>
+              <td>{{purchase.prm_date | date : mediumDate}}</td>
+              <td>{{purchase.vm_firm_name}} ( {{purchase.vm_address}} )</td>
+              <td>{{purchase.prm_credit}}</td>
+              <td>{{purchase.prm_inward_no}}</td>
+              <td>{{purchase.prm_total_amount | number : 3}}</td>
+              <td>
+                <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewSaleDetails($index)"></i>
+              </td>
+            </tr>
+					</tbody>
+                </table>
+                <br>
+                <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{purchaseListcount}} Purchase's</span>
+			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+			          style="float: right;margin-top: -27px;">
+			      <pagination
+			              ng-model="currentPage"
+			              total-items="purchaseListcount"
+			              max-size="maxSize"
+			              boundary-links="true" data-num-pages="noOfPages"
+			              items-per-page="numPerPage">
+			      </pagination>
+		    	</span>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="view-details">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Invoice Details</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>Purchase No: <strong>{{purchases.prm_invoice_no}}</strong></td>
+            <td>Date : <strong>{{purchases.prm_date | date : mediumDate}}</strong></td>
+            <td ng-if="purchases.prm_status == 0">Status : <b class="text-success">OPEN</b></td>
+            <td ng-if="purchases.prm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
+            <td>Amount : <strong>{{purchases.prm_total_amount|number:3}}</strong></td>
+          </tr>
+          <tr>            
+            <td>Vendor : <strong>{{purchases.vm_firm_name}} ({{purchases.vm_address}})</strong></td>
+          </tr>
+        </table>
+        <table class="table" border="1">
+          <thead>
+            <tr> 
+                <th rowspan="2">Sr.No.</th>
+                <th rowspan="2">Product</th>
+                <th rowspan="2">HSN No.</th>
+                <th rowspan="2">Qty</th>
+                <th rowspan="2">Unit</th>
+                <th rowspan="2">Rate</th>
+                <th rowspan="2">Amount</th>
+                <th colspan="2">CGST</th>
+                <th colspan="2">SGST</th>
+                <th colspan="2">IGST</th>
+                <th rowspan="2">Total</th>
+            </tr>
+            <tr> 
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="content">
+            <tr ng-repeat="data in salePurchaseList">
+                <td style="padding: 4px; font-size:10pt;">{{data.srno}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_hsn}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.ppm_quantity}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_unit}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.ppm_rate | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.ppm_quantity * data.ppm_rate *1000 | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.ppm_cgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.ppm_cgst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.ppm_sgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.ppm_sgst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.ppm_igst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.ppm_igst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">
+                {{(parseFloat(data.ppm_quantity * data.ppm_rate) + (parseFloat(data.ppm_quantity * data.ppm_rate) * parseFloat(data.ppm_cgst/100)) + (parseFloat(data.ppm_quantity * data.ppm_rate) * parseFloat(data.ppm_sgst/100)) + (parseFloat(data.ppm_quantity * data.ppm_rate) * parseFloat(data.ppm_igst/100))) *1000| number:3}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-warning" id="sendemails" ng-click="letterHead();">Letterhead</button>
+        <button type="button" class="btn btn-info" id="sendemails" ng-click="sendEmail();">E-Mail</button> -->
+        <button type="button" class="btn btn-primary" ng-click="printDetails();">Print</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

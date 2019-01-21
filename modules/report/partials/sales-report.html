@@ -1,0 +1,191 @@
+<section class="content-header">
+  <h1>
+    Sales Report
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Sales Report</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <div class="box-title">
+                <div class="col-lg-12">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label>From Date</label>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="user-datepicker-from-list" placeholder="From Date" readonly="readonly">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label>To Date</label>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="user-datepicker-to-list" placeholder="To Date" readonly="readonly">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group pull-left">
+                      <button  class="btn btn-info" type="button" id="filter-user-btn" ng-click="filterList()"><i class="fa fa-filter"></i> Filter</button>
+                      <!-- <button  class="btn btn-primary" type="button" id="reset-user-btn" ng-click="reset()"><i class="fa fa-times"></i> Reset</button> -->
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <label>Total Sale Amount = {{totalvalue | number :3}}</label>
+                  </div>
+                </div>
+                <div class="input-group input-group-sm" style="width: 100%">
+                  <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Employee Name, Mobile Number. . . "/>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Employee Name</th>
+                            <th>Mobile Number</th>
+                            <th>Address</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="employee in filteredTodos | filter : employee">
+                            <td>{{employee.emp_id}}</td>
+                            <td>{{employee.emp_name}}</td>
+                            <td>{{employee.emp_mobile}}</td>
+                            <td>{{employee.emp_address}}</td>
+                            <td>{{employee.totalamount | number : 3}}</td>
+                            <td>
+                                <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewEmployeeDetails($index)"></i>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{employeeListcount}} Employee's</span>
+                <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+                      style="float: right;margin-top: -27px;">
+                  <pagination
+                          ng-model="currentPage"
+                          total-items="employeeListcount"
+                          max-size="maxSize"
+                          boundary-links="true" data-num-pages="noOfPages"
+                          items-per-page="numPerPage">
+                  </pagination>
+                </span>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="confirm-delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="view-details">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Employee Details</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+            <tr>
+              <td>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date" readonly="readonly">
+                </div>
+              </td>
+              <td>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date" readonly="readonly">
+                </div>
+              </td>
+              <td><button type="button" class="btn btn-info" id="filter-user-btn" ng-click="filter()">Filter</button></td>
+              <!-- <td><button type="button" class="btn btn-info" id="reset-user-btn" ng-click="reset()">Reset</button></td> -->
+              
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td>Name: <strong>{{empname}}</strong></td>
+                <td>Number: <strong>{{empno}}</strong></td>
+                <td>Address: <strong>{{empadd}}</strong></td>
+                <td>Total: <strong>{{totalValue | number : 3}}</strong></td>
+            </tr>
+        </table>
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>Assign Close No.</th>
+                    <th>Date & Time</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="content">
+                <tr ng-repeat="saleDetails in categoryList">
+                    <td>{{saleDetails.acm_invoice}}</td>
+                    <td>{{saleDetails.acm_date | date : 'dd-MM-yyyy hh:mm a'}}</td>
+                    <td>{{saleDetails.acm_amount | number : 3}}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
