@@ -22,9 +22,9 @@ function GlobalCtrl($rootScope, $http, $scope, $timeout) {
     localStorage.setItem('bkm_branch', "Katraj");
     localStorage.setItem('bkm_ifsc', "ICIC0001877");
 
-    $rootScope.baseURL = 'http://localhost:3003';
+    // $rootScope.baseURL = 'http://localhost:3003';
      // $rootScope.baseURL = 'http://10.1.0.36:3002';
-    // $rootScope.baseURL = 'http://pos.restromaticz.com:3003';
+    $rootScope.baseURL = 'http://pos.restromaticz.com:3003';
 
     if(localStorage.getItem("amkenterprises_admin_access_token") === null)
       {

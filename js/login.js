@@ -4,9 +4,9 @@
  //  angular.module('orientfurniture', []).controller('loginCtrl', function($scope, $http) {
 function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
     
-	$scope.apiURL = 'http://localhost:3003';
+	// $scope.apiURL = 'http://localhost:3003';
 	// $scope.apiURL = 'http://10.1.0.36:3002';
-	// $scope.apiURL = 'http://pos.restromaticz.com:3003';
+	$scope.apiURL = 'http://pos.restromaticz.com:3003';
 
 	// if(localStorage.getItem("amkenterprises_admin_access_token") != null)
  //      {
