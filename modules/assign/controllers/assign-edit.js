@@ -171,7 +171,7 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
                     }, 1500);
                 });
 
-                value.am_date = $filter('date')(value.am_date, 'yyyy-MM-dd hh:mm a');
+                value.am_date = $filter('date')(value.am_date, 'yyyy-MM-dd hh:mm a','+0000');
 
                 $scope.assign = value;
                 $http({
