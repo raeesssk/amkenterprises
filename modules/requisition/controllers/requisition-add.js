@@ -27,11 +27,11 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
         orientation: 'bottom',
         /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
         maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
-        onSelect: function(dateText, inst) {
+        // onSelect: function(dateText, inst) {
             
-            console.log($scope.requisition.rcm_pm_id);
+        //     console.log($scope.requisition.rcm_pm_id);
 
-        }
+        // }
         // onChangeDateTime: function (dp, $input) {
         //     console.log($scope.requisition.rcm_pm_id);
         //     $scope.requisition.rcm_date = $('#rcm_date').val();
