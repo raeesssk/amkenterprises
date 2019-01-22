@@ -1,0 +1,67 @@
+<section class="content-header">
+  <h1>
+    Dipchart Entry
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Dipchart Entry</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">New Dipchart Entry</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Product</label>
+                      <input type="text"
+                          id="pm_id"
+                          ng-model="dipchart.dpm_pm_id"
+                          typeahead="obj as obj.pm_name for obj in getSearchProd($viewValue)"
+                          typeahead-loading="loadingProdList"
+                          typeahead-no-results="noProdListResults"
+                          typeahead-on-select="setProductData()"
+                          class="form-control">
+                      <i ng-show="loadingProdList" class="glyphicon glyphicon-refresh"></i>
+                      <div ng-show="noProdListResults">
+                          <i class="glyphicon glyphicon-remove"></i> No Results Found
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>DIP</label>
+                      <input type="text" id="dpm_dip" class="form-control" ng-model="dipchart.dpm_dip" readonly="readonly" />
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Volume</label>
+                      <input type="text" id="dpm_volume" class="form-control" ng-model="dipchart.dpm_volume"/>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Diff</label>
+                      <input type="text" id="dpm_diff" class="form-control" ng-model="dipchart.dpm_diff"/>
+                  </div>
+              </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/dipchart'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addDipchart()">Save</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

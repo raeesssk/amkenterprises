@@ -76,5 +76,18 @@ angular.module('report', [])
                             }]);
                         }]
                     }
+                })
+            .when('/stockpricereport',
+                {
+                    templateUrl: 'modules/report/partials/stockprice-report.html',
+                    controller: 'stockpricereportCtrl',
+                    resolve: {
+                        lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
+                            return $ocLazyLoad.load([{
+                                name: 'myApp',
+                                files: ['modules/report/controllers/stockprice-report.js']
+                            }]);
+                        }]
+                    }
                 });
     }]);
