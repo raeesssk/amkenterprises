@@ -52,10 +52,10 @@ angular.module('expense').controller('expenseEditCtrl', function ($rootScope, $h
         .success(function(expense)
         {
             expense.forEach(function (value, key) {
-                value.em_date = $filter('date')(value.em_date, "mediumDate");
+                value.em_date = $filter('date')(value.em_date, "yyyy-MM-dd");
                 if(value.em_payment_mode == "Cheque"){
                     $('#cheq').show();
-                    value.em_cheque_date = $filter('date')(value.em_cheque_date, "mediumDate");
+                    value.em_cheque_date = $filter('date')(value.em_cheque_date, "yyyy-MM-dd");
                 }
                 value.old_em_amount = value.em_amount;
 

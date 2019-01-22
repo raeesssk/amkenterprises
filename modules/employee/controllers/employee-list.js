@@ -421,7 +421,7 @@ $scope.apiURL = $rootScope.baseURL+'/employee/employee/total';
                                   "From Date: "+
                                 "</td>"+
                                 "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$('#user-datepicker-from').val()+"</strong>"+
+                                  "<strong>"+$filter('date')($('#user-datepicker-from').val(),'dd-MM-yyyy')+"</strong>"+
                                 "</td>"+
                               "</tr>"+
                               "<tr>"+
@@ -429,7 +429,7 @@ $scope.apiURL = $rootScope.baseURL+'/employee/employee/total';
                                   "To Date: "+
                                 "</td>"+
                                 "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$('#user-datepicker-to').val()+"</strong>"+
+                                  "<strong>"+$filter('date')($('#user-datepicker-to').val(),'dd-MM-yyyy')+"</strong>"+
                                 "</td>"+
                               "</tr>"+ 
                             "</table>"+

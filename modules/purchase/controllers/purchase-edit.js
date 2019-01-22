@@ -94,7 +94,7 @@ angular.module('purchase').controller('purchaseEditCtrl', function ($rootScope, 
             
             purchase.forEach(function(value, key) {
 
-                value.prm_date = $filter('date')(value.prm_date, "mediumDate");
+                value.prm_date = $filter('date')(value.prm_date, "yyyy-MM-dd");
                 value.old_prm_total_amount = value.prm_total_amount;
                 value.old_prm_credit = value.prm_credit;
 
@@ -570,7 +570,7 @@ angular.module('purchase').controller('purchaseEditCtrl', function ($rootScope, 
                                 "Invoice Date: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.purchase.prm_date, "mediumDate")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.purchase.prm_date, "dd-MM-yyyy")+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+

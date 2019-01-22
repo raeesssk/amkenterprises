@@ -419,7 +419,7 @@ angular.module('purchase').controller('purchaseCtrl', function ($rootScope, $htt
                                 "Invoice Date: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.purchases.prm_date, "mediumDate")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.purchases.prm_date, "dd-MM-yyyy")+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+
@@ -637,7 +637,7 @@ angular.module('purchase').controller('purchaseCtrl', function ($rootScope, $htt
                                 "Invoice Date: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.purchases.prm_date, "mediumDate")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.purchases.prm_date, "dd-MM-yyyy")+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+

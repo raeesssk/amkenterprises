@@ -197,7 +197,7 @@ angular.module('amounttoken').controller('amounttokenAddCtrl', function ($rootSc
                     "</tr>"+
                     "<tr>"+
                     "<td style='font-size:8pt; border-style: none solid solid solid; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Amount</div><div>"+$filter('number')(amountt.atm_amount,'3')+"</div></td>"+
-                    "<td style='font-size:8pt; border-style: none solid solid none; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Date & Time</div><div>"+$filter('date')(amountt.atm_created_at,'medium')+"</div></td>"+
+                    "<td style='font-size:8pt; border-style: none solid solid none; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Date & Time</div><div>"+$filter('date')(amountt.atm_created_at,'dd-MM-yyyy hh:mm a')+"</div></td>"+
                     "</tr>"+
           "</table>"+
           "</body>" +

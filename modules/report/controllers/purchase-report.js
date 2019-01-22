@@ -246,9 +246,9 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
     //     $scope.getAll();
     // };
 
-  $scope.viewSaleDetails = function (index) {
+  $scope.viewQuatationDetails = function (index) {
     
-    $scope.saleProductList = [];
+    $scope.salePurchaseList = [];
       $scope.purchases = $scope.filteredTodos[index];
 
       $http({
@@ -257,14 +257,14 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
         headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
       })
-      .success(function(saleProductList)
+      .success(function(salePurchaseList)
       {
         // $scope.saleProductList = angular.copy(saleProductList);
 
          var i = 1;
-          saleProductList.forEach(function (value, key) {
+          salePurchaseList.forEach(function (value, key) {
               value.srno = i++;
-              $scope.saleProductList.push(value);
+              $scope.salePurchaseList.push(value);
             });
           $scope.convertNumberToWords($scope.purchases.prm_total_amount);
       })
@@ -403,18 +403,23 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
                   "<table width='100%'>"+
                     "<tr>" +
                       "<td colspan='2' style='text-align:center; padding-bottom: 10px; border-style: solid solid none solid; border-width:1px; font-size:12pt;' valign='center' width='100%'>" +
-                          "<h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "<table width='100%'><tr>"+
+                          "<td width='23%'><img src='./././resources/indianoil.jpg' class='user-image' alt='User Image' style='margin-left:10px'></td>"+
+                          "<td width='54%' style='text-align:center;'><h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "Dealer : "+localStorage.getItem("com_dealer")+"<br>" +
                           "Address : "+localStorage.getItem("com_address")+"<br>" +
-                          "Phone : "+localStorage.getItem("com_contact")+"<br>"+
                           "E-Mail : "+localStorage.getItem("com_email")+"<br>"+
-                          "GST No.: "+localStorage.getItem("com_gst")+"<br>"+
+                          "Cont. No. : "+localStorage.getItem("com_contact")+"<br>"+
+                          "GST No. : "+localStorage.getItem("com_gst")+"</td>"+
+                          "<td width='23%'></td>"+
+                          "</tr></table>"+
                       "</td>" +
                     "</tr>" +
-                    "<tr>" +
-                      "<td colspan='2' style='text-align:center; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:13pt;' valign='top'>" +
-                          "<strong>Purchase Tax Invoice</strong>"+
-                      "</td>" +
-                    "</tr>" +
+                    // "<tr>" +
+                    //   "<td colspan='2' style='text-align:center; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:13pt;' valign='top'>" +
+                    //       "<strong>Purchase Tax Invoice</strong>"+
+                    //   "</td>" +
+                    // "</tr>" +
                     "<tr>" +
                       "<td width='60%' style='text-align:left; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:10pt;' valign='top'>" +
                           "<table width='100%'>"+
@@ -460,6 +465,11 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
                       "<td width='40%' style='text-align:left; padding: 4px; border-style: solid solid none none; border-width:1px; font-size:10pt;' valign='top'>" +
                           "<table width='100%'>"+
                             "<tr>"+
+                              "<td  colspan='2' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:10pt;'>"+
+                                "<strong>Purchase Tax Invoice</strong>"+
+                              "</td>"+
+                            "</tr>"+
+                            "<tr>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
                                 "Invoice No.: "+
                               "</td>"+
@@ -472,7 +482,7 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
                                 "Invoice Date: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.purchases.prm_date, "mediumDate")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.purchases.prm_date, "dd-MM-yyyy")+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+
@@ -533,20 +543,20 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
             "<tfoot>"+
             "<tr>"+
               "<td width='50%' colspan='4' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid solid; border-width:1px;'><strong>Total</strong></td>"+
-              "<td width='10%' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_net_amount, "3")+"</td>"+
-              "<td width='15%' colspan='2' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_cgst_amount, "3")+"</td>"+
-              "<td width='15%' colspan='2' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_sgst_amount, "3")+"</td>"+
-              "<td width='15%' colspan='2' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_igst_amount, "3")+"</td>"+
-              "<td width='10%' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_total_amount, "3")+"</td>"+
+              "<td width='10%' style='text-align:right; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_net_amount, "3")+"</td>"+
+              "<td width='15%' colspan='2' style='text-align:right; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_cgst_amount, "3")+"</td>"+
+              "<td width='15%' colspan='2' style='text-align:right; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_sgst_amount, "3")+"</td>"+
+              "<td width='15%' colspan='2' style='text-align:right; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_igst_amount, "3")+"</td>"+
+              "<td width='10%' style='text-align:right; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.purchases.prm_total_amount, "3")+"</td>"+
             "</tr>"+
             "<tr>" +
                   "<td colspan='7' rowspan='2' width='60%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Amount in words : "+$scope.amountinwords+"</td>" +
                   "<td colspan='4' width='30%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Total Amount Before Tax</td>" +
-                  "<td width='10%' style='padding:4px; font-size:10pt; border-style: none solid none none; border-width:1px;'><strong>"+$filter('number')($scope.purchases.prm_net_amount, "3")+"</strong></td>" +
+                  "<td width='10%' style='text-align:right; padding:4px; font-size:10pt; border-style: none solid none none; border-width:1px;'><strong>"+$filter('number')($scope.purchases.prm_net_amount, "3")+"</strong></td>" +
               "</tr>"+
               "<tr>"+
                   "<td colspan='4' width='30%' style='padding:4px; font-size:10pt; border-style: solid; border-width:1px;'>Add: CGST + SGST + IGST</td>" +
-                  "<td width='10%' style='padding:4px; font-size:10pt; border-style: solid; border-width:1px;'><strong>"+$filter('number')(parseFloat(parseFloat($scope.purchases.prm_cgst_amount) + parseFloat($scope.purchases.prm_sgst_amount) + parseFloat($scope.purchases.prm_igst_amount)), "3")+"</strong></td>" +
+                  "<td width='10%' style='text-align:right; padding:4px; font-size:10pt; border-style: solid; border-width:1px;'><strong>"+$filter('number')(parseFloat(parseFloat($scope.purchases.prm_cgst_amount) + parseFloat($scope.purchases.prm_sgst_amount) + parseFloat($scope.purchases.prm_igst_amount)), "3")+"</strong></td>" +
               "</tr>"+
               "<tr>"+
                   "<td colspan='7' rowspan='2' width='60%' style='padding:4px; font-size:9pt; border-style: none none solid solid; border-width:1px;'>"+

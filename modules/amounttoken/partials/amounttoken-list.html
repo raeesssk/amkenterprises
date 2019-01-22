@@ -44,7 +44,7 @@
                             <td>{{amounttoken.am_invoice_no}}</td>
                             <td>{{amounttoken.atm_token}}</td>
                             <td>{{amounttoken.atm_amount | number : 3}}</td>
-                            <td>{{amounttoken.atm_created_at | date : 'medium'}}</td>
+                            <td>{{amounttoken.atm_created_at | date : 'dd-MM-yyyy hh:mm a'}}</td>
                             <td>
                                 <i class="fa fa-print" ng-click="printDetails(amounttoken)"></i>
                                 <a href="#/amounttoken/edit/{{amounttoken.atm_id}}"><i class="fa fa-pencil"></i></a>

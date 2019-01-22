@@ -72,7 +72,7 @@
           <tbody>
             <tr ng-repeat="invoice in filteredTodos | filter : invoice">
               <td>{{invoice.im_invoice_no}}</td>
-              <td>{{invoice.im_date | date : mediumDate}}</td>
+              <td>{{invoice.im_date | date : 'dd-MM-yyyy'}}</td>
               <td>{{invoice.cm_name}} - ( {{invoice.cm_address}} )</td>
               <!-- <td>{{invoice.im_credit}}</td> -->
               <!-- <td>{{invoice.im_payment_date | date : mediumDate}}</td> -->
@@ -115,54 +115,38 @@
         <table class="table">
           <tr>
             <td>Invoice No: <strong>{{invoices.im_invoice_no}}</strong></td>
-            <td>Date : <strong>{{invoices.im_date | date : mediumDate}}</strong></td>
+            <td>Date : <strong>{{invoices.im_date | date : 'dd-MM-yyyy'}}</strong></td>
             <td>Customer : <strong>{{invoices.cm_name}} ({{invoices.cm_address}})</strong></td>
             <td>Amount : <strong>{{invoices.im_total_amount | number : 3}}</strong></td>
-            <td>Vehicle & Vehicle no. : <strong>{{invoices.im_vehicle}} & {{invoices.im_vehicle_no}}</strong></td>
-            <td ng-if="invoices.im_status == 0" class="text-success">Status : <strong>Ok</strong></td>
-            <td ng-if="invoices.im_status == 1" class="text-danger">Status : <strong>Cancelled</strong></td>
+            <td ng-if="invoices.im_status == 0" class="text-success">Status : <strong>OPEN</strong></td>
+            <td ng-if="invoices.im_status == 1" class="text-danger">Status : <strong>CLOSED</strong></td>
           </tr>
         </table>
         <table class="table" border="1">
           <thead>
             <tr> 
-                <th rowspan="2">Sr.No.</th>
-                <th rowspan="2">Product</th>
-                <th rowspan="2">HSN No.</th>
-                <th rowspan="2">Qty</th>
-                <th rowspan="2">Unit</th>
-                <th rowspan="2">Rate</th>
-                <th rowspan="2">Amount</th>
-                <th colspan="2">CGST</th>
-                <th colspan="2">SGST</th>
-                <th colspan="2">IGST</th>
-                <th rowspan="2">Total</th>
-            </tr>
-            <tr> 
+                <th>Sr.No.</th>
+                <th>Date</th>
+                <th>Req. No.</th>
+                <th>Vehicle No.</th>
+                <th>Product</th>
+                <th>Quantity</th>
                 <th>Rate</th>
-                <th>Amount</th>
-                <th>Rate</th>
-                <th>Amount</th>
-                <th>Rate</th>
+                <th>GST</th>
                 <th>Amount</th>
             </tr>
           </thead>
           <tbody id="content">
             <tr ng-repeat="data in saleProductList">
                 <td style="padding: 4px; font-size:10pt;">{{data.srno}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_date | date : 'dd-MM-yyyy'}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_bill_no}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.cvm_vehicle_no}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.pm_hsn}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ipm_quantity}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.pm_unit}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ipm_rate | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ipm_quantity * data.ipm_rate | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ipm_cgst}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(data.ipm_cgst/100) * (parseFloat(data.ipm_quantity)*parseFloat(data.ipm_rate)) | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ipm_sgst}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(data.ipm_sgst/100) * (parseFloat(data.ipm_quantity)*parseFloat(data.ipm_rate)) | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ipm_igst}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(data.ipm_igst/100) * (parseFloat(data.ipm_quantity)*parseFloat(data.ipm_rate)) | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(parseFloat(data.ipm_quantity * data.ipm_rate) + (parseFloat(data.ipm_quantity * data.ipm_rate) * parseFloat(data.ipm_cgst/100)) + (parseFloat(data.ipm_quantity * data.ipm_rate) * parseFloat(data.ipm_sgst/100)) + (parseFloat(data.ipm_quantity * data.ipm_rate) * parseFloat(data.ipm_igst/100))) | number:3}}</td>
+                <td style="padding: 4px; font-size:10pt;" align="right">{{data.rcm_qty}}</td>
+                <td style="padding: 4px; font-size:10pt;" align="right">{{data.rcm_price | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;" align="right">{{(parseFloat(data.pm_cgst+data.pm_sgst+data.pm_igst)/100) * (parseFloat(data.rcm_qty)*parseFloat(data.rcm_price)) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;" align="right">{{data.rcm_amount | number : 3}}</td>
             </tr>
           </tbody>
         </table>

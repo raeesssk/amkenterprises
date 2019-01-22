@@ -72,13 +72,13 @@
           <tbody>
             <tr ng-repeat="purchase in filteredTodos | filter : purchase">
               <td>{{purchase.prm_invoice_no}}</td>
-              <td>{{purchase.prm_date | date : mediumDate}}</td>
+              <td>{{purchase.prm_date | date : 'dd-MM-yyyy'}}</td>
               <td>{{purchase.vm_firm_name}} ( {{purchase.vm_address}} )</td>
               <td>{{purchase.prm_credit}}</td>
               <td>{{purchase.prm_inward_no}}</td>
               <td>{{purchase.prm_total_amount | number : 3}}</td>
               <td>
-                <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewSaleDetails($index)"></i>
+                <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewQuatationDetails($index)"></i>
               </td>
             </tr>
 					</tbody>
@@ -109,28 +109,30 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Invoice Details</h4>
+        <h4 class="modal-title">Purchase Details</h4>
       </div>
       <div class="modal-body">
         <table class="table">
           <tr>
             <td>Purchase No: <strong>{{purchases.prm_invoice_no}}</strong></td>
-            <td>Date : <strong>{{purchases.prm_date | date : mediumDate}}</strong></td>
+            <td>Date : <strong>{{purchases.prm_date | date : 'dd-MM-yyyy'}}</strong></td>
             <td ng-if="purchases.prm_status == 0">Status : <b class="text-success">OPEN</b></td>
             <td ng-if="purchases.prm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
             <td>Amount : <strong>{{purchases.prm_total_amount|number:3}}</strong></td>
           </tr>
           <tr>            
-            <td>Vendor : <strong>{{purchases.vm_firm_name}} ({{purchases.vm_address}})</strong></td>
+            <td colspan="3">Vendor : <strong>{{purchases.vm_firm_name}} ({{purchases.vm_address}})</strong></td>
+            <td>Inward no : <strong>{{purchases.prm_inward_no}}</strong></td>
           </tr>
         </table>
+        <div class="table-responsive">
         <table class="table" border="1">
           <thead>
             <tr> 
                 <th rowspan="2">Sr.No.</th>
                 <th rowspan="2">Product</th>
                 <th rowspan="2">HSN No.</th>
-                <th rowspan="2">Qty</th>
+                <th rowspan="2">Qty (in Thousand)</th>
                 <th rowspan="2">Unit</th>
                 <th rowspan="2">Rate</th>
                 <th rowspan="2">Amount</th>
@@ -153,21 +155,22 @@
                 <td style="padding: 4px; font-size:10pt;">{{data.srno}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.pm_hsn}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ppm_quantity}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{data.ppm_quantity}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.pm_unit}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ppm_rate | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ppm_quantity * data.ppm_rate *1000 | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ppm_cgst}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(data.ppm_cgst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ppm_sgst}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(data.ppm_sgst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{data.ppm_igst}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(data.ppm_igst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{data.ppm_rate | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{data.ppm_quantity * data.ppm_rate *1000 | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{data.ppm_cgst}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{(data.ppm_cgst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{data.ppm_sgst}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{(data.ppm_sgst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{data.ppm_igst}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">{{(data.ppm_igst/100) * (parseFloat(data.ppm_quantity)*parseFloat(data.ppm_rate)*1000) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt; text-align: right;">
                 {{(parseFloat(data.ppm_quantity * data.ppm_rate) + (parseFloat(data.ppm_quantity * data.ppm_rate) * parseFloat(data.ppm_cgst/100)) + (parseFloat(data.ppm_quantity * data.ppm_rate) * parseFloat(data.ppm_sgst/100)) + (parseFloat(data.ppm_quantity * data.ppm_rate) * parseFloat(data.ppm_igst/100))) *1000| number:3}}</td>
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>

@@ -42,7 +42,7 @@
 					<tbody>
 						<tr ng-repeat="purchase in filteredTodos | filter : purchase">
 							<td>{{purchase.prm_invoice_no}}</td>
-							<td>{{purchase.prm_date | date : mediumDate}}</td>
+							<td>{{purchase.prm_date | date : 'dd-MM-yyyy'}}</td>
 							<td>{{purchase.vm_firm_name}} ( {{purchase.vm_address}} )</td>
               <td>{{purchase.prm_credit}}</td>
               <td>{{purchase.prm_inward_no}}</td>
@@ -114,7 +114,7 @@
         <table class="table">
           <tr>
             <td>Purchase No: <strong>{{purchases.prm_invoice_no}}</strong></td>
-            <td>Date : <strong>{{purchases.prm_date | date : mediumDate}}</strong></td>
+            <td>Date : <strong>{{purchases.prm_date | date : 'dd-MM-yyyy'}}</strong></td>
             <td ng-if="purchases.prm_status == 0">Status : <b class="text-success">OPEN</b></td>
             <td ng-if="purchases.prm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
             <td>Amount : <strong>{{purchases.prm_total_amount|number:3}}</strong></td>

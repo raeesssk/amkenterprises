@@ -496,7 +496,7 @@ $scope.filter = function()
                                   "From Date: "+
                                 "</td>"+
                                 "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$filter('date')($scope.fDate, "mediumDate")+"</strong>"+
+                                  "<strong>"+$filter('date')($scope.fDate, "dd-MM-yyyy")+"</strong>"+
                                 "</td>"+
                               "</tr>"+
                               "<tr>"+
@@ -504,7 +504,7 @@ $scope.filter = function()
                                   "To Date: "+
                                 "</td>"+
                                 "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$filter('date')($scope.tDate, "mediumDate")+"</strong>"+
+                                  "<strong>"+$filter('date')($scope.tDate, "dd-MM-yyyy")+"</strong>"+
                                 "</td>"+
                               "</tr>";
                             }

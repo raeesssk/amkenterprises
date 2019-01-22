@@ -392,30 +392,35 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/invoicereport/total';
                 "font-size:11pt;"+
                 "font-family:'Open Sans', sans-serif;"+
                // "   border: solid 1px black ;" +
-                "  margin: 3mm 3mm 3mm 3mm;" + /* margin you want for the content */
+                "  margin: 5mm 5mm 5mm 5mm;" + /* margin you want for the content */
               "}" +
               "</style>" +
           "</head>" +
           "<body onload='window.print()'>" +
-           "<table width='100%' height='100%'>" +
+           "<table width='100%' height='98%'>" +
             "<thead>"+
               "<tr>"+
-                "<td colspan='12' style=' border-style: solid; border-width:0px;'>"+
+                "<td colspan='9' style=' border-style: solid; border-width:0px;'>"+
                   "<table width='100%'>"+
                     "<tr>" +
                       "<td colspan='2' style='text-align:center; padding-bottom: 10px; border-style: solid solid none solid; border-width:1px; font-size:12pt;' valign='center' width='100%'>" +
-                          "<h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "<table width='100%'><tr>"+
+                          "<td width='23%'><img src='./././resources/indianoil.jpg' class='user-image' alt='User Image' style='margin-left:10px'></td>"+
+                          "<td width='54%' style='text-align:center;'><h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "Dealer : "+localStorage.getItem("com_dealer")+"<br>" +
                           "Address : "+localStorage.getItem("com_address")+"<br>" +
-                          "Phone : "+localStorage.getItem("com_contact")+"<br>"+
                           "E-Mail : "+localStorage.getItem("com_email")+"<br>"+
-                          "GST No.: "+localStorage.getItem("com_gst")+"<br>"+
+                          "Cont. No. : "+localStorage.getItem("com_contact")+"<br>"+
+                          "GST No. : "+localStorage.getItem("com_gst")+"</td>"+
+                          "<td width='23%'></td>"+
+                          "</tr></table>"+
                       "</td>" +
                     "</tr>" +
-                    "<tr>" +
-                      "<td colspan='2' style='text-align:center; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:13pt;' valign='top'>" +
-                          "<strong>Tax Invoice</strong>"+
-                      "</td>" +
-                    "</tr>" +
+                    // "<tr>" +
+                    //   "<td colspan='2' style='text-align:center; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:13pt;' valign='top'>" +
+                    //       "<strong>Tax Invoice</strong>"+
+                    //   "</td>" +
+                    // "</tr>" +
                     "<tr>" +
                       "<td width='60%' style='text-align:left; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:10pt;' valign='top'>" +
                           "<table width='100%'>"+
@@ -461,6 +466,11 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/invoicereport/total';
                       "<td width='40%' style='text-align:left; padding: 4px; border-style: solid solid none none; border-width:1px; font-size:10pt;' valign='top'>" +
                           "<table width='100%'>"+
                             "<tr>"+
+                              "<td  colspan='2' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:10pt;'>"+
+                                "<strong>Tax Invoice</strong>"+
+                              "</td>"+
+                            "</tr>"+
+                            "<tr>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
                                 "Invoice No.: "+
                               "</td>"+
@@ -473,40 +483,9 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/invoicereport/total';
                                 "Invoice Date: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.invoices.im_date, "mediumDate")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.invoices.im_date, "dd-MM-yyyy")+"</strong>"+
                               "</td>"+
                             "</tr>"+
-                            "<tr>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "Vehicle & Vehicle no.: "+
-                              "</td>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.invoices.im_vehicle+" & "+ $scope.invoices.im_vehicle_no +"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            // "<tr>"+
-                            //   "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                            //     "Cash / Credit.: "+
-                            //   "</td>"+
-                            //   "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                            //     "<strong>"+$scope.invoices.im_credit+"</strong>"+
-                            //   "</td>"+
-                            // "</tr>"+
-                            // "<tr>"+
-                            //   "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                            //     "Payment Date: "+
-                            //   "</td>";
-                            //   if($scope.invoices.im_payment_date == null){
-                            //     page1 = page1 + "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                            //     "<strong></strong>"+
-                            //   "</td>";
-                            //   }
-                            //   else{
-                            //     page1 = page1 + "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                            //     "<strong>"+$filter('date')($scope.invoices.im_payment_date, "mediumDate")+"</strong>"+
-                            //   "</td>";
-                            //   }
-                            // page1 = page1 + "</tr>"+
                           "</table>"+
                       "</td>" +
                     "</tr>" +
@@ -516,29 +495,19 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/invoicereport/total';
             "</thead>"+
             "<tbody>"+
               "<tr>"+
-                "<td colspan='12' valign='top' style=' border-style: solid; border-width:1px;'>"+
+                "<td colspan='9' valign='top' style=' border-style: solid; border-width:1px;'>"+
                   "<table width='100%'>" +
                     "<thead>"+
                       "<tr>"+      
-                        "<th width='5%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>Sr.No.</th>" +
-                        "<th width='20%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>Product Description</th> " +
-                        "<th width='5%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>HSN Code</th>" +
-                        "<th width='5%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>Qty</th>"+
-                        "<th width='5%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>Unit</th>" +
-                        "<th width='10%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>Rate</th>" +
-                        "<th width='10%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>Amount</th>" +
-                        "<th width='10%' colspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>SGST</th>" +
-                        "<th width='10%' colspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>CGST</th>" +
-                        "<th width='10%' colspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none solid solid none; border-width:1px;'>IGST</th>" +
-                        "<th width='10%' rowspan='2' style='text-align:center; padding: 4px; font-size: 10pt; border-style: none none solid none; border-width:1px;'>Total</th>" +
-                      "</tr>"+
-                      "<tr>"+      
-                        "<th width='4%' style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Rate</th>" +
-                        "<th width='6%' style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Amount</th>" +
-                        "<th width='4%' style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Rate</th>" +
-                        "<th width='6%' style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Amount</th>" +
-                        "<th width='4%' style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Rate</th>" +
-                        "<th width='6%' style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Amount</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Sr. No.</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Date</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Req. No.</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Vehicle No.</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Product</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Quantity</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Rate</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>GST</th>" +
+                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none none solid none; border-width:1px;'>Amount</th>" +
                       "</tr>"+
                     "</thead>"+
                     " "+$('#content').html()+" " +
@@ -547,25 +516,13 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/invoicereport/total';
               "</tr>"+
             "</tbody>"+
             "<tfoot>"+
-            "<tr>"+
-              "<td width='50%' colspan='4' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid solid; border-width:1px;'><strong>Total</strong></td>"+
-              "<td width='10%' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.invoices.im_net_amount, "3")+"</td>"+
-              "<td width='15%' colspan='2' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.invoices.im_cgst_amount, "3")+"</td>"+
-              "<td width='15%' colspan='2' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.invoices.im_sgst_amount, "3")+"</td>"+
-              "<td width='15%' colspan='2' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.invoices.im_igst_amount, "3")+"</td>"+
-              "<td width='10%' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid none; border-width:1px;'>"+$filter('number')($scope.invoices.im_total_amount, "3")+"</td>"+
-            "</tr>"+
             "<tr>" +
-                  "<td colspan='7' rowspan='2' width='60%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Amount in words : "+$scope.amountinwords+"</td>" +
-                  "<td colspan='4' width='30%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Total Amount Before Tax</td>" +
-                  "<td width='10%' style='padding:4px; font-size:10pt; border-style: none solid none none; border-width:1px;'><strong>"+$filter('number')($scope.invoices.im_net_amount, "3")+"</strong></td>" +
+                  "<td colspan='5' width='60%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Amount in words : "+$scope.amountinwords+"</td>" +
+                  "<td width='17%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Total Amount</td>" +
+                  "<td width='23%' colspan='3' style='padding:4px; font-size:10pt; border-style: none solid none none; border-width:1px;' align='right'><strong>"+$filter('number')($scope.invoices.im_total_amount, "3")+"</strong></td>" +
               "</tr>"+
               "<tr>"+
-                  "<td colspan='4' width='30%' style='padding:4px; font-size:10pt; border-style: solid; border-width:1px;'>Add: CGST + SGST + IGST</td>" +
-                  "<td width='10%' style='padding:4px; font-size:10pt; border-style: solid; border-width:1px;'><strong>"+$filter('number')(parseFloat(parseFloat($scope.invoices.im_cgst_amount) + parseFloat($scope.invoices.im_sgst_amount) + parseFloat($scope.invoices.im_igst_amount)), "3")+"</strong></td>" +
-              "</tr>"+
-              "<tr>"+
-                  "<td colspan='7' rowspan='2' width='60%' style='padding:4px; font-size:9pt; border-style: none none solid solid; border-width:1px;'>"+
+                  "<td colspan='5' width='60%' style='padding:4px; font-size:9pt; border-style: none none solid solid; border-width:1px;'>"+
                   "Company's Bank Details<br>"+
                   "Bank Name : <strong>"+localStorage.getItem("bkm_name")+"</strong><br>"+
                   "A/C No &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <strong>"+localStorage.getItem("bkm_account_no")+"</strong><br>"+
@@ -574,15 +531,10 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/invoicereport/total';
                   "<strong>Terms & Conditions</strong><br>"+
                   "1. Goods once sold shall not be taken back.<br>"+
                   "2. Our responsibility ceases once the goods leave our premises.<br>"+
-                  "3. Subject to Pune jurisdiction Only.<br>"+
-                  "4. GST No : <strong></strong>"+
+                  "3. Subject to Pune jurisdiction Only."+
                   "</td>"+
-                  "<td colspan='4' width='30%' style='padding:4px; font-size:10pt; border-style: solid; border-width:1px;'>Total Amount After Tax</td>" +
-                  "<td width='10%' style='padding:4px; font-size:10pt; border-style: solid; border-width:1px;'><strong>"+$filter('number')($scope.invoices.im_total_amount, "3")+"</strong></td>" +
+                  "<td colspan='5' width='40%' colspan='4' valign='bottom' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid solid; border-width:1px;'><span style='font-size:7pt;'>Ceritified that the particulars given above are true and correct</span><br><strong>for "+ localStorage.getItem("com_name") +"</strong><br><br><br><br><br><br><br><strong>Authorized Signatory</strong></td>" +
               "</tr>"+
-              "<tr>"+
-                  "<td colspan='5' width='40%' colspan='2' valign='bottom' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid solid; border-width:1px;'><span style='font-size:7pt;'>Ceritified that the particulars given above are true and correct</span><br><strong>for "+ localStorage.getItem("com_name") +"</strong><br><br><br><br><br><br><br><br><br><strong>Authorized Signatory</strong></td>" +
-              "</tr>" +
             "</tfoot>"+
           "</table>"+
           "</body>" +

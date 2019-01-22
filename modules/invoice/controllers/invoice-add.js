@@ -332,7 +332,7 @@ angular.module('invoice').controller('invoiceAddCtrl', function ($rootScope, $ht
                                 "Invoice Date: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.invoice.im_date, "mediumDate")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.invoice.im_date, "dd-MM-yyyy")+"</strong>"+
                               "</td>"+
                             "</tr>"+
                           "</table>"+

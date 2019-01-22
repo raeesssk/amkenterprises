@@ -20,7 +20,7 @@ angular.module('productprice').controller('productpriceEditCtrl', function ($roo
 	    	customerObj.forEach(function (value, key) {
 
             
-            value.prprm_date = $filter('date')(value.prprm_date,'mediumDate');
+            value.prprm_date = $filter('date')(value.prprm_date,'yyyy-MM-dd');
 	      		$scope.productprice = value;
 
 

@@ -43,7 +43,7 @@ angular.module('invoice').controller('invoiceEditCtrl', function ($rootScope, $h
             // $scope.sale  = angular.copy(sale);
             
             invoice.forEach(function(value, key) {
-                value.im_date = $filter('date')(value.im_date, "mediumDate");
+                value.im_date = $filter('date')(value.im_date, "yyyy-MM-dd");
 
                 value.old_im_total_amount = value.im_total_amount;
 
@@ -383,7 +383,7 @@ angular.module('invoice').controller('invoiceEditCtrl', function ($rootScope, $h
                                 "Invoice Date: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.invoice.im_date, "mediumDate")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.invoice.im_date, "dd-MM-yyyy")+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+

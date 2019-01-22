@@ -45,9 +45,9 @@
 							<td>{{expense.cm_name}} ({{expense.cm_address}})</td>
 							<td>{{expense.em_payment_mode}}</td>
               <td>{{expense.em_comment}}</td>
-              <td>{{expense.em_date | date : mediumDate}}</td>
+              <td>{{expense.em_date | date : 'dd-MM-yyyy'}}</td>
               <td>{{expense.em_cheque_no}}</td>
-              <td>{{expense.em_cheque_date | date : mediumDate}}</td>
+              <td>{{expense.em_cheque_date | date : 'dd-MM-yyyy'}}</td>
               <td>{{expense.em_amount}}</td>
 							<td>
 								<a href="#/expense/edit/{{expense.em_id}}"><i class="fa fa-pencil"></i></a>
