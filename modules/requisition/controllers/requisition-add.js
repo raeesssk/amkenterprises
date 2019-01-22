@@ -47,6 +47,7 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
       if(yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd != $('#rcm_date').val()){
         $('#pm_id').val("");
         $scope.requisition.rcm_pm_id = "";
+        $scope.getSerialNo();
       }
       
     }
