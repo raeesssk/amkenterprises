@@ -78,7 +78,7 @@
 							<tr ng-repeat="data in selectedProductList track by $index">
                 <td style="padding:4px 8px 4px 8px;" class="action"><input type="checkbox" class="custom-control-input" ng-model="data.rcm_check" ng-change="checkBox($index)"/></td>
                 <!-- <td style="padding: 4px; font-size:10pt;">{{data.srno}}</td> -->
-                <td style="padding: 4px; font-size:10pt;">{{data.rcm_date | date : mediumDate}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_date | date : 'dd-MM-yyyy'}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.rcm_bill_no}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.cvm_vehicle_no}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>

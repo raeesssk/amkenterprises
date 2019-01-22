@@ -477,7 +477,7 @@ $scope.filter = function()
                                 "Debit: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.vend.cm_debit+"</strong>"+
+                                "<strong>"+$filter('number')($scope.vend.cm_debit,'3')+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+
@@ -485,7 +485,7 @@ $scope.filter = function()
                                 "Credit: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.vend.cm_balance+"</strong>"+
+                                "<strong>"+$filter('number')($scope.vend.cm_balance,'3')+"</strong>"+
                               "</td>"+
                             "</tr>";
                             if($('#user-datepicker-from').val() != "" && $('#user-datepicker-to').val() != "") 
@@ -651,7 +651,7 @@ $scope.filter = function()
                                 "Debit: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.custVehicle.cm_debit+"</strong>"+
+                                "<strong>"+$filter('number')($scope.custVehicle.cm_debit,'3')+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+
@@ -659,7 +659,7 @@ $scope.filter = function()
                                 "Credit: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.custVehicle.cm_balance+"</strong>"+
+                                "<strong>"+$filter('number')($scope.custVehicle.cm_balance,'3')+"</strong>"+
                               "</td>"+
                             "</tr>"+
                           "</table>"+

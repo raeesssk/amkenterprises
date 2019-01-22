@@ -443,23 +443,28 @@ $scope.filterList = function()
                 "font-size:11pt;"+
                 "font-family:'Open Sans', sans-serif;"+
                // "   border: solid 1px black ;" +
-                "  margin: 5mm 10mm 0mm 7.5mm;" + /* margin you want for the content */
+                "  margin: 5mm 5mm 5mm 5mm;" + /* margin you want for the content */
               "}" +
               "</style>" +
           "</head>" +
           "<body onload='window.print()'>" +
-           "<table width='100%' height='95%'>" +
+           "<table width='100%' height='98%'>" +
             "<thead>"+
               "<tr>"+
                 "<td colspan='3' style=' border-style: solid; border-width:0px;'>"+
                   "<table width='100%'>"+
                     "<tr>" +
                       "<td colspan='2' style='text-align:center; padding-bottom: 10px; border-style: solid solid none solid; border-width:1px; font-size:12pt;' valign='center' width='100%'>" +
-                          "<h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "<table width='100%'><tr>"+
+                          "<td width='23%'><img src='./././resources/indianoil.jpg' class='user-image' alt='User Image' style='margin-left:10px'></td>"+
+                          "<td width='54%' style='text-align:center;'><h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "Dealer : "+localStorage.getItem("com_dealer")+"<br>" +
                           "Address : "+localStorage.getItem("com_address")+"<br>" +
-                          "Phone : "+localStorage.getItem("com_contact")+"<br>"+
                           "E-Mail : "+localStorage.getItem("com_email")+"<br>"+
-                          "GST No.: "+localStorage.getItem("com_gst")+"<br>"+
+                          "Cont. No. : "+localStorage.getItem("com_contact")+"<br>"+
+                          "GST No. : "+localStorage.getItem("com_gst")+"</td>"+
+                          "<td width='23%'></td>"+
+                          "</tr></table>"+
                       "</td>" +
                     "</tr>" +
                     "<tr>" +
@@ -511,7 +516,7 @@ $scope.filterList = function()
                                   "From Date: "+
                                 "</td>"+
                                 "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$('#user-datepicker-from').val()+"</strong>"+
+                                  "<strong>"+$filter('date')($('#user-datepicker-from').val(),'dd-MM-yyyy')+"</strong>"+
                                 "</td>"+
                               "</tr>"+
                               "<tr>"+
@@ -519,7 +524,7 @@ $scope.filterList = function()
                                   "To Date: "+
                                 "</td>"+
                                 "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$('#user-datepicker-to').val()+"</strong>"+
+                                  "<strong>"+$filter('date')($('#user-datepicker-to').val(),'dd-MM-yyyy')+"</strong>"+
                                 "</td>"+
                               "</tr>"+ 
                             "</table>"+
@@ -547,7 +552,7 @@ $scope.filterList = function()
             "</tbody>"+
             "<tfoot>"+
               "<tr>"+
-                "<td style=' border-style: solid; border-width:1px;'>"+
+                "<td style=' border-style: none solid solid solid; border-width:1px;'>"+
                   "<table width='100%'>"+
                     "<tr>" +
                         "<td valign='bottom' style='text-align:center; padding:6px; font-size:12pt;'>THANK YOU</td>" +
