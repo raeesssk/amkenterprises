@@ -579,7 +579,7 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
                                 "Date & Time: "+
                               "</td>"+
                               "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.assign.am_date, "dd-MM-yyyy hh:mm a")+"</strong>"+
+                                "<strong>"+$filter('date')($scope.assign.am_date, "dd-MM-yyyy hh:mm a", "+0000")+"</strong>"+
                               "</td>"+
                             "</tr>"+
                           "</table>"+

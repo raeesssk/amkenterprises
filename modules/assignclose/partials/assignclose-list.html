@@ -42,7 +42,7 @@
 						<tr ng-repeat="assignclose in filteredTodos | filter : assignclose">
 							<td>{{assignclose.am_invoice_no}}</td>
               <td>{{assignclose.acm_invoice_no}}</td>
-							<td>{{assignclose.acm_date | date : 'dd-MM-yyyy hh:mm a'}}</td>
+							<td>{{assignclose.acm_date | date : 'dd-MM-yyyy hh:mm a':'+0000'}}</td>
 							<td>{{assignclose.emp_name}} ( {{assignclose.emp_address}} )</td>
               <td>{{assignclose.amount | number : 3}}</td>
 							<td ng-if="assignclose.acm_status == 0">
@@ -115,7 +115,7 @@
           <tr>
             <td>Assign No: <strong>{{assigncloses.am_invoice_no}}</strong></td>
             <td>Assign Close No: <strong>{{assigncloses.acm_invoice_no}}</strong></td>
-            <td>Date & Time : <strong>{{assigncloses.acm_date | date : 'dd-MM-yyyy hh:mm a'}}</strong></td>
+            <td>Date & Time : <strong>{{assigncloses.acm_date | date : 'dd-MM-yyyy hh:mm a':'+0000'}}</strong></td>
             <td ng-if="assigncloses.acm_status == 0">Status : <b class="text-success">OPEN</b></td>
             <td ng-if="assigncloses.acm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
             <td>Amount : <strong>{{assigncloses.amount|number:3}}</strong></td>

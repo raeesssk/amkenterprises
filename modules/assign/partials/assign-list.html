@@ -41,7 +41,7 @@
 					<tbody>
 						<tr ng-repeat="assign in filteredTodos | filter : assign">
 							<td>{{assign.am_invoice_no}}</td>
-							<td>{{assign.am_date | date : 'dd-MM-yyyy hh:mm a'}}</td>
+							<td>{{assign.am_date | date : 'dd-MM-yyyy hh:mm a': '+0000'}}</td>
 							<td>{{assign.emp_name}} ( {{assign.emp_address}} )</td>
               <!-- <td>{{assign.am_amount | number : 3}}</td> -->
               <td>{{assign.am_assign_status}}</td>
@@ -117,7 +117,7 @@
         <table class="table">
           <tr>
             <td>Assign No: <strong>{{assigns.am_invoice_no}}</strong></td>
-            <td>Date & Time : <strong>{{assigns.am_date | date : 'dd-MM-yyyy hh:mm a'}}</strong></td>
+            <td>Date & Time : <strong>{{assigns.am_date | date : 'dd-MM-yyyy hh:mm a': '+0000'}}</strong></td>
             <td>Assign Status : <strong>{{assigns.am_assign_status}}</strong></td>
             <td ng-if="assigns.am_status == 0">Status : <b class="text-success">OPEN</b></td>
             <td ng-if="assigns.am_status == 1">Status : <b class="text-danger">CLOSED</b></td>

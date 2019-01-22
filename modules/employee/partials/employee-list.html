@@ -143,7 +143,7 @@
             <tbody id="content">
                 <tr ng-repeat="saleDetails in categoryList">
                     <td>{{saleDetails.acm_invoice}}</td>
-                    <td>{{saleDetails.acm_date | date : 'dd-MM-yyyy hh:mm a'}}</td>
+                    <td>{{saleDetails.acm_date | date : 'dd-MM-yyyy hh:mm a':'+0000'}}</td>
                     <td style=" text-align:right;">{{saleDetails.acm_amount | number : 3}}</td>
                 </tr>
             </tbody>
