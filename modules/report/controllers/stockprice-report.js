@@ -6,6 +6,7 @@ angular.module('report').controller('stockpricereportCtrl', function ($rootScope
   $('#reportindex').addClass("active");
   $('#stockpricereportindex').addClass("active");
 
+  $('#alldata').hide();
   $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -18,23 +19,6 @@ angular.module('report').controller('stockpricereportCtrl', function ($rootScope
     $scope.employeeListcount =0;
     $scope.loading1 = 0;
     $scope.limit={}
-
-
-$('#user-datepicker-from').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-});
-
-$('#user-datepicker-to').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-});
 
     $('#user-datepicker-from-list').datepicker({
      timepicker:false,
@@ -54,7 +38,7 @@ $('#user-datepicker-to').datepicker({
     });
 
 
-$scope.apiURL = $rootScope.baseURL+'/dashboard/salesreport/total';
+$scope.apiURL = $rootScope.baseURL+'/dashboard/stockpricereport/total';
   $scope.getAll = function () {
 
       $scope.filteredTodos = [];
@@ -132,7 +116,7 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/salesreport/total';
               $scope.limit.end = end;
               $http({
                 method: 'POST',
-                url: $rootScope.baseURL+'/dashboard/salesreport/limit',
+                url: $rootScope.baseURL+'/dashboard/stockpricereport/limit',
                 data: $scope.limit,
                 headers: {'Content-Type': 'application/json',
                           'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
@@ -154,10 +138,8 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/salesreport/total';
                       $scope.loading1 = 1;
 
                     
-              $('#filter-user-btn').text("Filter");
+              $('#filter-user-btn-list').text("Filter");
               $('#filter-user-btn').removeAttr('disabled');
-              $('#reset-user-btn').text("Reset");
-              $('#reset-user-btn').removeAttr('disabled');
                       // $scope.$apply(); 
               })
               .error(function(data) 
@@ -180,63 +162,34 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/salesreport/total';
 
     };
 
-$scope.filter = function()
-  {
-    $scope.toDate = document.getElementById("user-datepicker-to").value;
-    $scope.fromDate = document.getElementById("user-datepicker-from").value;
-    if(angular.isUndefined($scope.fromDate) || $scope.fromDate === null || $scope.fromDate == "")
-      {
-        var dialog = bootbox.dialog({
-          message: '<p class="text-center">please select from-date.</p>',
-              closeButton: false
-          });
-          dialog.find('.modal-body').addClass("btn-danger");
-          setTimeout(function(){
-              dialog.modal('hide'); 
-          }, 1500);
-        return;
-      }
 
-      if(angular.isUndefined($scope.toDate) || $scope.toDate === null || $scope.toDate == "")
-      {
-        var dialog = bootbox.dialog({
-          message: '<p class="text-center">please select to-date.</p>',
-              closeButton: false
-          });
-          dialog.find('.modal-body').addClass("btn-danger");
-          setTimeout(function(){
-              dialog.modal('hide'); 
-          }, 1500);
-        return;
-      }
+    $scope.getAllDetails = function(){
+        $scope.productpricelist = [];
+          $http({
+          method: 'POST',
+          url: $rootScope.baseURL+'/dashboard/stockpricereport',
+          data: $scope.limit,
+          headers: {'Content-Type':'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+        })
+        .success(function(login)
+        {   
+          $scope.productpricelist = angular.copy(login);
 
-      $scope.dateFilter = '&startTime='+ $scope.fromDate + '&endTime=' + $scope.toDate;
-
-      $scope.fDate = new Date($scope.fromDate);
-      $scope.fDate.setHours(0,0,0,0);
-      $scope.tDate = new Date($scope.toDate);
-      $scope.tDate.setHours(0,0,0,0);
-      if($scope.fDate > $scope.tDate)
-      {
-        var dialog = bootbox.dialog({
-          message: '<p class="text-center">oops!!! to-date greater than from-date.</p>',
-              closeButton: false
-          });
-          dialog.find('.modal-body').addClass("btn-danger");
-          setTimeout(function(){
-              dialog.modal('hide'); 
-          }, 1500);
-        return;
-      }
-      $('#filter-user-btn').attr('disabled','true');
-      $('#filter-user-btn').text("please wait...");
-      $('#view-details').modal('show');
-    $scope.viewEmployeeDetails($scope.ind);
-      // $scope.getUser();
-
-      // $scope.draw();
-
-  };
+        })
+        .error(function(data) 
+        {   
+          var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+            $('#btnsave').text("SAVE");
+            $('#btnsave').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500);            
+        }); 
+    };
 
 $scope.filterList = function()
   {
@@ -290,27 +243,27 @@ $scope.filterList = function()
       $('#filter-user-btn-list').text("please wait...");
       $scope.getAll();
       // $scope.getUser();
+      $scope.getAllDetails();
 
       // $scope.draw();
 
   };
 
   Date.prototype.setFromDateList = function() {
+   
    var yyyy = this.getFullYear().toString();
-   var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+   var mm = (this.getMonth()).toString(); // getMonth() is zero-based
    var dd  = this.getDate().toString();
-   // if(mm == 0){
-   //  document.getElementById("user-datepicker-from-list").value = yyyy-1 +"-"+ ("12") +"-"+ (dd[1]?dd:"0"+dd[0]);
-   // }
-   // else if(mm==2||mm==4||mm==6||mm==7||mm==9||mm==11){
-   //  document.getElementById("user-datepicker-from-list").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd-1:"0"+dd[0]);
-   // }
-   // else{
-   //  document.getElementById("user-datepicker-from-list").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd:"0"+dd[0]);
-   // }
-
-   document.getElementById("user-datepicker-from-list").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd:"0"+dd[0]);
-  };
+   if(mm == 0){
+    document.getElementById("user-datepicker-from-list").value = yyyy-1 +"-"+ ("12") +"-"+ (dd[1]?dd:"0"+dd[0]);
+   }
+   else if(mm==2||mm==4||mm==6||mm==7||mm==9||mm==11){
+    document.getElementById("user-datepicker-from-list").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd-1:"0"+dd[0]);
+   }
+   else{
+    document.getElementById("user-datepicker-from-list").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd:"0"+dd[0]);
+   }
+};
 
   Date.prototype.setToDateList = function() {
     // console.log("in to date");
@@ -324,99 +277,6 @@ $scope.filterList = function()
         dList = new Date();
         dList.setFromDateList();
         dList.setToDateList();
-
-  Date.prototype.setFromDate = function() {
-   var yyyy = this.getFullYear().toString();
-   var mm = (this.getMonth()).toString(); // getMonth() is zero-based
-   var dd  = this.getDate().toString();
-   if(mm == 0){
-    document.getElementById("user-datepicker-from").value = yyyy-1 +"-"+ ("12") +"-"+ (dd[1]?dd:"0"+dd[0]);
-   }
-   else if(mm==2||mm==4||mm==6||mm==7||mm==9||mm==11){
-    document.getElementById("user-datepicker-from").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd-1:"0"+dd[0]);
-   }
-   else{
-    document.getElementById("user-datepicker-from").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd:"0"+dd[0]);
-   }
-  };
-
-  Date.prototype.setToDate = function() {
-    // console.log("in to date");
-   var yyyy = this.getFullYear().toString();
-   var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-   var dd  = this.getDate().toString();
-   document.getElementById("user-datepicker-to").value = yyyy +"-"+ (mm[1]?mm:"0"+mm[0]) +"-"+ (dd[1]?dd:"0"+dd[0]);
-  // $scope.filter();
-  };
-
-        d = new Date();
-        d.setFromDate();
-        d.setToDate();
-
-
-  // $scope.reset = function()
-  // {
-  //   $scope.toDate = "";
-  //   $scope.fromDate = "";
-  //   $('#user-datepicker-from').val("");
-  //   $('#user-datepicker-to').val("");
-  //   $scope.dateFilter = "";
-  //     $('#reset-user-btn').attr('disabled','true');
-  //     $('#reset-user-btn').text("please wait...");
-  //     $('#view-details').modal('show');
-  //   $scope.viewEmployeeDetails($scope.ind);
-  // };
-
-  $scope.viewEmployeeDetails1 = function (index) {
-      $scope.ind = index;
-    $('#user-datepicker-from').val("");
-    $('#user-datepicker-to').val("");
-    $scope.viewEmployeeDetails(index);
-  };
-
-  $scope.viewEmployeeDetails = function (index) {
-
-      $scope.ind = index;
-
-      $scope.categoryList = [];
-      $scope.empname = $scope.filteredTodos[index].emp_name;
-      $scope.empno = $scope.filteredTodos[index].emp_mobile;
-      $scope.empadd = $scope.filteredTodos[index].emp_address;
-      
-      $scope.totalValue = 0;
-      $scope.limit.fDate = $('#user-datepicker-from').val();
-      $scope.limit.tDate = $('#user-datepicker-to').val();
-      $http({
-        method: 'POST',
-        url: $rootScope.baseURL+'/employee/details/'+ $scope.filteredTodos[index].emp_id,
-        data: $scope.limit,
-        headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-      })
-      .success(function(categoryList)
-      {
-        categoryList.forEach(function (value, key) {
-              $scope.totalValue = parseFloat($scope.totalValue + value.acm_amount);
-              $scope.categoryList.push(value);
-
-        });
-          $('#filter-user-btn').text("Filter");
-          $('#filter-user-btn').removeAttr('disabled');
-          // $('#reset-user-btn').text("Reset");
-          // $('#reset-user-btn').removeAttr('disabled');
-      })
-      .error(function(data) 
-      {   
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                closeButton: false
-            });
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-      });
-
-    };
 
     $scope.printDetails = function(){
       var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no');
@@ -443,86 +303,67 @@ $scope.filterList = function()
                 "font-size:11pt;"+
                 "font-family:'Open Sans', sans-serif;"+
                // "   border: solid 1px black ;" +
-                "  margin: 5mm 10mm 0mm 7.5mm;" + /* margin you want for the content */
+                "  margin: 5mm 5mm 5mm 5mm;" + /* margin you want for the content */
               "}" +
               "</style>" +
           "</head>" +
           "<body onload='window.print()'>" +
-           "<table width='100%' height='95%'>" +
+           "<table width='100%' height='98%'>" +
             "<thead>"+
               "<tr>"+
                 "<td colspan='3' style=' border-style: solid; border-width:0px;'>"+
                   "<table width='100%'>"+
                     "<tr>" +
                       "<td colspan='2' style='text-align:center; padding-bottom: 10px; border-style: solid solid none solid; border-width:1px; font-size:12pt;' valign='center' width='100%'>" +
-                          "<h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "<table width='100%'><tr>"+
+                          "<td width='23%'><img src='./././resources/indianoil.jpg' class='user-image' alt='User Image' style='margin-left:10px'></td>"+
+                          "<td width='54%' style='text-align:center;'><h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "Dealer : "+localStorage.getItem("com_dealer")+"<br>" +
                           "Address : "+localStorage.getItem("com_address")+"<br>" +
-                          "Phone : "+localStorage.getItem("com_contact")+"<br>"+
                           "E-Mail : "+localStorage.getItem("com_email")+"<br>"+
-                          "GST No.: "+localStorage.getItem("com_gst")+"<br>"+
+                          "Cont. No. : "+localStorage.getItem("com_contact")+"<br>"+
+                          "GST No. : "+localStorage.getItem("com_gst")+"</td>"+
+                          "<td width='23%'></td>"+
+                          "</tr></table>"+
                       "</td>" +
                     "</tr>" +
                     "<tr>" +
                       "<td colspan='2' style='text-align:center; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:13pt;' valign='top'>" +
-                          "<strong>Employee Ledger</strong>"+
+                          "<strong>Stock Price Diff.</strong>"+
                       "</td>" +
                     "</tr>" +
                     "<tr>" +
-                      "<td width='60%' style='text-align:left; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:10pt;' valign='top'>" +
+                      "<td width='50%' style='text-align:left; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:10pt;' valign='top'>" +
                           "<table width='100%'>"+
                             "<tr>"+
                               "<td width='30%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "Name: "+
+                                "From Date: "+
                               "</td>"+
                               "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.empname+"</strong>"+
+                                "<strong>"+$('#user-datepicker-from-list').val()+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+
                               "<td width='30%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "Address: "+
+                                "To Date: "+
                               "</td>"+
                               "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.empadd+"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            "<tr>"+
-                              "<td width='30%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "Contact No.: "+
-                              "</td>"+
-                              "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.empno+"</strong>"+
+                                "<strong>"+$('#user-datepicker-to-list').val()+"</strong>"+
                               "</td>"+
                             "</tr>"+
                           "</table>"+
                       "</td>" +
-                      "<td width='40%' style='text-align:left; padding: 4px; border-style: solid solid none none; border-width:1px; font-size:10pt;' valign='top'>" +
+                      "<td width='50%' style='text-align:left; padding: 4px; border-style: solid solid none none; border-width:1px; font-size:10pt;' valign='top'>" +
                           "<table width='100%'>"+
                             "<tr>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "Total Amount: "+
+                              "<td width='30%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "Amount: "+
                               "</td>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('number')($scope.totalValue ,'3')+"</strong>"+
+                              "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "<strong>"+$filter('number')($scope.totalvalue,'3')+"</strong>"+
                               "</td>"+
                             "</tr>"+
-                            "<tr>"+
-                                "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "From Date: "+
-                                "</td>"+
-                                "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$('#user-datepicker-from').val()+"</strong>"+
-                                "</td>"+
-                              "</tr>"+
-                              "<tr>"+
-                                "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "To Date: "+
-                                "</td>"+
-                                "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                  "<strong>"+$('#user-datepicker-to').val()+"</strong>"+
-                                "</td>"+
-                              "</tr>"+ 
-                            "</table>"+
+                          "</table>"+
                       "</td>" +
                     "</tr>" +
                   "</table>"+
@@ -535,19 +376,23 @@ $scope.filterList = function()
                   "<table width='100%'>" +
                     "<thead>"+
                       "<tr>"+      
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Assign Close No.</th>" +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Date & Time</th> " +
-                        "<th style='padding:10px; border-style: none none solid none; border-width:1px;'>Amount</th>"+
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Product</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Date</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Previous Rate</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Today Rate</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Difference</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Stock</th>" +
+                        "<th style='padding:10px; border-style: none none solid none; border-width:1px;'>Profit</th>" +
                       "</tr>"+
                     "</thead>"+
-                    " "+$('#content').html()+" " +
+                    " "+$('#contentPayment').html()+" " +
                   "</table>"+
                 "</td>"+
               "</tr>"+
             "</tbody>"+
             "<tfoot>"+
               "<tr>"+
-                "<td style=' border-style: solid; border-width:1px;'>"+
+                "<td style=' border-style: none solid solid solid; border-width:1px;'>"+
                   "<table width='100%'>"+
                     "<tr>" +
                         "<td valign='bottom' style='text-align:center; padding:6px; font-size:12pt;'>THANK YOU</td>" +
