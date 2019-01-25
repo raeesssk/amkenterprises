@@ -76,9 +76,11 @@
                             <td>{{productprice.prprm_date | date : 'dd-MM-yyyy'}}</td>
                             <td style="text-align: right;">{{productprice.prprm_previous_price | number : 3}}</td>
                             <td style="text-align: right;">{{productprice.prprm_price | number : 3}}</td>
-                            <td style="text-align: right;">{{productprice.prprm_price - productprice.prprm_previous_price | number : 3}}</td>
+                            <td style="text-align: right;" ng-if="productprice.prprm_previous_price != undefined">{{productprice.prprm_price - productprice.prprm_previous_price | number : 3}}</td>
+                            <td style="text-align: right;" ng-if="productprice.prprm_previous_price == undefined">{{0 | number : 3}}</td>
                             <td style="text-align: right;">{{productprice.prprm_stock}}</td>
-                            <td style="text-align: right;">{{productprice.prprm_stock * (productprice.prprm_price - productprice.prprm_previous_price) | number : 3}}</td>
+                            <td style="text-align: right;" ng-if="productprice.prprm_previous_price != undefined">{{productprice.prprm_stock * (productprice.prprm_price - productprice.prprm_previous_price) | number : 3}}</td>
+                            <td style="text-align: right;" ng-if="productprice.prprm_previous_price == undefined">{{0 | number : 3}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -110,9 +112,11 @@
         <td>{{productprice.prprm_date | date : 'dd-MM-yyyy'}}</td>
         <td style="text-align: right;">{{productprice.prprm_previous_price | number : 3}}</td>
         <td style="text-align: right;">{{productprice.prprm_price | number : 3}}</td>
-        <td style="text-align: right;">{{productprice.prprm_price - productprice.prprm_previous_price | number : 3}}</td>
+        <td style="text-align: right;" ng-if="productprice.prprm_previous_price != undefined">{{productprice.prprm_price - productprice.prprm_previous_price | number : 3}}</td>
+        <td style="text-align: right;" ng-if="productprice.prprm_previous_price == undefined">{{0 | number : 3}}</td>
         <td style="text-align: right;">{{productprice.prprm_stock}}</td>
-        <td style="text-align: right;">{{productprice.prprm_stock * (productprice.prprm_price - productprice.prprm_previous_price) | number : 3}}</td>
+        <td style="text-align: right;" ng-if="productprice.prprm_previous_price != undefined">{{productprice.prprm_stock * (productprice.prprm_price - productprice.prprm_previous_price) | number : 3}}</td>
+        <td style="text-align: right;" ng-if="productprice.prprm_previous_price == undefined">{{0 | number : 3}}</td>
     </tr>
   </tbody>
 </table>
