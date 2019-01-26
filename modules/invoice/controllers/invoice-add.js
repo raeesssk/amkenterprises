@@ -40,6 +40,24 @@ angular.module('invoice').controller('invoiceAddCtrl', function ($rootScope, $ht
         }
     });
 
+    $('#im_from_date').datepicker({
+        validateOnBlur: false,
+        todayButton: false,
+        timepicker: false,
+        scrollInput: false,
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
+
+    $('#im_to_date').datepicker({
+        validateOnBlur: false,
+        todayButton: false,
+        timepicker: false,
+        scrollInput: false,
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
+
     $scope.getSerialNo = function() {
 
         
@@ -67,9 +85,9 @@ angular.module('invoice').controller('invoiceAddCtrl', function ($rootScope, $ht
 
 
             $http({
-              method: 'GET',
+              method: 'POST',
               url: $rootScope.baseURL+'/requisition/customer/'+$scope.invoice.im_cm_id.cm_id,
-              //data: $scope.data,
+              data: $scope.limit,
               headers: {'Content-Type': 'application/json',
                       'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
             })
@@ -107,7 +125,51 @@ angular.module('invoice').controller('invoiceAddCtrl', function ($rootScope, $ht
 
     $scope.getSearchCust = function(vals) {
 
-      var searchTerms = {search: vals};
+      $scope.limit = {};
+      $scope.limit.fDate = new Date($('#im_from_date').val());
+      $scope.limit.fDate.setHours(0,0,0,0);
+      $scope.limit.tDate = new Date($('#im_to_date').val());
+      $scope.limit.tDate.setHours(0,0,0,0);
+
+      if($('#im_from_date').val() == undefined || $('#im_from_date').val() == ""){
+        var dialog = bootbox.dialog({
+          message: '<p class="text-center">please select from date.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+              $('#im_cm_id').val();
+              $scope.invoice.im_cm_id = "";
+          }, 1500);
+      }
+      else if($('#im_to_date').val() == undefined || $('#im_to_date').val() == ""){
+        var dialog = bootbox.dialog({
+          message: '<p class="text-center">please select to date.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+              $('#im_cm_id').val();
+              $scope.invoice.im_cm_id = "";
+          }, 1500);
+      }
+      else if($scope.limit.fDate > $scope.limit.tDate){
+        var dialog = bootbox.dialog({
+          message: '<p class="text-center">oops!!! to-date greater than from-date.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+              $('#im_cm_id').val();
+              $scope.invoice.im_cm_id = "";
+          }, 1500);
+      }
+      else
+      {
+        var searchTerms = {search: vals};
         const httpOptions = {
           headers: {
             'Content-Type':  'application/json',
@@ -117,7 +179,30 @@ angular.module('invoice').controller('invoiceAddCtrl', function ($rootScope, $ht
         return $http.post($rootScope.baseURL+'/customer/typeahead/search', searchTerms, httpOptions).then((result) => {
           
           return result.data;
-      });
+        });
+      }
+      
+    };
+
+    $scope.checkBoxAll = function(){ 
+
+      if($scope.rcm_check_all)
+      {
+        $scope.finalList=[]; 
+        angular.forEach($scope.selectedProductList, function(value, key) {
+                value.rcm_check = true;
+                $scope.finalList.push(value);
+            });
+                $scope.calculate(); 
+      }
+      else{
+        angular.forEach($scope.selectedProductList, function(value, key) {
+                value.rcm_check = false;
+            });
+            $scope.finalList=[]; 
+            $scope.invoice.totalamount=0;
+      }
+
     };
 
     $scope.checkBox = function(index){ 
