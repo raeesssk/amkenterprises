@@ -44,6 +44,7 @@
                     <div class="form-group pull-left">
 							        <button  class="btn btn-info" type="button" id="filter-user-btn" ng-click="filter()"><i class="fa fa-filter"></i> Filter</button>
 							        <!-- <button  class="btn btn-primary" type="button" id="reset-user-btn" ng-click="reset()"><i class="fa fa-times"></i> Reset</button> -->
+                      <button  class="btn btn-primary" type="button" ng-click="printAllDetails()"><i class="fa fa-print"></i> Print</button>
 						        </div>
         					</div>
         					<div class="col-lg-3">
@@ -184,3 +185,25 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<table class="table table-hover" id="alldata">
+  <thead>
+    <tr>
+      <th>Purchase No.</th>
+      <th>Date</th>
+      <th>Vendor Name</th>
+      <th>Cash / Credit</th>
+      <th>Inward no</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody id="contentall">
+    <tr ng-repeat="purchase in allList | filter : purchase">
+      <td>{{purchase.prm_invoice_no}}</td>
+      <td>{{purchase.prm_date | date : 'dd-MM-yyyy'}}</td>
+      <td>{{purchase.vm_firm_name}} ( {{purchase.vm_address}} )</td>
+      <td>{{purchase.prm_credit}}</td>
+      <td>{{purchase.prm_inward_no}}</td>
+      <td>{{purchase.prm_total_amount | number : 3}}</td>
+    </tr>
+  </tbody>
+</table>
