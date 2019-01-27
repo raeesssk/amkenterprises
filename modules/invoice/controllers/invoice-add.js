@@ -127,9 +127,9 @@ angular.module('invoice').controller('invoiceAddCtrl', function ($rootScope, $ht
 
       $scope.limit = {};
       $scope.limit.fDate = new Date($('#im_from_date').val());
-      $scope.limit.fDate.setHours(0,0,0,0);
+      // $scope.limit.fDate.setHours(0,0,0,0);
       $scope.limit.tDate = new Date($('#im_to_date').val());
-      $scope.limit.tDate.setHours(0,0,0,0);
+      // $scope.limit.tDate.setHours(0,0,0,0);
 
       if($('#im_from_date').val() == undefined || $('#im_from_date').val() == ""){
         var dialog = bootbox.dialog({
