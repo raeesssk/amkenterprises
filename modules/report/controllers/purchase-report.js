@@ -680,13 +680,13 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
                                 "From Date: "+
                               "</td>"+
                               "<td width='35%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$('#user-datepicker-from').val()+"</strong>"+
+                                "<strong>"+$filter('date')($('#user-datepicker-from').val(),'dd-MM-yyyy')+"</strong>"+
                               "</td>"+
                               "<td width='15%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
                                 "To Date: "+
                               "</td>"+
                               "<td width='35%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$('#user-datepicker-to').val()+"</strong>"+
+                                "<strong>"+$filter('date')($('#user-datepicker-to').val(),'dd-MM-yyyy')+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             // "<tr>"+

@@ -340,7 +340,7 @@ $scope.filterList = function()
                                 "From Date: "+
                               "</td>"+
                               "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$('#user-datepicker-from-list').val()+"</strong>"+
+                                "<strong>"+$filter('date')($('#user-datepicker-from-list').val(),'dd-MM-yyyy')+"</strong>"+
                               "</td>"+
                             "</tr>"+
                             "<tr>"+
@@ -348,7 +348,7 @@ $scope.filterList = function()
                                 "To Date: "+
                               "</td>"+
                               "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$('#user-datepicker-to-list').val()+"</strong>"+
+                                "<strong>"+$filter('date')($('#user-datepicker-to-list').val(),'dd-MM-yyyy')+"</strong>"+
                               "</td>"+
                             "</tr>"+
                           "</table>"+
