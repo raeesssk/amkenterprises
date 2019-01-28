@@ -178,7 +178,7 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($scope.expense.em_payment_mode === "Cheque" && ($('#em_cheque_no').val() == undefined || $('#em_cheque_no').val() == "" || $('#em_cheque_no').val().length < 6 )){
+        else if($scope.expense.em_payment_mode === "Cheque" && ($('#em_cheque_no').val() == undefined || $('#em_cheque_no').val() == "" || $('#em_cheque_no').val().length < 6  || !nameRegex.test($('#em_cheque_no').val()))){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">please enter a valid cheque no.</p>',
                 closeButton: false
