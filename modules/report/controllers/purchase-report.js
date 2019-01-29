@@ -175,8 +175,6 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
                 closeButton: false
             });
             setTimeout(function(){
-            $('#btnsave').text("SAVE");
-            $('#btnsave').removeAttr('disabled');
                 dialog.modal('hide'); 
             }, 1500);            
         }); 
@@ -715,7 +713,7 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/purchasereport/total';
                         "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Vendor Name</th>"+
                         "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Cash / Credit</th>" +
                         "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Inward no</th>" +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Amount</th>" +
+                        "<th style='padding:10px; border-style: none none solid none; border-width:1px;'>Amount</th>" +
                       "</tr>"+
                     "</thead>"+
                     " "+$('#contentall').html()+" " +

@@ -44,6 +44,7 @@
                     <div class="form-group pull-left">
                       <button  class="btn btn-info" type="button" id="filter-user-btn" ng-click="filterList()"><i class="fa fa-filter"></i> Filter</button>
                       <!-- <button  class="btn btn-primary" type="button" id="reset-user-btn" ng-click="reset()"><i class="fa fa-times"></i> Reset</button> -->
+                      <button  class="btn btn-primary" type="button" ng-click="printAllDetails()"><i class="fa fa-print"></i> Print</button>
                     </div>
                   </div>
                   <div class="col-lg-3">
@@ -190,3 +191,23 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<table class="table table-hover" id="alldata">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Employee Name</th>
+      <th>Mobile Number</th>
+      <th>Address</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody id="contentall">
+    <tr ng-repeat="employee in allList | filter : employee">
+      <td>{{employee.emp_id}}</td>
+      <td>{{employee.emp_name}}</td>
+      <td>{{employee.emp_mobile}}</td>
+      <td>{{employee.emp_address}}</td>
+      <td>{{employee.totalamount | number : 3}}</td>
+    </tr>
+  </tbody>
+</table>

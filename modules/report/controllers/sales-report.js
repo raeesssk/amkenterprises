@@ -6,6 +6,8 @@ angular.module('report').controller('salesReportCtrl', function ($rootScope, $ht
   $('#reportindex').addClass("active");
   $('#reportsalesindex').addClass("active");
 
+  $('#alldata').hide();
+
   $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -180,6 +182,33 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/salesreport/total';
 
     };
 
+
+    $scope.getAllDetails = function(){
+        $scope.allList = [];
+          $http({
+          method: 'POST',
+          url: $rootScope.baseURL+'/dashboard/salesreport',
+          data: $scope.limit,
+          headers: {'Content-Type':'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+        })
+        .success(function(login)
+        {   
+          $scope.allList = angular.copy(login);
+
+        })
+        .error(function(data) 
+        {   
+          var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);            
+        }); 
+    };
+
 $scope.filter = function()
   {
     $scope.toDate = document.getElementById("user-datepicker-to").value;
@@ -290,6 +319,8 @@ $scope.filterList = function()
       $('#filter-user-btn-list').text("please wait...");
       $scope.getAll();
       // $scope.getUser();
+
+      $scope.getAllDetails();
 
       // $scope.draw();
 
@@ -566,6 +597,129 @@ $scope.filterList = function()
         "</html>";
         popupWin.document.write(printchar);
         popupWin.document.close();
-    }
+    };
+        
+
+    $scope.printAllDetails = function(){
+      var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no');
+          
+          var printchar = "<html>" +
+         " <head>" +
+            "<link rel='stylesheet' href='./././resources/customer/bootstrap/css/bootstrap.min.css' />" +
+            "<style>.action{display:none;} .print-hide{display:none;}</style>"+
+            "   <style type='text/css' media='print'>" +
+            "  @page " +
+             " {" +
+              "    size:  A4 portrait;" +  /* auto is the initial value */
+               "   margin: 0; " + /* this affects the margin in the printer settings */
+              "}" +
+
+              "html" +
+              "{" +
+               "   background-color: #FFFFFF;" + 
+                "  margin: 0px; " + /* this affects the margin on the html before sending to printer */
+              "}" +
+
+              "body" +
+              "{" +
+                "font-size:11pt;"+
+                "font-family:'Open Sans', sans-serif;"+
+               // "   border: solid 1px black ;" +
+                "  margin: 5mm 5mm 5mm 5mm;" + /* margin you want for the content */
+              "}" +
+              "</style>" +
+          "</head>" +
+          "<body onload='window.print()'>" +
+           "<table width='100%' height='98%'>" +
+            "<thead>"+
+              "<tr>"+
+                "<td colspan='3' style=' border-style: solid; border-width:0px;'>"+
+                  "<table width='100%'>"+
+                    "<tr>" +
+                      "<td colspan='2' style='text-align:center; padding-bottom: 10px; border-style: solid solid none solid; border-width:1px; font-size:12pt;' valign='center' width='100%'>" +
+                          "<table width='100%'><tr>"+
+                          "<td width='23%'><img src='./././resources/indianoil.jpg' class='user-image' alt='User Image' style='margin-left:10px'></td>"+
+                          "<td width='54%' style='text-align:center;'><h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
+                          "Dealer : "+localStorage.getItem("com_dealer")+"<br>" +
+                          "Address : "+localStorage.getItem("com_address")+"<br>" +
+                          "E-Mail : "+localStorage.getItem("com_email")+"<br>"+
+                          "Cont. No. : "+localStorage.getItem("com_contact")+"<br>"+
+                          "GST No. : "+localStorage.getItem("com_gst")+"</td>"+
+                          "<td width='23%'></td>"+
+                          "</tr></table>"+
+                      "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                      "<td width='100%' colspan='2' style='text-align:left; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:10pt;' valign='top'>" +
+                          "<table width='100%'>"+
+                            "<tr>" +
+                              "<td colspan='4' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:13pt;' valign='top'>" +
+                                  "<strong>Sales Summary</strong>"+
+                              "</td>" +
+                            "</tr>" +
+                            "<tr>"+
+                              "<td width='15%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "From Date: "+
+                              "</td>"+
+                              "<td width='35%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "<strong>"+$filter('date')($('#user-datepicker-from').val(),'dd-MM-yyyy')+"</strong>"+
+                              "</td>"+
+                              "<td width='15%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "To Date: "+
+                              "</td>"+
+                              "<td width='35%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "<strong>"+$filter('date')($('#user-datepicker-to').val(),'dd-MM-yyyy')+"</strong>"+
+                              "</td>"+
+                            "</tr>"+
+                            // "<tr>"+
+                            //   "<td width='30%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                            //     "Amount: "+
+                            //   "</td>"+
+                            //   "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                            //     "<strong>"+$filter('number')($scope.totalvalue,'3')+"</strong>"+
+                            //   "</td>"+
+                            // "</tr>"+
+                          "</table>"+
+                      "</td>" +
+                    "</tr>" +
+                  "</table>"+
+                "</td>"+
+              "</tr>"+
+            "</thead>"+
+            "<tbody>"+
+              "<tr>"+
+                "<td valign='top' style=' border-style: solid; border-width:1px;'>"+
+                  "<table width='100%'>" +
+                    "<thead>"+
+                      "<tr>"+      
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Code</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Employee Name</th> " +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Mobile Number</th>"+
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Address</th>" +
+                        "<th style='padding:10px; border-style: none none solid none; border-width:1px;'>Amount</th>" +
+                      "</tr>"+
+                    "</thead>"+
+                    " "+$('#contentall').html()+" " +
+                  "</table>"+
+                "</td>"+
+              "</tr>"+
+            "</tbody>"+
+            "<tfoot>"+
+              "<tr>"+
+                "<td style=' border-style: none solid solid solid; border-width:1px;'>"+
+                  "<table width='100%'>"+
+                    "<tr>" +
+                        "<td valign='bottom' style='text-align:center; padding:6px; font-size:12pt;'>THANK YOU</td>" +
+                    "</tr>" +
+                  "</table>"+
+                "</td>"+
+              "</tr>"+
+            "</tfoot>"+
+          "</table>"+
+          "</body>" +
+        "</html>";
+        popupWin.document.write(printchar);
+        popupWin.document.close();
+    };
 
 });
