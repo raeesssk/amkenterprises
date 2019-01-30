@@ -5,7 +5,7 @@ angular.module('dsr').controller('dsrCtrl', function ($rootScope, $http, $scope,
   $('.index').removeClass("active");
   $('#nozzleindex').addClass("active");
   $('#dsrlistindex').addClass("active");
-  $('#content').hide();
+  
   $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -88,28 +88,8 @@ $scope.apiURL = $rootScope.baseURL+'/dsr/dsr/total';
                  
                   dipchart.forEach(function (value, key) {
 
-                        $http({
-                          method: 'GET',
-                          url: $rootScope.baseURL+'/dsr/nozzle/details/'+value.dsr_id,
-                          headers: {'Content-Type': 'application/json',
-                                    'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-                        })
-                        .success(function(customerObj)
-                        {
-                            value.nozzleList = angular.copy(customerObj);
                             $scope.filteredTodos.push(value);
-                              
-                        })
-                        .error(function(data) 
-                        {   
-                          var dialog = bootbox.dialog({
-                              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                  closeButton: false
-                              });
-                              setTimeout(function(){
-                                  dialog.modal('hide'); 
-                              }, 1500);            
-                        });
+                        
 
                   });
                 }
@@ -175,5 +155,34 @@ $scope.apiURL = $rootScope.baseURL+'/dsr/dsr/total';
     //         }, 1500);            
 	   //  });
 	// };
+
+  $scope.viewQuatationDetails = function (index) {
+   
+      $scope.nozzleList = [];
+      $scope.purchases = $scope.filteredTodos[index];
+      
+      $http({
+        method: 'GET',
+        url: $rootScope.baseURL+'/dsr/details/'+$scope.filteredTodos[index].dsr_id,
+        headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+      })
+      .success(function(customerObj)
+      {
+          $scope.nozzleList = angular.copy(customerObj);
+            
+      })
+      .error(function(data) 
+      {   
+        var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);            
+      });
+
+    };
 
 });

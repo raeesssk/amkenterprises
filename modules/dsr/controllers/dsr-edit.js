@@ -6,20 +6,48 @@ angular.module('dsr').controller('dsrEditCtrl', function ($rootScope, $http, $sc
   $('#nozzleindex').addClass("active");
   $('#dsrlistindex').addClass("active");
 	$scope.empId = $routeParams.empId;
-  $scope.apiURL = $rootScope.baseURL+'/dipchart/edit/'+$scope.empId;
+  $scope.apiURL = $rootScope.baseURL+'/dsr/edit/'+$scope.empId;
 
   $scope.getPaymentmode = function () {
+    $scope.nozzleList = [];
 	     $http({
 	      method: 'GET',
-	      url: $rootScope.baseURL+'/dipchart/'+$scope.empId,
+	      url: $rootScope.baseURL+'/dsr/'+$scope.empId,
 	      headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
 	    })
 	    .success(function(customerObj)
 	    {
 	    	customerObj.forEach(function (value, key) {
+            value.dsr_date = $filter('date')(value.dsr_date, 'yyyy-MM-dd')
 
-	      		$scope.dipchart = value;
+            $http({
+              method: 'GET',
+              url: $rootScope.baseURL+'/dsr/details/'+value.dsr_id,
+              headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+            })
+            .success(function(Obj)
+            {
+                Obj.forEach(function (value, key) {
+                  value.opening_meter = value.dsrnm_opening_meter;
+                  value.diif_meter = parseFloat(value.dsrnm_opening_meter - value.dsrnm_diff).toFixed(3);
+                    $scope.nozzleList.push(value);
+                });
+
+                $scope.dsr = value;
+                  
+            })
+            .error(function(data) 
+            {   
+              var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                      dialog.modal('hide'); 
+                  }, 1500);            
+            });
 
 
               });
@@ -37,16 +65,52 @@ angular.module('dsr').controller('dsrEditCtrl', function ($rootScope, $http, $sc
 	    });
 	};
 
+    $scope.getDipChart = function(){
+      $scope.dsr.dsr_dip_floor = Math.floor($scope.dsr.dsr_dip);
+      var num = $scope.dsr.dsr_dip.toString();
+      var dec = num.split('.');
+      $http({
+        method: 'POST',
+        url: $rootScope.baseURL+'/dsr/product/dip',
+        data: $scope.dsr,
+        headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+      })
+      .success(function(login)
+      {
+        login.forEach(function (value, key) {
+          if(dec[1] != undefined)
+          {
+            $scope.dsr.dsr_opening_stock = Math.round(((dec[1] * 2)* value.dpm_diff)+value.dpm_volume);
+          }
+          else
+          {
+            $scope.dsr.dsr_opening_stock = Math.round(value.dpm_volume);
+          }
+        });
+      })
+      .error(function(data) 
+      {   
+        var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);            
+      });
+    }
 
-  $scope.editDipchart = function () {
+
+  $scope.editDsr = function () {
 
   	var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	    
 	 
-	    if($('#dpm_volume').val() === undefined || $('#dpm_volume').val() === ""){
+	    if($('#dsr_dip').val() === undefined || $('#dsr_dip').val() === ""){
         var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter volume.</p>',
+            message: '<p class="text-center">please enter dip.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -55,32 +119,36 @@ angular.module('dsr').controller('dsrEditCtrl', function ($rootScope, $http, $sc
                 $('#dpm_volume').focus();
             }, 1500);
       }
-      else if($('#dpm_diff').val() === undefined || $('#dpm_diff').val() === ""){
+      else if($('#dsr_water_dip').val() === undefined || $('#dsr_water_dip').val() === ""){
         var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter diff.</p>',
+            message: '<p class="text-center">please enter water dip.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
-                $('#dpm_diff').focus();
+                $('#dsr_water_dip').focus();
             }, 1500);
       }
 	    else{
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
-	    	
+
+	    	        $scope.obj = {
+                    purchaseSingleData : $scope.dsr,
+                    purchaseMultipleData : $scope.nozzleList
+                };
 					    $http({
 					      method: 'POST',
 					      url: $scope.apiURL,
-					      data: $scope.dipchart,
+					      data: $scope.obj,
 					      headers: {'Content-Type': 'application/json',
 				                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
 					    })
 					    .success(function(login)
 					    {
                   var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Dipchart Entry Updated Successfully.</p>',
+                    message: '<p class="text-center">DSR Entry Updated Successfully.</p>',
                         closeButton: false
                     });
                     dialog.find('.modal-body').addClass("btn-success");
@@ -88,7 +156,7 @@ angular.module('dsr').controller('dsrEditCtrl', function ($rootScope, $http, $sc
                         dialog.modal('hide');
                       $('#btnsave').text("Update");
                       $('#btnsave').removeAttr('disabled');
-                      window.location.href = '#/dipchart'; 
+                      window.location.href = '#/dsr'; 
                     }, 1500); 
 					    })
 					    .error(function(data) 

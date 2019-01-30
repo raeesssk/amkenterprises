@@ -1,3 +1,6 @@
+<style>
+ .printshow{display:none;}
+</style>
 <section class="content-header" ng-init="getPaymentmode();">
   <h1>
     DSR Entry
@@ -27,18 +30,7 @@
               <div class="col-lg-3">
                   <div class="form-group">
                       <label>Product</label>
-                      <input type="text"
-                          id="pm_id"
-                          ng-model="dsr.dsr_pm_id"
-                          typeahead="obj as obj.pm_name for obj in getSearchProd($viewValue)"
-                          typeahead-loading="loadingProdList"
-                          typeahead-no-results="noProdListResults"
-                          typeahead-on-select="setProductData()"
-                          class="form-control">
-                      <i ng-show="loadingProdList" class="glyphicon glyphicon-refresh"></i>
-                      <div ng-show="noProdListResults">
-                          <i class="glyphicon glyphicon-remove"></i> No Results Found
-                      </div>
+                      <input type="text" class="form-control" id="dsr_date" ng-model="dsr.pm_name" readonly="readonly"/>
                   </div>
               </div>
               <div class="col-lg-2">
@@ -71,13 +63,13 @@
                     <td>{{nozzle.nm_name}}</td>
                     <td>
                         <span class="printshow">
-                          {{nozzle.closing_meter}}
+                          {{nozzle.opening_meter}}
                         </span>
                         <span class="print-hide">
-                          <input type="number" class="form-control" ng-model="nozzle.closing_meter"/>
+                          <input type="number" class="form-control" ng-model="nozzle.opening_meter"/>
                         </span>
                     </td>
-                    <td>{{nozzle.closing_meter - nozzle.nm_closing_meter}}</td>
+                    <td>{{nozzle.opening_meter - nozzle.diif_meter}}</td>
                   </tr>
                 </table>
               <!-- </div> -->
@@ -85,7 +77,7 @@
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/dipchart'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="editDipchart()">Update</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="editDsr()">Update</button>
           </div>
       </div>
       <!-- /.box -->
