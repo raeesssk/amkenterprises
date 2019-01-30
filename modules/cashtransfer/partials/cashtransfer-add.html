@@ -1,0 +1,60 @@
+<section class="content-header">
+  <h1>
+    Deposit Entry
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Deposit Entry</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">New Deposit Entry</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Date & Time</label>
+                    <input type="text" id="ctm_date" class="form-control" ng-model="cashtransfer.ctm_date" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                  <label>Bank Name</label>
+                      <input type="text"
+                      id="ctm_bkm_id"
+                      ng-model="cashtransfer.ctm_bkm_id"
+                      typeahead="obj as obj.bkm_search for obj in getSearch($viewValue)"
+                      typeahead-loading="loadingList"
+                      typeahead-no-results="noListResults"
+                      class="form-control">
+                  <i ng-show="loadingList" class="glyphicon glyphicon-refresh"></i>
+                  <div ng-show="noListResults">
+                      <i class="glyphicon glyphicon-remove"></i> No Results Found
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Cash Amount</label>
+                    <input type="number" id="ctm_amount" class="form-control" ng-model="cashtransfer.ctm_amount" />
+                </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/cashtransfer'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCashtransfer()">Save</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

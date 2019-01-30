@@ -1,0 +1,92 @@
+<section class="content-header" ng-init="getAll();">
+  <h1>
+    Withdraw Entry
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Withdraw Entry</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <div class="box-title">
+                <div class="input-group input-group-sm" style="width: 100%">
+                  <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Bank. . . "/>
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-info" onclick="window.location = '#/bankwithdraw/add'"><i class="fa fa-plus"></i> Add new record</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Bank</th>
+                            <th>Account No.</th>
+                            <th>Date & Time</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="bankwithdraw in filteredTodos | filter : bankwithdraw">
+                            <td>{{bankwithdraw.bkm_name}}</td>
+                            <td>{{bankwithdraw.bkm_account_no}}</td>
+                            <td>{{bankwithdraw.bwm_date | date : 'dd-MM-yyyy hh:mm a': '+0000'}}</td>
+                            <td>{{bankwithdraw.bwm_amount | number : '2'}}</td>
+                            <td>
+                                <a href="#/bankwithdraw/edit/{{bankwithdraw.bwm_id}}"><i class="fa fa-pencil"></i></a>
+                                <i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteBankwithdraw(bankwithdraw)"></i>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{bankwithdrawListcount}} Withdraw Entry's</span>
+                <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+                      style="float: right;margin-top: -27px;">
+                  <pagination
+                          ng-model="currentPage"
+                          total-items="bankwithdrawListcount"
+                          max-size="maxSize"
+                          boundary-links="true" data-num-pages="noOfPages"
+                          items-per-page="numPerPage">
+                  </pagination>
+                </span>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="confirm-delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

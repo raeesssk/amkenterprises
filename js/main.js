@@ -34,6 +34,9 @@ angular.module('amkenterprises',
         'purexpense',
         'invoice',
         'expense',
+        'cash',
+        'bankwithdraw',
+        'cashtransfer',
         'report',
     // ]).config(cityMotorRouter);
 

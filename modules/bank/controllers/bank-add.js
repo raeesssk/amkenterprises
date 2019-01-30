@@ -164,6 +164,7 @@ angular.module('bank').controller('bankAddCtrl', function ($rootScope, $http, $s
                   message: '<p class="text-center">Bank Already exists.</p>',
                       closeButton: false
                   });
+                  dialog.find('.modal-body').addClass("btn-warning");
                   setTimeout(function(){
                   $('#btnsave').text("SAVE");
                   $('#btnsave').removeAttr('disabled');
@@ -194,6 +195,7 @@ angular.module('bank').controller('bankAddCtrl', function ($rootScope, $http, $s
                           message: '<p class="text-center">Bank Add Successfully!</p>',
                               closeButton: false
                           });
+                          dialog.find('.modal-body').addClass("btn-success");
                           setTimeout(function(){
                             dialog.modal('hide');
                             $('#btnsave').text("Save");
@@ -207,6 +209,7 @@ angular.module('bank').controller('bankAddCtrl', function ($rootScope, $http, $s
                         message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                             closeButton: false
                         });
+                          dialog.find('.modal-body').addClass("btn-danger");
                         setTimeout(function(){
                             dialog.modal('hide'); 
                         $('#btnsave').text("Save");
@@ -221,6 +224,7 @@ angular.module('bank').controller('bankAddCtrl', function ($rootScope, $http, $s
                   message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                       closeButton: false
                   });
+                          dialog.find('.modal-body').addClass("btn-danger");
                   setTimeout(function(){
                       dialog.modal('hide'); 
                   $('#btnsave').text("Save");

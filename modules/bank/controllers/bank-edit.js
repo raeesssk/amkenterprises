@@ -177,12 +177,13 @@ angular.module('bank').controller('bankEditCtrl', function ($rootScope, $http, $
               })
               .success(function(login)
               {
-                if(login.length > 1)
+                if(login.length == 1 && $scope.bankId != login[0].bkm_id)
                 {
                   var dialog = bootbox.dialog({
                   message: '<p class="text-center">Bank Already exists.</p>',
                       closeButton: false
                   });
+                  dialog.find('.modal-body').addClass("btn-warning");
                   setTimeout(function(){
                       dialog.modal('hide');
                   $('#btnsave').text("Update");
@@ -212,6 +213,7 @@ angular.module('bank').controller('bankEditCtrl', function ($rootScope, $http, $
                           message: '<p class="text-center">Bank Updated Successfully!</p>',
                               closeButton: false
                           });
+                  dialog.find('.modal-body').addClass("btn-success");
                           setTimeout(function(){
                             dialog.modal('hide');
                             $('#btnsave').text("Update");
@@ -225,6 +227,7 @@ angular.module('bank').controller('bankEditCtrl', function ($rootScope, $http, $
         	            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
         	                closeButton: false
         	            });
+                  dialog.find('.modal-body').addClass("btn-danger");
         	            setTimeout(function(){
                           dialog.modal('hide'); 
                         $('#btnsave').text("Update");
@@ -239,6 +242,7 @@ angular.module('bank').controller('bankEditCtrl', function ($rootScope, $http, $
                   message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                       closeButton: false
                   });
+                  dialog.find('.modal-body').addClass("btn-danger");
                   setTimeout(function(){
                       dialog.modal('hide'); 
                   $('#btnsave').text("Update");

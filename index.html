@@ -205,7 +205,7 @@
             <li id="employeelistindex" class="index"><a href="#/employee"><i class="fa fa-circle-o"></i> List employee</a></li>
           </ul>
         </li>
-        <!-- <li id="bankindex" class="treeview index">
+        <li id="bankindex" class="treeview index">
           <a href="">
             <i class="fa fa-university"></i>
              <span> Bank</span>
@@ -214,12 +214,17 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <li id="cashlistindex" class="index"><a href="#/cash"><i class="fa fa-circle-o"></i> Cash In Hand</a></li>
             <li id="bankaddindex" class="index"><a href="#/bank/add"><i class="fa fa-circle-o"></i> Add Bank</a></li>
             <li id="banklistindex" class="index"><a href="#/bank"><i class="fa fa-circle-o"></i> List Bank</a></li>
-            <li id="ledgeraddindex" class="index"><a href="#/ledger/add"><i class="fa fa-circle-o"></i> Add Ledger</a></li>
-            <li id="ledgerlistindex" class="index"><a href="#/ledger"><i class="fa fa-circle-o"></i> List Ledger</a></li>
+            <li id="bankwithdrawaddindex" class="index"><a href="#/bankwithdraw/add"><i class="fa fa-circle-o"></i> Add Withdraw Entry</a></li>
+            <li id="bankwithdrawlistindex" class="index"><a href="#/bankwithdraw"><i class="fa fa-circle-o"></i> List Withdraw Entry</a></li>
+            <li id="cashtransferaddindex" class="index"><a href="#/cashtransfer/add"><i class="fa fa-circle-o"></i> Add Deposit Entry</a></li>
+            <li id="cashtransferlistindex" class="index"><a href="#/cashtransfer"><i class="fa fa-circle-o"></i> List Deposit Entry</a></li>
+            <!-- <li id="ledgeraddindex" class="index"><a href="#/ledger/add"><i class="fa fa-circle-o"></i> Add Ledger</a></li>
+            <li id="ledgerlistindex" class="index"><a href="#/ledger"><i class="fa fa-circle-o"></i> List Ledger</a></li> -->
           </ul>
-        </li> -->
+        </li>
         <li id="assignindex" class="treeview index">
           <a href="">
             <i class="fa fa-exchange"></i>
@@ -427,6 +432,15 @@
 
     <!-- Expense-->
     <script src="modules/expense/config.js"></script>
+
+    <!-- Cash-->
+    <script src="modules/cash/config.js"></script>
+
+    <!-- Bank Withdraw-->
+    <script src="modules/bankwithdraw/config.js"></script>
+
+    <!-- Cash Transfer-->
+    <script src="modules/cashtransfer/config.js"></script>
 
     <!-- Report-->
     <script src="modules/report/config.js"></script>
