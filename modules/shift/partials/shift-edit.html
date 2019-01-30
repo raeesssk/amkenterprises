@@ -1,0 +1,37 @@
+<section class="content-header" ng-init="getPaymentmode();">
+  <h1>
+    Shift
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Shift</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Edit Shift</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="sm_name" class="form-control" ng-model="shift.sm_name"/>
+                    </div>
+                </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/shift'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="editShift()">Update</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>
