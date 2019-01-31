@@ -10,6 +10,7 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
 
     $("#cm_id").focus();
     $("#vehicle").hide();
+    $("#p_id").hide();
 
     var d = new Date();
     var yyyy = d.getFullYear().toString();
@@ -51,6 +52,21 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
       }
       
     }
+
+    $scope.checkBox = function(index){ 
+
+        if($scope.requisition.rcm_check){
+            $scope.requisition.rcm_pm_id = undefined;
+           $("#pm_id").hide();
+            $("#p_id").show();
+        }
+        else{
+            $scope.requisition.rcm_p_id = undefined;
+            $("#p_id").hide();
+           $("#pm_id").show();
+        } 
+
+    };
 
     $scope.getSerialNo = function() {
         
@@ -146,6 +162,21 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
       });
     };
 
+    $scope.getSearch = function(vals) {
+
+      var searchTerms = {search: vals};
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/product/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
   $scope.addRequisition = function () {
 
         var nameRegex = /^\d+$/;
@@ -192,9 +223,9 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
                 dialog.modal('hide'); 
             }, 1500);
         } 
-        else if($('#pm_id').val() == undefined || $('#pm_id').val() == "" || $scope.requisition.rcm_pm_id.pm_id == undefined){
+        else if(($('#pm_id').val() == undefined || $('#pm_id').val() == "" || $scope.requisition.rcm_pm_id.pm_id == undefined) && ($('#p_id').val() == undefined || $('#p_id').val() == "" || $scope.requisition.rcm_p_id.pm_id == undefined)){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select product.</p>',
+            message: '<p class="text-center">please select product or other product.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -217,6 +248,17 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
             $scope.requisition.rcm_date = $('#rcm_date').val();
+
+            if($scope.requisition.rcm_pm_id != undefined)
+            {
+                $scope.requisition.rcm_pm_id.price = $scope.requisition.rcm_pm_id.prprm_price;
+                $scope.requisition.rcm_p = $scope.requisition.rcm_pm_id;
+            }
+            else
+            {
+                $scope.requisition.rcm_p_id.price = $scope.requisition.rcm_p_id.pm_sell_price;
+                $scope.requisition.rcm_p = $scope.requisition.rcm_p_id;
+            }
 
     	    $http({
     	      method: 'POST',
@@ -301,7 +343,7 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
                     "<td style='font-size:36pt; border-style: solid solid solid none; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Req. no.</div><div>"+$scope.requisition.rcm_bill_no+"</div></td>"+
                     "</tr>"+
                     "<tr>"+
-                    "<td style='font-size:8pt; border-style: none solid solid solid; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Product</div><div>"+$scope.requisition.rcm_pm_id.pm_name+"</div></td>"+
+                    "<td style='font-size:8pt; border-style: none solid solid solid; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Product</div><div>"+$scope.requisition.rcm_p.pm_name+"</div></td>"+
                     "<td style='font-size:8pt; border-style: none solid solid none; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Quantity</div><div>"+$filter('number')($scope.requisition.rcm_qty,'3')+"</div></td>"+
                     "</tr>"+
           "</table>"+

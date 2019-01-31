@@ -27,6 +27,21 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
         }
     });
 
+    $scope.checkBox = function(index){ 
+
+        if($scope.requisition.rcm_check){
+            $scope.requisition.rcm_pm = undefined;
+           $("#pm_id").hide();
+            $("#p_id").show();
+        }
+        else{
+            $scope.requisition.rcm_p_id = undefined;
+            $("#p_id").hide();
+           $("#pm_id").show();
+        } 
+
+    };
+
     $scope.getSerialNo = function() {
         
 
@@ -120,6 +135,21 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
       });
     };
 
+    $scope.getSearch = function(vals) {
+
+      var searchTerms = {search: vals};
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/product/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
     $scope.changeDate = function(){
       if($scope.requisition.old_rcm_date != $('#rcm_date').val()){
         $('#pm_id').val("");
@@ -195,30 +225,67 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
                     }, 1500);
                 });
 
-                $http({
-                  method: 'GET',
-                  url: $rootScope.baseURL+'/productprice/'+value.prprm_id,
-                  //data: $scope.data,
-                  headers: {'Content-Type': 'application/json',
-                          'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-                })
-                .success(function(selectedProductList)
+                if(value.prprm_id != null)
                 {
-                    selectedProductList.forEach(function(value1, key1) {
-                        value.rcm_pm = value1;
-                    });
-                })
-                .error(function(data) 
-                {   
-                    var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
-                        closeButton: false
-                    });
-                    setTimeout(function(){
-                        dialog.modal('hide');  
-                        //$scope.vendor = null;
-                    }, 1500);
-                });
+
+                  value.rcm_check = false;
+                  $('#p_id').hide();
+                  $('#pm_id').show();
+                  $http({
+                    method: 'GET',
+                    url: $rootScope.baseURL+'/productprice/'+value.prprm_id,
+                    //data: $scope.data,
+                    headers: {'Content-Type': 'application/json',
+                            'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                  })
+                  .success(function(selectedProductList)
+                  {
+                      selectedProductList.forEach(function(value1, key1) {
+                          value.rcm_pm = value1;
+                      });
+                  })
+                  .error(function(data) 
+                  {   
+                      var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                          closeButton: false
+                      });
+                      setTimeout(function(){
+                          dialog.modal('hide');  
+                          //$scope.vendor = null;
+                      }, 1500);
+                  });
+                }
+                else
+                {
+                  value.rcm_check = true;
+                  $('#pm_id').hide();
+                  $('#p_id').show();
+                  $http({
+                    method: 'GET',
+                    url: $rootScope.baseURL+'/product/'+value.rcm_pm_id,
+                    //data: $scope.data,
+                    headers: {'Content-Type': 'application/json',
+                            'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                  })
+                  .success(function(selectedProductList)
+                  {
+                      selectedProductList.forEach(function(value1, key1) {
+                          value.rcm_p_id = value1;
+                      });
+                  })
+                  .error(function(data) 
+                  {   
+                      var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                          closeButton: false
+                      });
+                      setTimeout(function(){
+                          dialog.modal('hide');  
+                          //$scope.vendor = null;
+                      }, 1500);
+                  });
+                }
 
                 $scope.requisition = value;
               });
@@ -282,9 +349,9 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
                 dialog.modal('hide'); 
             }, 1500);
         } 
-        else if($('#pm_id').val() == undefined || $('#pm_id').val() == "" || $scope.requisition.rcm_pm.pm_id == undefined){
+        else if(($('#pm_id').val() == undefined || $('#pm_id').val() == "" || $scope.requisition.rcm_pm.pm_id == undefined) && ($('#p_id').val() == undefined || $('#p_id').val() == "" || $scope.requisition.rcm_p_id.pm_id == undefined)){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select product.</p>',
+            message: '<p class="text-center">please select product or other product.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -311,6 +378,17 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
             
             $('#btnsave').attr('disabled','true');
             $('#btnsave').text("please wait...");
+
+            if($scope.requisition.rcm_pm != undefined)
+            {
+                $scope.requisition.rcm_pm.price = $scope.requisition.rcm_pm.prprm_price;
+                $scope.requisition.rcm_p = $scope.requisition.rcm_pm;
+            }
+            else
+            {
+                $scope.requisition.rcm_p_id.price = $scope.requisition.rcm_p_id.pm_sell_price;
+                $scope.requisition.rcm_p = $scope.requisition.rcm_p_id;
+            }
     	    
             $scope.apiURL = $rootScope.baseURL+'/requisition/edit/'+$scope.emId;
     	    $http({
@@ -396,7 +474,7 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
                     "<td style='font-size:36pt; border-style: solid solid solid none; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Req. no.</div><div>"+$scope.requisition.rcm_bill_no+"</div></td>"+
                     "</tr>"+
                     "<tr>"+
-                    "<td style='font-size:8pt; border-style: none solid solid solid; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Product</div><div>"+$scope.requisition.rcm_pm.pm_name+"</div></td>"+
+                    "<td style='font-size:8pt; border-style: none solid solid solid; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Product</div><div>"+$scope.requisition.rcm_p.pm_name+"</div></td>"+
                     "<td style='font-size:8pt; border-style: none solid solid none; border-width:1px; text-align:center;'><div style='font-size:10pt;'>Quantity</div><div>"+$filter('number')($scope.requisition.rcm_qty,'3')+"</div></td>"+
                     "</tr>"+
           "</table>"+
