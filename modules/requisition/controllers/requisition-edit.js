@@ -107,7 +107,7 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
 
     $scope.getCustVehicle = function(vals) {
 
-      var searchTerms = {search: vals, cm_id:$scope.requisition.rcm_cm_id.cm_id};
+      var searchTerms = {search: vals, cm_id:$scope.requisition.rcm_cm.cm_id};
         const httpOptions = {
           headers: {
             'Content-Type':  'application/json',
