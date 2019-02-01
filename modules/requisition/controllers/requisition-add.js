@@ -260,40 +260,81 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
                 $scope.requisition.rcm_p = $scope.requisition.rcm_p_id;
             }
 
-    	    $http({
-    	      method: 'POST',
-    	      url: $rootScope.baseURL+'/requisition/add',
-    	      data: $scope.requisition,
-    	      headers: {'Content-Type': 'application/json',
-                      'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-    	    })
-    	    .success(function(login)
-    	    {
-                var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Entry Added Successfully.</p>',
-                      closeButton: false
-                  });
-                  dialog.find('.modal-body').addClass("btn-success");
-                  setTimeout(function(){
-                      dialog.modal('hide'); 
-                    $('#btnsave').text("Save");
-                    $('#btnsave').removeAttr('disabled');
-                    $scope.printDetails();
-                    window.location.href = '#/requisition';
-                  }, 1500);    
-    	    })
-    	    .error(function(data) 
-    	    {   
-    	      var dialog = bootbox.dialog({
-                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                    closeButton: false
+
+            $http({
+                  method: 'POST',
+                  url: $rootScope.baseURL+'/requisition/checkname',
+                  data: $scope.requisition,
+                  headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                })
+                .success(function(orderno)
+                {
+                    if(orderno.length == 0){
+                      $http({
+                        method: 'POST',
+                        url: $rootScope.baseURL+'/requisition/add',
+                        data: $scope.requisition,
+                        headers: {'Content-Type': 'application/json',
+                                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                      })
+                      .success(function(login)
+                      {
+                            var dialog = bootbox.dialog({
+                              message: '<p class="text-center">Entry Added Successfully.</p>',
+                                  closeButton: false
+                              });
+                              dialog.find('.modal-body').addClass("btn-success");
+                              setTimeout(function(){
+                                  dialog.modal('hide'); 
+                                $('#btnsave').text("Save");
+                                $('#btnsave').removeAttr('disabled');
+                                $scope.printDetails();
+                                window.location.href = '#/requisition';
+                              }, 1500);    
+                      })
+                      .error(function(data) 
+                      {   
+                        var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            $('#btnsave').text("Save");
+                            $('#btnsave').removeAttr('disabled');
+                            }, 1500);            
+                      });
+                    }
+                    else{
+                        var dialog = bootbox.dialog({
+                              message: '<p class="text-center">Entry Already Exist!</p>',
+                                  closeButton: false
+                              });
+                              dialog.find('.modal-body').addClass("btn-warning");
+                              setTimeout(function(){
+                                  dialog.modal('hide');  
+                                  $('#btnsave').text("Save");
+                                  $('#btnsave').removeAttr('disabled');
+                              }, 1500);
+                    }
+                })
+                .error(function(data) 
+                {   
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                        closeButton: false
+                    });
+                    dialog.find('.modal-body').addClass("btn-danger");
+                    setTimeout(function(){
+                        dialog.modal('hide');  
+                        $('#btnsave').text("Save");
+                        $('#btnsave').removeAttr('disabled');
+                    }, 1500);
                 });
-                setTimeout(function(){
-                    dialog.modal('hide'); 
-                $('#btnsave').text("Save");
-                $('#btnsave').removeAttr('disabled');
-                }, 1500);            
-    	    });
+
+
+    	    
         }
 	};
 
