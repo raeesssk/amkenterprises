@@ -21,8 +21,12 @@ angular.module('product').controller('productEditCtrl', function ($rootScope, $h
 	    .success(function(productObj)
 	    {
 	    	productObj.forEach(function (value, key) {
+
             value.old_opening_quantity = value.pm_opening_quantity;
 	      		$scope.product = value;
+            if (value.pm_is_tank == 1) {
+              $scope.product.is_tank = true;
+            }
         }); 
       		  
 	    })
@@ -38,6 +42,17 @@ angular.module('product').controller('productEditCtrl', function ($rootScope, $h
             }, 1500);            
 	    });
 	};
+
+    $scope.checkBox = function(){ 
+
+        if($scope.product.is_tank){
+            $scope.product.pm_is_tank = 1;
+        }
+        else{
+            $scope.product.pm_is_tank = 0;
+        } 
+
+    };
 
 
   $scope.updateProduct = function () {

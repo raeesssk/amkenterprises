@@ -12,10 +12,22 @@ angular.module('product').controller('productAddCtrl', function ($rootScope, $ht
     $scope.product.pm_cgst = 9;
     $scope.product.pm_sgst = 9;
     $scope.product.pm_igst = 0;
+    $scope.product.pm_is_tank = 0;
 
     $scope.parseFloat = parseFloat;
 
     $("#pm_name").focus();
+
+    $scope.checkBox = function(){ 
+
+        if($scope.product.is_tank){
+            $scope.product.pm_is_tank = 1;
+        }
+        else{
+            $scope.product.pm_is_tank = 0;
+        } 
+
+    };
 
 	$scope.apiURL = $rootScope.baseURL+'/product/add';
     $scope.addProduct = function () {

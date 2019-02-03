@@ -78,6 +78,12 @@
                     <input type="number" id="pm_opening_quantity" class="form-control" ng-model="product.pm_opening_quantity" />
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Is Tank</label>
+                    <input type="checkbox" class="custom-control-input" ng-model="product.is_tank" ng-change="checkBox()"/>
+                </div>
+            </div>
           </div>
           <!-- /.box-body -->
           <div class="box-footer">

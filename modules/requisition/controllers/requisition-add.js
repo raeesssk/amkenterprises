@@ -171,7 +171,7 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
             'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
           }
         };
-        return $http.post($rootScope.baseURL+'/product/typeahead/search', searchTerms, httpOptions).then((result) => {
+        return $http.post($rootScope.baseURL+'/product/nottank/typeahead/search', searchTerms, httpOptions).then((result) => {
           
           return result.data;
       });

@@ -18,7 +18,7 @@ angular.module('dipchart').controller('dipchartAddCtrl', function ($rootScope, $
             'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
           }
         };
-        return $http.post($rootScope.baseURL+'/product/typeahead/search', searchTerms, httpOptions).then((result) => {
+        return $http.post($rootScope.baseURL+'/product/tank/typeahead/search', searchTerms, httpOptions).then((result) => {
           
           return result.data;
       });

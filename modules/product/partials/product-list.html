@@ -46,7 +46,8 @@
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="product in filteredTodos | filter : product">
-	                    <td>{{product.pm_name}}</td>
+	                    <td ng-if = "product.pm_is_tank == 1" class="bg-success">{{product.pm_name}}</td>
+	                    <td ng-if = "product.pm_is_tank == 0">{{product.pm_name}}</td>
 						<td>{{product.pm_unit}}</td>
 						<td>{{product.pm_quantity}}</td>
 						<td>{{product.pm_hsn}}</td>

@@ -1,10 +1,10 @@
 // import admin
-angular.module('dsr').controller('dsrAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('recorddsr').controller('recorddsrAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
     
   $('.index').removeClass("active");
   $('#nozzleindex').addClass("active");
-  $('#dsraddindex').addClass("active");
+  $('#recorddsraddindex').addClass("active");
 	$scope.dsr = {};
     $("#pm_id").focus();
     $scope.dsr.dsr_water_dip = 0;
