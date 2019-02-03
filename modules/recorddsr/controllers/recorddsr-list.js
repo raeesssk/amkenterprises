@@ -14,12 +14,12 @@ angular.module('recorddsr').controller('recorddsrCtrl', function ($rootScope, $h
     $scope.filterUserend = 1;
     $scope.numPerPage = 10;
     $scope.obj_Main = [];
-    $scope.dsrListcount =0;
+    $scope.recorddsrListcount =0;
     $scope.loading1 = 0;
     $scope.limit={}
 
 
-$scope.apiURL = $rootScope.baseURL+'/dsr/dsr/total';
+$scope.apiURL = $rootScope.baseURL+'/recorddsr/recorddsr/total';
   $scope.getAll = function () {
           if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {
         $scope.limit.search = "";
@@ -37,7 +37,7 @@ $scope.apiURL = $rootScope.baseURL+'/dsr/dsr/total';
       .success(function(category)
       {
         category.forEach(function (value, key) {
-                  $scope.dsrListcount=value.total;
+                  $scope.recorddsrListcount=value.total;
               });
 
               $scope.$watch("currentPage + numPerPage",
@@ -67,8 +67,8 @@ $scope.apiURL = $rootScope.baseURL+'/dsr/dsr/total';
         var end = begin + $scope.numPerPage;
         $scope.filterUserend = begin + 1;
         $scope.filterUser = end;
-        if ($scope.filterUser >= $scope.dsrListcount)
-            $scope.filterUser = $scope.dsrListcount;
+        if ($scope.filterUser >= $scope.recorddsrListcount)
+            $scope.filterUser = $scope.recorddsrListcount;
 
               $scope.filteredTodos = [];
               $scope.limit.number = $scope.numPerPage;
@@ -76,7 +76,7 @@ $scope.apiURL = $rootScope.baseURL+'/dsr/dsr/total';
               $scope.limit.end = end;
               $http({
                 method: 'POST',
-                url: $rootScope.baseURL+'/dsr/dsr/limit',
+                url: $rootScope.baseURL+'/recorddsr/recorddsr/limit',
                 data: $scope.limit,
                 headers: {'Content-Type': 'application/json',
                           'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
@@ -155,34 +155,5 @@ $scope.apiURL = $rootScope.baseURL+'/dsr/dsr/total';
     //         }, 1500);            
 	   //  });
 	// };
-
-  $scope.viewQuatationDetails = function (index) {
-   
-      $scope.nozzleList = [];
-      $scope.purchases = $scope.filteredTodos[index];
-      
-      $http({
-        method: 'GET',
-        url: $rootScope.baseURL+'/dsr/details/'+$scope.filteredTodos[index].dsr_id,
-        headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-      })
-      .success(function(customerObj)
-      {
-          $scope.nozzleList = angular.copy(customerObj);
-            
-      })
-      .error(function(data) 
-      {   
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                closeButton: false
-            });
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);            
-      });
-
-    };
 
 });
