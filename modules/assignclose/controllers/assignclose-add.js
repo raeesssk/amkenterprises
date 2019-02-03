@@ -17,26 +17,20 @@ angular.module('assignclose').controller('assigncloseAddCtrl', function ($rootSc
     $("#acm_am_id").focus();
 
     var d = new Date();
-    var hours = d.getHours();
-    var minutes = d.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
     var yyyy = d.getFullYear().toString();
     var mm = (d.getMonth()).toString(); // getMonth() is zero-based
     var dd  = d.getDate().toString();
-    $scope.assignclose.acm_date = yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd +" "+strTime;
+    $scope.assignclose.acm_date = yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd;
 
-    
-    $('#acm_date').datetimepicker({
+    $('#acm_date').datepicker({
+        validateOnBlur: false,
+        todayButton: false,
+        timepicker: false,
+        scrollInput: false,
+        format: 'yyyy-m-dd',
         autoclose: true,
-        todayBtn: true,
-        showMeridian: true,
-        minuteStep: 5,
-        format: 'yyyy-mm-dd HH:ii P'
-      });
+        orientation: 'bottom',
+    });
 
 
 
@@ -353,7 +347,18 @@ angular.module('assignclose').controller('assigncloseAddCtrl', function ($rootSc
     $scope.saveAssignclose = function(){
 
 
-        if($('#acm_am_id').val() == undefined || $('#acm_am_id').val() == "" || $scope.assignclose.acm_am_id.am_id == undefined ){
+        if($('#acm_date').val() == undefined || $('#acm_date').val() == ""){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>select date</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#acm_date').focus();
+            }, 1500);
+        }
+        else if($('#acm_am_id').val() == undefined || $('#acm_am_id').val() == "" || $scope.assignclose.acm_am_id.am_id == undefined ){
           var dialog = bootbox.dialog({
             message: "<p class='text-center'>select assign number</p>",
                 closeButton: false

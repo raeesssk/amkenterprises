@@ -18,26 +18,20 @@ angular.module('assign').controller('assignAddCtrl', function ($rootScope, $http
     $("#am_emp_id").focus();
 
     var d = new Date();
-    var hours = d.getHours();
-    var minutes = d.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
     var yyyy = d.getFullYear().toString();
     var mm = (d.getMonth()).toString(); // getMonth() is zero-based
     var dd  = d.getDate().toString();
-    $scope.assign.am_date = yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd +" "+strTime;
+    $scope.assign.am_date = yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd;
 
-    
-    $('#am_date').datetimepicker({
+    $('#am_date').datepicker({
+        validateOnBlur: false,
+        todayButton: false,
+        timepicker: false,
+        scrollInput: false,
+        format: 'yyyy-m-dd',
         autoclose: true,
-        todayBtn: true,
-        showMeridian: true,
-        minuteStep: 5,
-        format: 'yyyy-mm-dd HH:ii P'
-      });
+        orientation: 'bottom',
+    });
 
 
 
@@ -70,6 +64,34 @@ angular.module('assign').controller('assignAddCtrl', function ($rootScope, $http
     };
     $scope.getSerialNo();
 
+
+
+    $scope.getShiftList = function() {
+        $scope.shiftList = [];
+        $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/shift',
+          //data: $scope.data,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+        })
+        .success(function(orderno)
+        {
+            $scope.shiftList = angular.copy(orderno);
+        })
+        .error(function(data) 
+        {   
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+                //$scope.vendor = null;
+            }, 1500);
+        });
+    };
+
 //type a head
     $scope.getSearchEmp = function(vals) {
 
@@ -81,6 +103,21 @@ angular.module('assign').controller('assignAddCtrl', function ($rootScope, $http
           }
         };
         return $http.post($rootScope.baseURL+'/employee/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
+    $scope.getSearchShift = function(vals) {
+
+      var searchTerms = {search: vals};
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/shift/typeahead/search', searchTerms, httpOptions).then((result) => {
           
           return result.data;
       });
@@ -320,7 +357,18 @@ angular.module('assign').controller('assignAddCtrl', function ($rootScope, $http
     $scope.saveAssign = function(){
 
 
-        if($('#am_emp_id').val() == undefined || $('#am_emp_id').val() == "" || $scope.assign.am_emp_id.emp_id == undefined ){
+        if($('#am_date').val() == undefined || $('#am_date').val() == ""){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>select date</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#am_date').focus();
+            }, 1500);
+        }
+        else if($('#am_emp_id').val() == undefined || $('#am_emp_id').val() == "" || $scope.assign.am_emp_id.emp_id == undefined ){
           var dialog = bootbox.dialog({
             message: "<p class='text-center'>employee in valid</p>",
                 closeButton: false
@@ -329,6 +377,17 @@ angular.module('assign').controller('assignAddCtrl', function ($rootScope, $http
             setTimeout(function(){
                 dialog.modal('hide'); 
             $('#am_emp_id').focus();
+            }, 1500);
+        }
+        else if($('#am_sm_id').val() == undefined || $('#am_sm_id').val() == ""|| $scope.assign.am_sm_id.sm_id == undefined ){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>select shift</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#am_sm_id').focus();
             }, 1500);
         }
         else if($scope.selectedProductList.length == 0 && $scope.selectedNozzleList.length==0)

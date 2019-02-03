@@ -25,13 +25,15 @@ angular.module('assignclose').controller('assigncloseEditCtrl', function ($rootS
     $("#am_emp_id").focus();
 
     
-    $('#acm_date').datetimepicker({
+    $('#acm_date').datepicker({
+        validateOnBlur: false,
+        todayButton: false,
+        timepicker: false,
+        scrollInput: false,
+        format: 'yyyy-m-dd',
         autoclose: true,
-        todayBtn: true,
-        showMeridian: true,
-        minuteStep: 5,
-        format: 'yyyy-mm-dd HH:ii P'
-      });
+        orientation: 'bottom',
+    });
 
 //type a head
     $scope.getSearchEmp = function(vals) {
@@ -44,6 +46,21 @@ angular.module('assignclose').controller('assigncloseEditCtrl', function ($rootS
           }
         };
         return $http.post($rootScope.baseURL+'/employee/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
+    $scope.getSearchShift = function(vals) {
+
+      var searchTerms = {search: vals};
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/shift/typeahead/search', searchTerms, httpOptions).then((result) => {
           
           return result.data;
       });
@@ -104,7 +121,32 @@ angular.module('assignclose').controller('assigncloseEditCtrl', function ($rootS
                     }, 1500);
                 });
 
-                value.acm_date = $filter('date')(value.acm_date,'yyyy-MM-dd hh:mm a','+0000');
+                $http({
+                  method: 'GET',
+                  url: $rootScope.baseURL+'/shift/'+value.sm_id,
+                  //data: $scope.data,
+                  headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                })
+                .success(function(selectedProductList)
+                {
+                    selectedProductList.forEach(function(value1, key1) {
+                        value.acm_sm = value1;
+                    });
+                })
+                .error(function(data) 
+                {   
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide');  
+                        //$scope.vendor = null;
+                    }, 1500);
+                });
+
+                value.acm_date = $filter('date')(value.acm_date,'yyyy-MM-dd');
 
                 $scope.assignclose = value;
                 $http({
@@ -385,7 +427,18 @@ angular.module('assignclose').controller('assigncloseEditCtrl', function ($rootS
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var numRegex = /^\d+(\.\d{1,2})?$/;
      
-        if($('#acm_emp_id').val() == undefined || $('#acm_emp_id').val() == "" || $scope.assignclose.acm_emp.emp_id == undefined ){
+        if($('#acm_date').val() == undefined || $('#acm_date').val() == ""){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>select date</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#acm_date').focus();
+            }, 1500);
+        }
+        else if($('#acm_emp_id').val() == undefined || $('#acm_emp_id').val() == "" || $scope.assignclose.acm_emp.emp_id == undefined ){
           var dialog = bootbox.dialog({
             message: "<p class='text-center'>employee in valid</p>",
                 closeButton: false
@@ -394,6 +447,17 @@ angular.module('assignclose').controller('assigncloseEditCtrl', function ($rootS
             setTimeout(function(){
                 dialog.modal('hide'); 
             $('#acm_emp_id').focus();
+            }, 1500);
+        }
+        else if($('#acm_sm_id').val() == undefined || $('#acm_sm_id').val() == "" || $scope.assignclose.acm_sm.sm_id == undefined ){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>shift in valid</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#acm_sm_id').focus();
             }, 1500);
         }
         else if(isNaN($scope.assignclose.totalamount))

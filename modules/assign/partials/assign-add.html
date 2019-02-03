@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label>Date & Time</label>
+                        <label>Date</label>
                         <input type="text" class="form-control" id="am_date" ng-model="assign.am_date" readonly="readonly"/>
                     </div>
                 </div>
@@ -50,6 +50,22 @@
                         </div>
                     </div>
                   </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Shift</label>
+                        <input type="text"
+                            id="am_sm_id"
+                            ng-model="assign.am_sm_id"
+                            typeahead="obj as obj.sm_name for obj in getSearchShift($viewValue)"
+                            typeahead-loading="loadingShiftList"
+                            typeahead-no-results="noShiftListResults"
+                            class="form-control">
+                        <i ng-show="loadingShiftList" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noShiftListResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
+                    </div>
+                </div>
 
                   <div class="col-lg-12">
                       <label class="form-control" align="center">Nozzle Details</label>
@@ -87,7 +103,7 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="form-group">
-                            <label>Opening Bal.</label>
+                            <label>Opening Meter</label>
                             <input type="number" id="anm_opening_bal" ng-model="nozzleObj.anm_opening_bal" class="form-control"/>
                         </div>
                     </div>
@@ -112,7 +128,7 @@
                   <th>Nozzle</th>
                   <th>Product</th>
                   <th>Rate</th>
-                  <th>Opening Bal.</th>
+                  <th>Opening Meter</th>
                   <th class="action">Action</th>
               </tr>
             </thead>

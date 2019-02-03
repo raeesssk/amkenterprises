@@ -32,9 +32,10 @@
 						<tr>
 							<th>Assign No.</th>
               <th>Assign Close No.</th>
-							<th>Date & Time</th>
+							<th>Date</th>
 							<th>Employee Name</th>
               <th>Amount</th>
+              <th>Shift</th>
               <th>Action</th>
 						</tr>
 					</thead>
@@ -42,9 +43,10 @@
 						<tr ng-repeat="assignclose in filteredTodos | filter : assignclose">
 							<td>{{assignclose.am_invoice_no}}</td>
               <td>{{assignclose.acm_invoice_no}}</td>
-							<td>{{assignclose.acm_date | date : 'dd-MM-yyyy hh:mm a':'+0000'}}</td>
+							<td>{{assignclose.acm_date | date : 'dd-MM-yyyy'}}</td>
 							<td>{{assignclose.emp_name}} ( {{assignclose.emp_address}} )</td>
               <td>{{assignclose.amount | number : 3}}</td>
+              <td>{{assignclose.sm_name}}</td>
 							<td ng-if="assignclose.acm_status == 0">
 								<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewQuatationDetails($index)"></i>
 								<a href="#/assignclose/edit/{{assignclose.acm_id}}"><i class="fa fa-pencil"></i></a>
@@ -115,7 +117,8 @@
           <tr>
             <td>Assign No: <strong>{{assigncloses.am_invoice_no}}</strong></td>
             <td>Assign Close No: <strong>{{assigncloses.acm_invoice_no}}</strong></td>
-            <td>Date & Time : <strong>{{assigncloses.acm_date | date : 'dd-MM-yyyy hh:mm a':'+0000'}}</strong></td>
+            <td>Date : <strong>{{assigncloses.acm_date | date : 'dd-MM-yyyy'}}</strong></td>
+            <td>Shift : <strong>{{assigncloses.sm_name}}</strong></td>
             <td ng-if="assigncloses.acm_status == 0">Status : <b class="text-success">OPEN</b></td>
             <td ng-if="assigncloses.acm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
             <td>Amount : <strong>{{assigncloses.amount|number:3}}</strong></td>

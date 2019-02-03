@@ -23,13 +23,15 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
 
     $("#am_emp_id").focus();
     
-    $('#am_date').datetimepicker({
+    $('#am_date').datepicker({
+        validateOnBlur: false,
+        todayButton: false,
+        timepicker: false,
+        scrollInput: false,
+        format: 'yyyy-m-dd',
         autoclose: true,
-        todayBtn: true,
-        showMeridian: true,
-        minuteStep: 5,
-        format: 'yyyy-mm-dd HH:ii P'
-      });
+        orientation: 'bottom',
+    });
 
 //type a head
     $scope.getSearchEmp = function(vals) {
@@ -131,6 +133,21 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
     };
 //end type a head
 
+    $scope.getSearchShift = function(vals) {
+
+      var searchTerms = {search: vals};
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/shift/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
        $scope.getSerialNo = function() {
         
         $http({
@@ -171,7 +188,32 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
                     }, 1500);
                 });
 
-                value.am_date = $filter('date')(value.am_date, 'yyyy-MM-dd hh:mm a','+0000');
+                $http({
+                  method: 'GET',
+                  url: $rootScope.baseURL+'/shift/'+value.sm_id,
+                  //data: $scope.data,
+                  headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                })
+                .success(function(selectedProductList)
+                {
+                    selectedProductList.forEach(function(value1, key1) {
+                        value.am_sm = value1;
+                    });
+                })
+                .error(function(data) 
+                {   
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide');  
+                        //$scope.vendor = null;
+                    }, 1500);
+                });
+
+                value.am_date = $filter('date')(value.am_date, 'yyyy-MM-dd');
 
                 $scope.assign = value;
                 $http({
@@ -255,7 +297,18 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var numRegex = /^\d+(\.\d{1,2})?$/;
 
-        if($('#pm_id').val() == undefined || $('#pm_id').val() == "" || $scope.productObj.pm_id == undefined){
+        if($('#am_date').val() == undefined || $('#am_date').val() == ""){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>select date</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#am_date').focus();
+            }, 1500);
+        }
+        else if($('#pm_id').val() == undefined || $('#pm_id').val() == "" || $scope.productObj.pm_id == undefined){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">please select Product</p>',
                 closeButton: false
@@ -409,7 +462,18 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var numRegex = /^\d+(\.\d{1,2})?$/;
      
-        if($('#am_emp_id').val() == undefined || $('#am_emp_id').val() == "" || $scope.assign.am_emp.emp_id == undefined ){
+        if($('#am_date').val() == undefined || $('#am_date').val() == ""){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>select date</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#am_date').focus();
+            }, 1500);
+        }
+        else if($('#am_emp_id').val() == undefined || $('#am_emp_id').val() == "" || $scope.assign.am_emp.emp_id == undefined ){
           var dialog = bootbox.dialog({
             message: "<p class='text-center'>employee in valid</p>",
                 closeButton: false
@@ -418,6 +482,17 @@ angular.module('assign').controller('assignEditCtrl', function ($rootScope, $htt
             setTimeout(function(){
                 dialog.modal('hide'); 
             $('#am_emp_id').focus();
+            }, 1500);
+        }
+        else if($('#am_sm_id').val() == undefined || $('#am_sm_id').val() == ""|| $scope.assign.am_sm.sm_id == undefined ){
+          var dialog = bootbox.dialog({
+            message: "<p class='text-center'>select shift</p>",
+                closeButton: false
+            }); 
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            $('#am_sm_id').focus();
             }, 1500);
         }
         else if($scope.selectedProductList.length == 0 && $scope.selectedProductListAdd.length == 0 && $scope.selectedNozzleList.length == 0 && $scope.selectedNozzleListAdd.length == 0 ){
