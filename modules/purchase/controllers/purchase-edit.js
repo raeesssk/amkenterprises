@@ -391,17 +391,6 @@ angular.module('purchase').controller('purchaseEditCtrl', function ($rootScope, 
             $('#prm_credit').focus();
             }, 1500);
         }
-        else if($scope.purchase.prm_credit == 'Credit' && ($('#prm_payment_date').val() == undefined || $('#prm_payment_date').val() == ""))
-        {
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select payment date.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
         else if($scope.selectedProductList.length == 0 && $scope.selectedProductListAdd.length == 0){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">please add product to list.</p>',
@@ -417,7 +406,6 @@ angular.module('purchase').controller('purchaseEditCtrl', function ($rootScope, 
                 $('#btnsave').text("please wait...");
 
                 $scope.purchase.prm_date = $('#prm_date').val();
-                $scope.purchase.prm_payment_date = $('#prm_payment_date').val();
 
             $scope.purchaseForm = {
                 purchaseSingleData : $scope.purchase,
