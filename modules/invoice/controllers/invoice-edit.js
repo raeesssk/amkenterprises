@@ -103,7 +103,9 @@ angular.module('invoice').controller('invoiceEditCtrl', function ($rootScope, $h
                         //     $scope.selectedProductList.push(value);
                         // });
 
+                        var i =1 ;
                         angular.forEach($scope.selectedProductList, function(value, key) {
+                            value.srno = i++;
                             angular.forEach($scope.finalList, function(value1, key1) {
                                 if(value.rcm_id==value1.ipm_rcm_id)
                                     value.rcm_check = true;

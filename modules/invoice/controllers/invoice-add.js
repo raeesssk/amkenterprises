@@ -93,7 +93,9 @@ angular.module('invoice').controller('invoiceAddCtrl', function ($rootScope, $ht
             })
             .success(function(selectedProductList)
             {
+              var i =1 ;
                 selectedProductList.forEach(function(value, key) {
+                  value.srno = i++;
                     $scope.selectedProductList.push(value);
                 });
             })
