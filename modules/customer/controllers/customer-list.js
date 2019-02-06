@@ -336,10 +336,12 @@ $scope.filter = function()
             console.log(value);
             if(value.credit == 0)
             {
+              console.log("in if "+value.credit);
               amount_balance = parseFloat(amount_balance) + parseFloat(value.debit);
             }
             else if(value.debit == 0)
             {
+              console.log("in else "+value.debit);
               amount_balance = parseFloat(amount_balance) - parseFloat(value.credit);
             }
             if(amount_balance < 0)
