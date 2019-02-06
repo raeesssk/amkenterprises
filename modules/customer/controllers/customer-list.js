@@ -335,20 +335,20 @@ $scope.filter = function()
             $scope.data.setHours(0,0,0,0);
             if(value.credit == 0)
             {
-              amount_balance = parseFloat(amount_balance) - parseFloat(value.debit);
+              amount_balance = parseFloat(amount_balance) + parseFloat(value.debit);
             }
             else if(value.debit == 0)
             {
-              amount_balance = parseFloat(amount_balance) + parseFloat(value.credit);
+              amount_balance = parseFloat(amount_balance) - parseFloat(value.credit);
             }
             if(amount_balance < 0)
             {
               // Math.abs(amount_balance);
             value.bal = Math.abs(amount_balance);
-              value.drcr="DR";
+              value.drcr="CR";
             }
             else{
-              value.drcr="CR";
+              value.drcr="DR";
               value.bal = amount_balance;
             }
             if($scope.fDate <= $scope.data && $scope.tDate >= $scope.data)
