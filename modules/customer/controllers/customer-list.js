@@ -333,6 +333,7 @@ $scope.filter = function()
 
             $scope.data = new Date(value.date);
             $scope.data.setHours(0,0,0,0);
+            console.log(value);
             if(value.credit == 0)
             {
               amount_balance = parseFloat(amount_balance) + parseFloat(value.debit);
