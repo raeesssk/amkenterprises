@@ -37,25 +37,25 @@
 							<th>Comment</th>
 							<th>Amount</th>
 							<th>Payment Mode</th>
-							<th>Cheque No</th>
-							<th>Cheque Date</th>
+							<th>Bank</th>
+              <th>Shift</th>
 							<th>Action</th>
 						</tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="expense in filteredTodos | filter : expense">
 							<td>{{expense.dem_id}}</td>
-							<td>{{expense.em_date | date : 'dd-MM-yyyy hh:mm a': '+0000'}}</td>
+							<td>{{expense.em_date | date : 'dd-MM-yyyy'}}</td>
 							<td>{{expense.etm_type}}</td>
 							<td>{{expense.em_received_by}}</td>
 							<td>{{expense.em_comment}}</td>
 							<td>{{expense.em_amount}}</td>
 							<td>{{expense.em_payment_mode}}</td>
-							<td>{{expense.em_cheque_no}}</td>
-							<td>{{expense.em_cheque_date | date : 'dd-MM-yyyy'}}</td>
+							<td>{{expense.bkm_name}}</td>
+              <td>{{expense.sm_name}}</td>
 							<td>
 								<a href="#/dailyexpense/edit/{{expense.dem_id}}"><i class="fa fa-pencil"></i></a>
-								<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteExpense(expense.dem_id)"></i>
+								<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteExpense(expense)"></i>
 							</td>
 						</tr>
                     </tbody>

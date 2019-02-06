@@ -122,8 +122,8 @@ $scope.apiURL = $rootScope.baseURL+'/dailyexpense/dailyexpense/total';
     $scope.deleteConfirm = function () {
 	     $http({
 	      method: 'POST',
-	      url: $rootScope.baseURL+'/dailyexpense/delete/'+$scope.dem_id,
-        // data: $scope.em_id,
+	      url: $rootScope.baseURL+'/dailyexpense/delete/'+$scope.dem_id.dem_id,
+        data: $scope.dem_id,
 	      headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
 	    })

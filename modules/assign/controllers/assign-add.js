@@ -64,34 +64,6 @@ angular.module('assign').controller('assignAddCtrl', function ($rootScope, $http
     };
     $scope.getSerialNo();
 
-
-
-    $scope.getShiftList = function() {
-        $scope.shiftList = [];
-        $http({
-          method: 'GET',
-          url: $rootScope.baseURL+'/shift',
-          //data: $scope.data,
-          headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-        })
-        .success(function(orderno)
-        {
-            $scope.shiftList = angular.copy(orderno);
-        })
-        .error(function(data) 
-        {   
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">Oops, Something Went Wrong!</p>',
-                closeButton: false
-            });
-            setTimeout(function(){
-                dialog.modal('hide'); 
-                //$scope.vendor = null;
-            }, 1500);
-        });
-    };
-
 //type a head
     $scope.getSearchEmp = function(vals) {
 

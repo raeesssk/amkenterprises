@@ -6,39 +6,24 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
   $('#expenseindex').addClass("active");
   $('#dailyexpenselistindex').addClass("active");
     $scope.emId = $routeParams.emId;
-    $('#cheq').hide();
+    $('#selectbank').hide();
     
-    $('#dateExpense').datetimepicker({
-        autoclose: true,
-        todayBtn: true,
-        showMeridian: true,
-        minuteStep: 5,
-        format: 'yyyy-mm-dd HH:ii P'
-      });
-
-    $('#em_cheque_date').datepicker({
+    $('#dateExpense').datepicker({
         validateOnBlur: false,
         todayButton: false,
         timepicker: false,
         scrollInput: false,
         format: 'yyyy-mm-dd',
-        autoclose: true,
-        /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
-        maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
-        onChangeDateTime: function (dp, $input) {
-            $scope.expense.em_cheque_date = $('#em_cheque_date').val();
-            // $('#end-date-picker').val(endDate); 
-        }
+        autoclose: true
     });
 
     $scope.chequeShow = function(){
-        if ($scope.expense.em_payment_mode == "Cheque") {
-            $('#cheq').show();
+        if ($scope.expense.em_payment_mode == "Cash") {
+            $('#selectbank').hide();
+            $scope.expense.em_bkm_id = undefined;
         }
         else{
-            $('#cheq').hide();
-            $scope.expense.em_cheque_no = undefined;
-            $scope.expense.em_cheque_date = undefined;
+            $('#selectbank').show();
         }
     }
 
@@ -53,10 +38,38 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
         .success(function(expense)
         {
             expense.forEach(function (value, key) {
-                value.em_date = $filter('date')(value.em_date, 'yyyy-MM-dd hh:mm a','+0000');
-                if(value.em_payment_mode == "Cheque"){
-                    $('#cheq').show();
-                    value.em_cheque_date = $filter('date')(value.em_cheque_date, "yyyy-MM-dd");
+                value.old_em_payment_mode = value.em_payment_mode;
+                value.em_date = $filter('date')(value.em_date, 'yyyy-MM-dd');
+                value.old_em_amount = value.em_amount;
+                if(value.em_payment_mode != "Cash"){
+
+                    $http({
+                      method: 'GET',
+                      url: $rootScope.baseURL+'/bank/'+value.bkm_id,
+                      //data: $scope.data,
+                      headers: {'Content-Type': 'application/json',
+                              'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                    })
+                    .success(function(selectedProductList)
+                    {
+                        selectedProductList.forEach(function(value1, key1) {
+                            value.old_em_bkm_id = value1;
+                            value.em_bkm = value1;
+                        });
+                    })
+                    .error(function(data) 
+                    {   
+                        var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                            closeButton: false
+                        });
+                        setTimeout(function(){
+                            dialog.modal('hide');  
+                            //$scope.vendor = null;
+                        }, 1500);
+                    });
+
+                    $('#selectbank').show();
                 }
 
                 $http({
@@ -83,6 +96,33 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
                         //$scope.vendor = null;
                     }, 1500);
                 });
+
+                $http({
+                  method: 'GET',
+                  url: $rootScope.baseURL+'/shift/'+value.sm_id,
+                  //data: $scope.data,
+                  headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+                })
+                .success(function(selectedProductList)
+                {
+                    selectedProductList.forEach(function(value1, key1) {
+                        value.em_sm = value1;
+                    });
+                })
+                .error(function(data) 
+                {   
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide');  
+                        //$scope.vendor = null;
+                    }, 1500);
+                });
+
+
                 $scope.expense = value;
               });
         })
@@ -112,6 +152,38 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
       });
     };
 
+    $scope.getSearchBank = function(vals) {
+
+      var searchTerms = {search: vals};
+      
+
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/bank/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
+    $scope.getSearchShift = function(vals) {
+
+      var searchTerms = {search: vals};
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/shift/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
     $scope.editExpense = function () {
 
         var nameRegex = /^\d+$/;
@@ -128,9 +200,9 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($('#dateExpense').val() == undefined || $('#dateExpense').val() == ""){
+        else if($scope.expense.em_payment_mode != "Cash" && ($('#em_bkm_id').val() == undefined || $('#em_bkm_id').val() == "" || $scope.expense.em_bkm.bkm_id == undefined)){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select date.</p>',
+            message: '<p class="text-center">please select bank.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -148,9 +220,9 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($('#em_comment').val() == undefined || $('#em_comment').val() == ""){
+        else if($('#dateExpense').val() == undefined || $('#dateExpense').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter comment or N/A.</p>',
+            message: '<p class="text-center">please select date.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -158,9 +230,19 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($('#em_received_by').val() == undefined || $('#em_received_by').val() == ""){
+        else if($('#em_sm_id').val() == undefined || $('#em_sm_id').val() == "" || $scope.expense.em_sm.sm_id == undefined){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter received by or N/A.</p>',
+            message: '<p class="text-center">please select shift.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($('#em_comment').val() == undefined || $('#em_comment').val() == ""){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">please enter comment or N/A.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -178,36 +260,11 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($scope.expense.em_payment_mode === "Cheque" && ($('#em_cheque_no').val() == undefined || $('#em_cheque_no').val() == "" || $('#em_cheque_no').val().length < 6  || !nameRegex.test($('#em_cheque_no').val()))){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter a valid cheque no.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-        else if($scope.expense.em_payment_mode === "Cheque" && ($('#em_cheque_date').val() == undefined || $('#em_cheque_date').val() == "")){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select cheque date.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
         else{
             $('#btnsave').attr('disabled','true');
             $('#btnsave').text("please wait...");
                 $scope.expense.em_date = $('#dateExpense').val();
-                if($('#em_cheque_date').val()==""){
-                    $scope.expense.em_cheque_date = undefined;
-                }
-                else{
-                    $scope.expense.em_cheque_date = $('#em_cheque_date').val();
-                }
+
             $scope.apiURL = $rootScope.baseURL+'/dailyexpense/edit/'+$scope.emId;
     	    $http({
     	      method: 'POST',
