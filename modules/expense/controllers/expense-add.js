@@ -9,7 +9,7 @@ angular.module('expense').controller('expenseAddCtrl', function ($rootScope, $ht
     $scope.expense = {};
     $scope.expense.em_comment = "N/A";
     $scope.expense.em_payment_mode = "Cash";
-    $('#cheq').hide();
+    $('#selectbank').hide();
     $("#cm_id").focus();
 
 
@@ -35,21 +35,6 @@ angular.module('expense').controller('expenseAddCtrl', function ($rootScope, $ht
         }
     });
 
-    $('#em_cheque_date').datepicker({
-        validateOnBlur: false,
-        todayButton: false,
-        timepicker: false,
-        scrollInput: false,
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-        /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
-        maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
-        onChangeDateTime: function (dp, $input) {
-            $scope.expense.em_cheque_date = $('#em_cheque_date').val();
-            // $('#end-date-picker').val(endDate); 
-        }
-    });
-
     $scope.getSearchVen = function(vals) {
 
       var searchTerms = {search: vals};
@@ -65,12 +50,30 @@ angular.module('expense').controller('expenseAddCtrl', function ($rootScope, $ht
       });
     };
 
+    $scope.getSearchBank = function(vals) {
+
+      var searchTerms = {search: vals};
+      
+
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/bank/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+    };
+
     $scope.chequeShow = function(){
-        if ($scope.expense.em_payment_mode == "Cheque") {
-            $('#cheq').show();
+        if ($scope.expense.em_payment_mode != "Cash") {
+            $('#selectbank').show();
         }
         else{
-            $('#cheq').hide();
+            $('#selectbank').hide();
+            $scope.expense.em_bkm_id = undefined;
         }
     }
 
@@ -80,7 +83,27 @@ angular.module('expense').controller('expenseAddCtrl', function ($rootScope, $ht
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var numRegex = /^\d+(\.\d{1,2})?$/;
 
-        if($('#cm_id').val() == undefined || $('#cm_id').val() == "" || $scope.expense.expensess.cm_id == undefined){
+        if($scope.expense.em_payment_mode == undefined || $scope.expense.em_payment_mode == ""){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">please select payment mode.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.expense.em_payment_mode != "Cash" && ($('#em_bkm_id').val() == undefined || $('#em_bkm_id').val() == "" || $scope.expense.em_bkm_id.bkm_id == undefined)){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">please select bank.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($('#cm_id').val() == undefined || $('#cm_id').val() == "" || $scope.expense.expensess.cm_id == undefined){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">please select name.</p>',
                 closeButton: false
@@ -113,36 +136,6 @@ angular.module('expense').controller('expenseAddCtrl', function ($rootScope, $ht
         else if($('#em_amount').val() == undefined || $('#em_amount').val() == "" || !numRegex.test($('#em_amount').val())){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">please enter amount.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-        else if($scope.expense.em_payment_mode == undefined || $scope.expense.em_payment_mode == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select payment mode.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-        else if($scope.expense.em_payment_mode === "Cheque" && ($('#em_cheque_no').val() == undefined || $('#em_cheque_no').val() == "" || $('#em_cheque_no').val().length < 6 || !nameRegex.test($('#em_cheque_no').val()))){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter a valid cheque no.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-        else if($scope.expense.em_payment_mode === "Cheque" && ($('#em_cheque_date').val() == undefined || $('#em_cheque_date').val() == "")){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select cheque date.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
