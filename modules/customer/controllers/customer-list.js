@@ -335,13 +335,13 @@ $scope.filter = function()
             $scope.data.setHours(0,0,0,0);
             if(value.credit == 0)
             {
-              console.log("in if "+value.credit);
               amount_balance = parseFloat(amount_balance) + parseFloat(value.debit);
+              console.log("in if "+amount_balance);
             }
             else if(value.debit == 0)
             {
-              console.log("in else "+value.debit);
               amount_balance = parseFloat(amount_balance) - parseFloat(value.credit);
+              console.log("in else "+amount_balance);
             }
             if(amount_balance < 0)
             {
