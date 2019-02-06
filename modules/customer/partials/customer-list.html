@@ -190,8 +190,7 @@
 			</thead>
 			<tbody id="content">
 			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;" ng-if="purchaseDetails.ctype == 'Cash'">{{purchaseDetails.type}} ({{purchaseDetails.ctype}})</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;" ng-if="purchaseDetails.ctype != 'Cash'">{{purchaseDetails.type}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.type}}</td>
 				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
 				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'dd-MM-yyyy'}}</td>
 				<td style="padding:6px; border-style: none solid solid none; border-width:1px; text-align:right;">{{purchaseDetails.debit|number:3}}</td>

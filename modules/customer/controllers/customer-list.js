@@ -333,13 +333,12 @@ $scope.filter = function()
 
             $scope.data = new Date(value.date);
             $scope.data.setHours(0,0,0,0);
-            if(value.credit == 0 && value.ctype != 'Cash')
+            if(value.credit == 0)
             {
               amount_balance = parseFloat(amount_balance) - parseFloat(value.debit);
             }
             else if(value.debit == 0)
             {
-              console.log(value.ctype);
               amount_balance = parseFloat(amount_balance) + parseFloat(value.credit);
             }
             if(amount_balance < 0)
