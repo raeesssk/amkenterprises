@@ -121,7 +121,7 @@ angular.module('expense').controller('expenseEditCtrl', function ($rootScope, $h
         }
         else{
             $('#selectbank').hide();
-            $scope.expense.em_bkm_id = undefined;
+            $scope.expense.em_bkm = undefined;
         }
     }
 

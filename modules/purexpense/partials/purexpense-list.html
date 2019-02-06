@@ -30,25 +30,23 @@
                 <table class="table table-hover">
                     <thead>
 						<tr>
-							<th>Name</th>          
+							<th>Name</th>    
+              <th>Date</th>  
+              <th>Description</th> 
+              <th>Amount</th>   
 							<th>Payment</th>
-							<th>Comments</th>
-							<th>Date</th>
-              <th>Cheque Number</th>
-              <th>Cheque Date</th>
-							<th>Amount</th>
+              <th>Bank</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
                         <tr ng-repeat="expense in filteredTodos | filter : expense">
 							<td>{{expense.vm_firm_name}} ({{expense.vm_address}})</td>
+              <td>{{expense.em_date | date : 'dd-MM-yyyy'}}</td>
+              <td>{{expense.em_comment}}</td>
+              <td>{{expense.em_amount|number:3}}</td>
 							<td>{{expense.em_payment_mode}}</td>
-							<td>{{expense.em_comment}}</td>
-							<td>{{expense.em_date | date : 'dd-MM-yyyy'}}</td>
-              <td>{{expense.em_cheque_no}}</td>
-              <td>{{expense.em_cheque_date | date : 'dd-MM-yyyy'}}</td>
-							<td>{{expense.em_amount|number:3}}</td>
+              <td>{{expense.bkm_name}}</td>
 							<td>
 								<a href="#/purexpense/edit/{{expense.pem_id}}"><i class="fa fa-pencil"></i></a>
 								<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteExpense(expense)"></i>

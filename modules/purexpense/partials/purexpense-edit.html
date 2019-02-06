@@ -24,6 +24,33 @@
           <div class="box-body">
                 
                 <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Payment Mode</label>
+                            <select class="form-control" id="em_payment_mode" ng-model="expense.em_payment_mode" ng-change="chequeShow()">
+                                <option value="" >Select Payment Mode</option>
+                                <option >Cash</option>
+                                <option >Cheque</option>
+                                <option >Bank Transfer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4" id="selectbank">
+                        <div class="form-group">
+                            <label>Select Bank</label>
+                            <input type="text"
+                                id="em_bkm_id"
+                                ng-model="expense.em_bkm"
+                                typeahead="bank as bank.bkm_search for bank in getSearchBank($viewValue)"
+                                typeahead-loading="loadingBankList"
+                                typeahead-no-results="noBankListResults"
+                                class="form-control">
+                            <i ng-show="loadingBankList" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noBankListResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-lg-4">
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text"
@@ -65,40 +92,14 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label>Comment</label>
+                        <label>Description</label>
                         <input type="text" id="em_comment" class="form-control" ng-model="expense.em_comment" placeholder="Remark"/>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label>Payment Mode</label>
-                        <select class="form-control" id="em_payment_mode" ng-model="expense.em_payment_mode" ng-change="chequeShow()">
-                            <option value="" >Select Payment Mode</option>
-                            <option >Cash</option>
-                            <option >Bank Transfer</option>
-                            <option >Cheque</option>
-                            <option >Card</option>
-                        </select>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label>Amount</label>
                         <input type="text" id="em_amount" class="form-control" ng-model="expense.em_amount" />
-                    </div>
-                </div>
-                <div id="cheq">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>Cheque Number</label>
-                            <input type="text" id="em_cheque_no" class="form-control" ng-model="expense.em_cheque_no" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>Cheque Date</label>
-                            <input type="text" class="form-control" id="em_cheque_date" ng-model="expense.em_cheque_date" readonly="readonly"/>
-                        </div>
                     </div>
                 </div>
           </div>

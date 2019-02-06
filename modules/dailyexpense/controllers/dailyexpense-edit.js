@@ -20,7 +20,7 @@ angular.module('dailyexpense').controller('dailyexpenseEditCtrl', function ($roo
     $scope.chequeShow = function(){
         if ($scope.expense.em_payment_mode == "Cash") {
             $('#selectbank').hide();
-            $scope.expense.em_bkm_id = undefined;
+            $scope.expense.em_bkm = undefined;
         }
         else{
             $('#selectbank').show();
