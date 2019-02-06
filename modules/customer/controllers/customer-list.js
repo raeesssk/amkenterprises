@@ -333,7 +333,6 @@ $scope.filter = function()
 
             $scope.data = new Date(value.date);
             $scope.data.setHours(0,0,0,0);
-            console.log(value);
             if(value.credit == 0)
             {
               console.log("in if "+value.credit);
@@ -349,10 +348,12 @@ $scope.filter = function()
               // Math.abs(amount_balance);
             value.bal = Math.abs(amount_balance);
               value.drcr="CR";
+              console.log("in if "+value.bal);
             }
             else{
               value.drcr="DR";
               value.bal = amount_balance;
+              console.log("in else "+value.bal);
             }
             if($scope.fDate <= $scope.data && $scope.tDate >= $scope.data)
             {
