@@ -217,6 +217,7 @@ angular.module('assignclose').controller('assigncloseEditCtrl', function ($rootS
                      var i = 1;
                       salePurchaseList.forEach(function (value, key) {
                           value.srno = i++;
+                          value.old_acpmm_amount = value.acpmm_amount;
                           $scope.selectedPaymentList.push(value);
                         });
                       $scope.calculatePayTotal();
