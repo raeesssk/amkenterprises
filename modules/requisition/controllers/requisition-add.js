@@ -261,16 +261,16 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
             }
 
 
-            $http({
-                  method: 'POST',
-                  url: $rootScope.baseURL+'/requisition/checkname',
-                  data: $scope.requisition,
-                  headers: {'Content-Type': 'application/json',
-                          'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-                })
-                .success(function(orderno)
-                {
-                    if(orderno.length == 0){
+            // $http({
+            //       method: 'POST',
+            //       url: $rootScope.baseURL+'/requisition/checkname',
+            //       data: $scope.requisition,
+            //       headers: {'Content-Type': 'application/json',
+            //               'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+            //     })
+            //     .success(function(orderno)
+            //     {
+            //         if(orderno.length == 0){
                       $http({
                         method: 'POST',
                         url: $rootScope.baseURL+'/requisition/add',
@@ -305,33 +305,33 @@ angular.module('requisition').controller('requisitionAddCtrl', function ($rootSc
                             $('#btnsave').removeAttr('disabled');
                             }, 1500);            
                       });
-                    }
-                    else{
-                        var dialog = bootbox.dialog({
-                              message: '<p class="text-center">Entry Already Exist!</p>',
-                                  closeButton: false
-                              });
-                              dialog.find('.modal-body').addClass("btn-warning");
-                              setTimeout(function(){
-                                  dialog.modal('hide');  
-                                  $('#btnsave').text("Save");
-                                  $('#btnsave').removeAttr('disabled');
-                              }, 1500);
-                    }
-                })
-                .error(function(data) 
-                {   
-                    var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
-                        closeButton: false
-                    });
-                    dialog.find('.modal-body').addClass("btn-danger");
-                    setTimeout(function(){
-                        dialog.modal('hide');  
-                        $('#btnsave').text("Save");
-                        $('#btnsave').removeAttr('disabled');
-                    }, 1500);
-                });
+                //     }
+                //     else{
+                //         var dialog = bootbox.dialog({
+                //               message: '<p class="text-center">Entry Already Exist!</p>',
+                //                   closeButton: false
+                //               });
+                //               dialog.find('.modal-body').addClass("btn-warning");
+                //               setTimeout(function(){
+                //                   dialog.modal('hide');  
+                //                   $('#btnsave').text("Save");
+                //                   $('#btnsave').removeAttr('disabled');
+                //               }, 1500);
+                //     }
+                // })
+                // .error(function(data) 
+                // {   
+                //     var dialog = bootbox.dialog({
+                //     message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                //         closeButton: false
+                //     });
+                //     dialog.find('.modal-body').addClass("btn-danger");
+                //     setTimeout(function(){
+                //         dialog.modal('hide');  
+                //         $('#btnsave').text("Save");
+                //         $('#btnsave').removeAttr('disabled');
+                //     }, 1500);
+                // });
 
 
     	    

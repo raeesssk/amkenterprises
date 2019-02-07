@@ -393,30 +393,30 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
             $scope.apiURL = $rootScope.baseURL+'/requisition/edit/'+$scope.emId;
 
 
-            $http({
-                  method: 'POST',
-                  url: $rootScope.baseURL+'/requisition/checkname/edit',
-                  data: $scope.requisition,
-                  headers: {'Content-Type': 'application/json',
-                          'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
-                })
-                .success(function(orderno)
-                {
-                    if(orderno.length == 1 && $scope.emId != orderno[0].rcm_id){
-                         var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Entry Already Exits!</p>',
-                                    closeButton: false
-                                });
-                                dialog.find('.modal-body').addClass("btn-warning");
-                                setTimeout(function(){
-                                    dialog.modal('hide'); 
-                              $('#btnsave').text("Update");
-                              $('#btnsave').removeAttr('disabled');
-                                }, 1500);
+            // $http({
+            //       method: 'POST',
+            //       url: $rootScope.baseURL+'/requisition/checkname/edit',
+            //       data: $scope.requisition,
+            //       headers: {'Content-Type': 'application/json',
+            //               'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+            //     })
+            //     .success(function(orderno)
+            //     {
+            //         if(orderno.length == 1 && $scope.emId != orderno[0].rcm_id){
+            //              var dialog = bootbox.dialog({
+            //                     message: '<p class="text-center">Entry Already Exits!</p>',
+            //                         closeButton: false
+            //                     });
+            //                     dialog.find('.modal-body').addClass("btn-warning");
+            //                     setTimeout(function(){
+            //                         dialog.modal('hide'); 
+            //                   $('#btnsave').text("Update");
+            //                   $('#btnsave').removeAttr('disabled');
+            //                     }, 1500);
 
-                      }
-                    else
-                      {
+            //           }
+            //         else
+            //           {
                         $http({
                           method: 'POST',
                           url: $scope.apiURL,
@@ -451,22 +451,22 @@ angular.module('requisition').controller('requisitionEditCtrl', function ($rootS
                                   $('#btnsave').removeAttr('disabled');
                               }, 1500);            
                         });
-                      }
+                //       }
                     
-                })
-                .error(function(data) 
-                {   
-                    var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
-                        closeButton: false
-                    });
-                    dialog.find('.modal-body').addClass("btn-danger");
-                    setTimeout(function(){
-                        dialog.modal('hide');  
-                        $('#btnsave').text("Update");
-                        $('#btnsave').removeAttr('disabled');
-                    }, 1500);
-                });
+                // })
+                // .error(function(data) 
+                // {   
+                //     var dialog = bootbox.dialog({
+                //     message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                //         closeButton: false
+                //     });
+                //     dialog.find('.modal-body').addClass("btn-danger");
+                //     setTimeout(function(){
+                //         dialog.modal('hide');  
+                //         $('#btnsave').text("Update");
+                //         $('#btnsave').removeAttr('disabled');
+                //     }, 1500);
+                // });
 
 
     	    
