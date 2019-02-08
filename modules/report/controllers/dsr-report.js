@@ -361,7 +361,7 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/dsrreport/total';
                           "<table width='100%'>"+
                             "<tr>" +
                               "<td colspan='6' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:13pt;' valign='top'>" +
-                                  "<strong>Invoice Summary</strong>"+
+                                  "<strong>Daily Sales Report</strong>"+
                               "</td>" +
                             "</tr>" +
                             "<tr>"+

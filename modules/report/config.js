@@ -102,5 +102,18 @@ angular.module('report', [])
                             }]);
                         }]
                     }
+                })
+            .when('/customerreport',
+                {
+                    templateUrl: 'modules/report/partials/customer-report.html',
+                    controller: 'customerreportCtrl',
+                    resolve: {
+                        lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
+                            return $ocLazyLoad.load([{
+                                name: 'myApp',
+                                files: ['modules/report/controllers/customer-report.js']
+                            }]);
+                        }]
+                    }
                 });
     }]);
