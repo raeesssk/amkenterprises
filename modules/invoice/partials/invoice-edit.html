@@ -84,8 +84,8 @@
                 <td style="padding: 4px; font-size:10pt;">{{data.pm_name}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.rcm_qty}}</td>
                 <td style="padding: 4px; font-size:10pt;">{{data.rcm_price}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{(parseFloat(data.pm_cgst+data.pm_sgst+data.pm_igst)/100) * (parseFloat(data.rcm_qty)*parseFloat(data.rcm_price)) | number : 3}}</td>
-                <td style="padding: 4px; font-size:10pt;">{{parseFloat(data.rcm_amount + (parseFloat(data.pm_cgst+data.pm_sgst+data.pm_igst)/100) * (parseFloat(data.rcm_qty)*parseFloat(data.rcm_price))) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{ (data.rcm_amount - ((data.rcm_amount*100) / parseFloat(data.pm_cgst+data.pm_sgst+data.pm_igst+100))) | number : 3}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.rcm_amount | number : 3}}</td>
               </tr>
 						</tbody>
 	                </table>
