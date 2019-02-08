@@ -136,7 +136,7 @@
 <!-- /.modal -->
 
 <div class="modal fade" id="view-details">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -180,8 +180,13 @@
 			<thead>
 			<tr>
 				<th>Type</th>
-				<th>Invoice</th>
 				<th>Date</th>
+				<th>Req. No. / Invoice</th>
+				<!-- <th>Vehicle No.</th>
+				<th>Product</th>
+				<th>Qty</th>
+				<th>Rate</th>
+				<th>GST</th> -->
 				<th>Debit</th>
 				<th>Credit</th>
 				<th>DR/CR</th>
@@ -190,13 +195,18 @@
 			</thead>
 			<tbody id="content">
 			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.type}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'dd-MM-yyyy'}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px; text-align:right;">{{purchaseDetails.debit|number:3}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px; text-align:right;">{{purchaseDetails.credit|number:3}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.drcr}}</td>
-				<td style="padding:6px; border-style: none none solid none; border-width:1px; text-align:right;">{{purchaseDetails.bal|number:3}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.type}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.date | date : 'dd-MM-yyyy'}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.invoice}}</td>
+				<!-- <td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.vehicle}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.product}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.qty}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.rate|number:3}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.gst|number:3}}</td> -->
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt; text-align:right;">{{purchaseDetails.debit|number:3}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt; text-align:right;">{{purchaseDetails.credit|number:3}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px; font-size:10pt;">{{purchaseDetails.drcr}}</td>
+				<td style="padding:6px; border-style: none none solid none; border-width:1px; font-size:10pt; text-align:right;">{{purchaseDetails.bal|number:3}}</td>
 			</tr>
 			</tbody>
 		</table>

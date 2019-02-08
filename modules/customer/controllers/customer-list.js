@@ -400,7 +400,7 @@ $scope.filter = function()
 
               "body" +
               "{" +
-                "font-size:11pt;"+
+                "font-size:10pt;"+
                 "font-family:'Open Sans', sans-serif;"+
                // "   border: solid 1px black ;" +
                 "  margin: 5mm 5mm 5mm 5mm;" + /* margin you want for the content */
@@ -520,13 +520,18 @@ $scope.filter = function()
                   "<table width='100%'>" +
                     "<thead>"+
                       "<tr>"+      
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Type</th>" +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Invoice</th> " +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Date</th>"+
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Debit</th>" +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Credit</th>" +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>DR/CR</th>" +
-                        "<th style='padding:10px; border-style: none none solid none; border-width:1px;'>Balance</th>" +
+                        "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Type</th>" +
+                        "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Date</th>"+
+                        "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Req. No. / Invoice</th> " +
+                        // "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Vehicle No.</th>" +
+                        // "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Product</th>" +
+                        // "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Qty</th>" +
+                        // "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Rate</th>" +
+                        // "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>GST</th>" +
+                        "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Debit</th>" +
+                        "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>Credit</th>" +
+                        "<th style='padding:6px; border-style: none solid solid none; border-width:1px;'>DR/CR</th>" +
+                        "<th style='padding:6px; border-style: none none solid none; border-width:1px;'>Balance</th>" +
                       "</tr>"+
                     "</thead>"+
                     " "+$('#content').html()+" " +

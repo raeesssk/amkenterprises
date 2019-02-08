@@ -89,5 +89,18 @@ angular.module('report', [])
                             }]);
                         }]
                     }
+                })
+            .when('/dsrreport',
+                {
+                    templateUrl: 'modules/report/partials/dsr-report.html',
+                    controller: 'dsrreportCtrl',
+                    resolve: {
+                        lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
+                            return $ocLazyLoad.load([{
+                                name: 'myApp',
+                                files: ['modules/report/controllers/dsr-report.js']
+                            }]);
+                        }]
+                    }
                 });
     }]);
