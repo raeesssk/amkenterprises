@@ -305,184 +305,6 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/dsrreport/total';
     //     $('#reset-user-btn').text("please wait...");
     //     $scope.getAll();
     // };
-
-    $scope.printDetails = function(){
-
-      
-        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no');
-          
-        var page1 = "<html>" +
-         " <head>" +
-            "<link rel='stylesheet' href='./././resources/vendor/bootstrap/css/bootstrap.min.css' />" +
-            "<style>.action{display:none;} .print-hide{display:none;}</style>"+
-            "   <style type='text/css' media='print'>" +
-            "  @page " +
-             " {" +
-              "    size:  A4 portrait;" +  /* auto is the initial value */
-               "   margin: 0; " + /* this affects the margin in the printer settings */
-              "}" +
-
-              "html" +
-              "{" +
-               "   background-color: #FFFFFF;" + 
-                "  margin: 0px; " + /* this affects the margin on the html before sending to printer */
-              "}" +
-
-              "body" +
-              "{" +
-                "font-size:11pt;"+
-                "font-family:'Open Sans', sans-serif;"+
-               // "   border: solid 1px black ;" +
-                "  margin: 5mm 5mm 5mm 5mm;" + /* margin you want for the content */
-              "}" +
-              "</style>" +
-          "</head>" +
-          "<body onload='window.print()'>" +
-           "<table width='100%' height='98%'>" +
-            "<thead>"+
-              "<tr>"+
-                "<td colspan='9' style=' border-style: solid; border-width:0px;'>"+
-                  "<table width='100%'>"+
-                    "<tr>" +
-                      "<td colspan='2' style='text-align:center; padding-bottom: 10px; border-style: solid solid none solid; border-width:1px; font-size:12pt;' valign='center' width='100%'>" +
-                          "<table width='100%'><tr>"+
-                          "<td width='23%'><img src='./././resources/indianoil.jpg' class='user-image' alt='User Image' style='margin-left:10px'></td>"+
-                          "<td width='54%' style='text-align:center;'><h3 style='font-size:16pt;margin-bottom: 0;'>"+localStorage.getItem("com_name")+"</h3><br>" +
-                          "Dealer : "+localStorage.getItem("com_dealer")+"<br>" +
-                          "Address : "+localStorage.getItem("com_address")+"<br>" +
-                          "E-Mail : "+localStorage.getItem("com_email")+"<br>"+
-                          "Cont. No. : "+localStorage.getItem("com_contact")+"<br>"+
-                          "GST No. : "+localStorage.getItem("com_gst")+"</td>"+
-                          "<td width='23%'></td>"+
-                          "</tr></table>"+
-                      "</td>" +
-                    "</tr>" +
-                    // "<tr>" +
-                    //   "<td colspan='2' style='text-align:center; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:13pt;' valign='top'>" +
-                    //       "<strong>Tax Invoice</strong>"+
-                    //   "</td>" +
-                    // "</tr>" +
-                    "<tr>" +
-                      "<td width='60%' style='text-align:left; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:10pt;' valign='top'>" +
-                          "<table width='100%'>"+
-                            "<tr>"+
-                              "<td  colspan='2' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>Bill To Party</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            "<tr>"+
-                              "<td width='30%' style='text-align:left; padding: 4px; border-style: none solid none none; border-width:1px; font-size:10pt;'>"+
-                                "Name: "+
-                              "</td>"+
-                              "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.invoices.cm_name+"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            "<tr>"+
-                              "<td width='30%' style='text-align:left; padding: 4px; border-style: none solid none none; border-width:1px; font-size:10pt;'>"+
-                                "Address: "+
-                              "</td>"+
-                              "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.invoices.cm_address+"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            "<tr>"+
-                              "<td width='30%' style='text-align:left; padding: 4px; border-style: none solid none none; border-width:1px; font-size:10pt;'>"+
-                                "Contact No.: "+
-                              "</td>"+
-                              "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.invoices.cm_mobile+"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            "<tr>"+
-                              "<td width='30%' style='text-align:left; padding: 4px; border-style: none solid none none; border-width:1px; font-size:10pt;'>"+
-                                "GSTIN: "+
-                              "</td>"+
-                              "<td width='70%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.invoices.cm_gst+"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                          "</table>"+
-                      "</td>" +
-                      "<td width='40%' style='text-align:left; padding: 4px; border-style: solid solid none none; border-width:1px; font-size:10pt;' valign='top'>" +
-                          "<table width='100%'>"+
-                            "<tr>"+
-                              "<td  colspan='2' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>Tax Invoice</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            "<tr>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "Invoice No.: "+
-                              "</td>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$scope.invoices.im_invoice_no+"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                            "<tr>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "Invoice Date: "+
-                              "</td>"+
-                              "<td width='50%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
-                                "<strong>"+$filter('date')($scope.invoices.im_date, "dd-MM-yyyy")+"</strong>"+
-                              "</td>"+
-                            "</tr>"+
-                          "</table>"+
-                      "</td>" +
-                    "</tr>" +
-                  "</table>"+
-                "</td>"+
-              "</tr>"+
-            "</thead>"+
-            "<tbody>"+
-              "<tr>"+
-                "<td colspan='9' valign='top' style=' border-style: solid; border-width:1px;'>"+
-                  "<table width='100%'>" +
-                    "<thead>"+
-                      "<tr>"+      
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Sr. No.</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Date</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Req. No.</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Vehicle No.</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Product</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Quantity</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>Rate</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none solid solid none; border-width:1px;'>GST</th>" +
-                        "<th style='padding: 4px; text-align:center; font-size: 9pt; border-style: none none solid none; border-width:1px;'>Amount</th>" +
-                      "</tr>"+
-                    "</thead>"+
-                    " "+$('#content').html()+" " +
-                  "</table>"+
-                "</td>"+
-              "</tr>"+
-            "</tbody>"+
-            "<tfoot>"+
-            "<tr>" +
-                  "<td colspan='5' width='60%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Amount in words : "+$scope.amountinwords+"</td>" +
-                  "<td width='17%' style='padding:4px; font-size:10pt; border-style: none solid solid solid; border-width:1px;'>Total Amount</td>" +
-                  "<td width='23%' colspan='3' style='padding:4px; font-size:10pt; border-style: none solid none none; border-width:1px;' align='right'><strong>"+$filter('number')($scope.invoices.im_total_amount, "3")+"</strong></td>" +
-              "</tr>"+
-              "<tr>"+
-                  "<td colspan='5' width='60%' style='padding:4px; font-size:9pt; border-style: none none solid solid; border-width:1px;'>"+
-                  "Company's Bank Details<br>"+
-                  "Bank Name : <strong>"+localStorage.getItem("bkm_name")+"</strong><br>"+
-                  "A/C No &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <strong>"+localStorage.getItem("bkm_account_no")+"</strong><br>"+
-                  "Branch &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <strong>"+localStorage.getItem("bkm_branch")+"</strong><br>"+
-                  "IFS Code &nbsp&nbsp&nbsp&nbsp: <strong>"+localStorage.getItem("bkm_ifsc")+"</strong><br>"+
-                  "<strong>Terms & Conditions</strong><br>"+
-                  "1. Goods once sold shall not be taken back.<br>"+
-                  "2. Our responsibility ceases once the goods leave our premises.<br>"+
-                  "3. Subject to Pune jurisdiction Only."+
-                  "</td>"+
-                  "<td colspan='5' width='40%' colspan='4' valign='bottom' style='text-align:center; padding:4px; font-size:10pt; border-style: solid solid solid solid; border-width:1px;'><span style='font-size:7pt;'>Ceritified that the particulars given above are true and correct</span><br><strong>for "+ localStorage.getItem("com_name") +"</strong><br><br><br><br><br><br><br><strong>Authorized Signatory</strong></td>" +
-              "</tr>"+
-            "</tfoot>"+
-          "</table>"+
-          "</body>" +
-        "</html>";
-        popupWin.document.write(page1);
-        popupWin.document.close();
-    };
         
 
     $scope.printAllDetails = function(){
@@ -495,7 +317,7 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/dsrreport/total';
             "   <style type='text/css' media='print'>" +
             "  @page " +
              " {" +
-              "    size:  A4 portrait;" +  /* auto is the initial value */
+              "    size:  A4 landscape;" +  /* auto is the initial value */
                "   margin: 0; " + /* this affects the margin in the printer settings */
               "}" +
 
@@ -538,21 +360,27 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/dsrreport/total';
                       "<td width='100%' colspan='2' style='text-align:left; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:10pt;' valign='top'>" +
                           "<table width='100%'>"+
                             "<tr>" +
-                              "<td colspan='4' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:13pt;' valign='top'>" +
+                              "<td colspan='6' style='text-align:center; padding: 4px; border-style: none none solid none; border-width:1px; font-size:13pt;' valign='top'>" +
                                   "<strong>Invoice Summary</strong>"+
                               "</td>" +
                             "</tr>" +
                             "<tr>"+
+                              "<td width='10%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "Product: "+
+                              "</td>"+
+                              "<td width='20%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                                "<strong>"+ $scope.limit.pm_id.pm_name +"</strong>"+
+                              "</td>"+
                               "<td width='15%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
                                 "From Date: "+
                               "</td>"+
-                              "<td width='35%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                              "<td width='20%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
                                 "<strong>"+$filter('date')($('#user-datepicker-from').val(),'dd-MM-yyyy')+"</strong>"+
                               "</td>"+
                               "<td width='15%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
                                 "To Date: "+
                               "</td>"+
-                              "<td width='35%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
+                              "<td width='20%' style='text-align:left; padding: 4px; border-style: none none none none; border-width:1px; font-size:10pt;'>"+
                                 "<strong>"+$filter('date')($('#user-datepicker-to').val(),'dd-MM-yyyy')+"</strong>"+
                               "</td>"+
                             "</tr>"+
@@ -577,10 +405,19 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/dsrreport/total';
                   "<table width='100%'>" +
                     "<thead>"+
                       "<tr>"+      
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Invoice No.</th>" +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Date</th> " +
-                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Customer</th>"+
-                        "<th style='padding:10px; border-style: none none solid none; border-width:1px;'>Amount</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Date</th>" +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>DIP</th> " +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Water DIP</th>"+
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Opening Stock</th> " +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Receipt</th>"+
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Total Stock</th> " +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>One</th>"+
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Two</th> " +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Three</th>"+
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Four</th>"+
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Testing</th> " +
+                        "<th style='padding:10px; border-style: none solid solid none; border-width:1px;'>Sales</th>"+
+                        "<th style='padding:10px; border-style: none none solid none; border-width:1px;'>Cumulative Sales</th>" +
                       "</tr>"+
                     "</thead>"+
                     " "+$('#contentall').html()+" " +
