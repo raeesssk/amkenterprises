@@ -74,7 +74,7 @@ $scope.apiURL = $rootScope.baseURL+'/dashboard/dsrreport/total';
       .success(function(sale)
       {
         sale.forEach(function (value, key) {
-
+            $scope.totalvalue = value.totalvalue;
             $scope.dsrListcount = value.total;
             
         });
