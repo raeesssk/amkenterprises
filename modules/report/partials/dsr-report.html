@@ -83,10 +83,10 @@
               <th>Opening Stock</th>
               <th>Receipt</th>
               <th>Total Stock</th>
-              <th>1</th>
-              <th>2</th>
-              <th>3</th>
-              <th>4</th>
+              <th>One</th>
+              <th>Two</th>
+              <th>Three</th>
+              <th>Four</th>
               <th>Testing</th>
               <th>Sales</th>
               <th>Cumulative Sales</th>
@@ -100,10 +100,10 @@
               <td>{{dsr.dsr_opening_stock}}</td>
               <td>{{dsr.receipt}}</td>
               <td>{{dsr.totalstock}}</td>
-              <td>{{dsr.3-MS}}</td>
-              <td>{{dsr.4-MS}}</td>
-              <td>{{dsr.5-MS}}</td>
-              <td>{{dsr.6-MS}}</td>
+              <td>{{dsr.one}}</td>
+              <td>{{dsr.two}}</td>
+              <td>{{dsr.three}}</td>
+              <td>{{dsr.four}}</td>
               <td>{{dsr.testing}}</td>
               <td>{{dsr.sales}}</td>
               <td>{{dsr.cum_amt}}</td>
@@ -149,7 +149,7 @@
               <th>Cumulative Sales</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="content">
             <tr ng-repeat="dsr in allList | filter : dsr">
               <td>{{dsr.dsr_date | date : 'dd-MM-yyyy'}}</td>
               <td>{{dsr.dsr_dip}}</td>
@@ -157,10 +157,10 @@
               <td>{{dsr.dsr_opening_stock}}</td>
               <td>{{dsr.receipt}}</td>
               <td>{{dsr.totalstock}}</td>
-              <td>{{dsr.3-MS}}</td>
-              <td>{{dsr.4-MS}}</td>
-              <td>{{dsr.5-MS}}</td>
-              <td>{{dsr.6-MS}}</td>
+              <td>{{dsr.one}}</td>
+              <td>{{dsr.two}}</td>
+              <td>{{dsr.three}}</td>
+              <td>{{dsr.four}}</td>
               <td>{{dsr.testing}}</td>
               <td>{{dsr.sales}}</td>
               <td>{{dsr.cum_amt}}</td>
