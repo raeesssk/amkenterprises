@@ -36,6 +36,23 @@ $('#user-datepicker-to').datepicker({
   autoclose: true
 });
 
+
+$('#user-datepicker-from-pay').datepicker({
+ timepicker:false,
+ format:'yyyy-mm-dd',
+ maxDate:'+1970/01/02',
+ scrollInput:false,
+  autoclose: true
+});
+
+$('#user-datepicker-to-pay').datepicker({
+ timepicker:false,
+ format:'yyyy-mm-dd',
+ maxDate:'+1970/01/02',
+ scrollInput:false,
+  autoclose: true
+});
+
 $scope.filter = function()
   {
     $scope.toDate = document.getElementById("user-datepicker-to").value;
@@ -307,6 +324,108 @@ $scope.apiURL = $rootScope.baseURL+'/employee/employee/total';
         });
           $('#filter-user-btn').text("Filter");
           $('#filter-user-btn').removeAttr('disabled');
+          // $('#reset-user-btn').text("Reset");
+          // $('#reset-user-btn').removeAttr('disabled');
+      })
+      .error(function(data) 
+      {   
+        var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+      });
+
+    };
+
+    $scope.viewEmpPay = function(ind){
+      $scope.categoryListPay = [];
+      $('#user-datepicker-from-pay').val("");
+      $('#user-datepicker-to-pay').val("");
+      $scope.empname = "";
+      $scope.empno = "";
+      $scope.empadd = "";
+      $scope.emp = $scope.filteredTodos[ind];
+    }
+
+  $scope.viewPaymentDetails = function () {
+
+    $scope.toDatePay = document.getElementById("user-datepicker-to-pay").value;
+    $scope.fromDatePay = document.getElementById("user-datepicker-from-pay").value;
+    if(angular.isUndefined($scope.fromDatePay) || $scope.fromDatePay === null || $scope.fromDatePay == "")
+      {
+        var dialog = bootbox.dialog({
+          message: '<p class="text-center">please select from-date.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+          }, 1500);
+        return;
+      }
+
+      if(angular.isUndefined($scope.toDatePay) || $scope.toDatePay === null || $scope.toDatePay == "")
+      {
+        var dialog = bootbox.dialog({
+          message: '<p class="text-center">please select to-date.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+          }, 1500);
+        return;
+      }
+
+      $scope.dateFilterPay = '&startTime='+ $scope.fromDatePay + '&endTime=' + $scope.toDatePay;
+
+      $scope.fDatePay = new Date($scope.fromDatePay);
+      $scope.fDatePay.setHours(0,0,0,0);
+      $scope.tDatePay = new Date($scope.toDatePay);
+      $scope.tDatePay.setHours(0,0,0,0);
+      if($scope.fDatePay > $scope.tDatePay)
+      {
+        var dialog = bootbox.dialog({
+          message: '<p class="text-center">oops!!! to-date greater than from-date.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+          }, 1500);
+        return;
+      }
+      $('#filter-user-btn-pay').attr('disabled','true');
+      $('#filter-user-btn-pay').text("please wait...");
+
+      $scope.categoryListPay = [];
+      $scope.empname = $scope.emp.emp_name;
+      $scope.empno = $scope.emp.emp_mobile;
+      $scope.empadd = $scope.emp.emp_address;
+      
+      $scope.totalValue = 0;
+      $scope.limit.emp_id = $scope.emp.emp_id;
+      $scope.limit.fDate = $('#user-datepicker-from-pay').val();
+      $scope.limit.tDate = $('#user-datepicker-to-pay').val();
+      $http({
+        method: 'POST',
+        url: $rootScope.baseURL+'/employee/payment/month',
+        data: $scope.limit,
+        headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("amkenterprises_admin_access_token")}
+      })
+      .success(function(categoryListPay)
+      {
+        categoryListPay.forEach(function (value, key) {
+              $scope.totalValue = parseFloat($scope.totalValue + value.acm_amount);
+              $scope.categoryListPay.push(value);
+
+        });
+          $('#filter-user-btn-pay').text("Filter");
+          $('#filter-user-btn-pay').removeAttr('disabled');
           // $('#reset-user-btn').text("Reset");
           // $('#reset-user-btn').removeAttr('disabled');
       })

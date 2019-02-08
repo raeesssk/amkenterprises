@@ -44,6 +44,7 @@
                             <td>{{employee.emp_mobile}}</td>
                             <td>{{employee.emp_address}}</td>
                             <td>
+                                <i class="fa fa-paypal" data-toggle="modal" data-target="#view-payment" ng-click="viewEmpPay($index)"></i>
                                 <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewEmployeeDetails($index)"></i>
                                 <a href="#/employee/edit/{{employee.emp_id}}"><i class="fa fa-pencil"></i></a>
                                 <i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteEmployee(employee.emp_id)"></i></td>
@@ -152,6 +153,72 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
         <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="view-payment">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Employee Payment Details</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+            <tr>
+              <td>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="user-datepicker-from-pay" placeholder="From Date" readonly="readonly">
+                </div>
+              </td>
+              <td>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="user-datepicker-to-pay" placeholder="To Date" readonly="readonly">
+                </div>
+              </td>
+              <td><button type="button" class="btn btn-info" id="filter-user-btn-pay" ng-click="viewPaymentDetails()">Filter</button></td>
+              <!-- <td><button type="button" class="btn btn-info" id="reset-user-btn" ng-click="reset()">Reset</button></td> -->
+              
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td>Name: <strong>{{empname}}</strong></td>
+                <td>Number: <strong>{{empno}}</strong></td>
+                <td>Address: <strong>{{empadd}}</strong></td>
+                <td>Total: <strong>{{totalValue | number : 3}}</strong></td>
+            </tr>
+        </table>
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Quantity Sale</th>
+                </tr>
+            </thead>
+            <tbody id="content">
+                <tr ng-repeat="saleDetails in categoryListPay">
+                    <td>{{saleDetails.ptype}}</td>
+                    <td>{{saleDetails.sale}}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <!-- <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button> -->
       </div>
     </div>
     <!-- /.modal-content -->
